@@ -20,6 +20,16 @@
           "<C-e>" = "cmp.mapping.abort()";
           "<CR>" = "cmp.mapping.confirm({ select = true })";
         };
+        window = {
+          completion = {
+            border = "rounded";
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder";
+          };
+          documentation = {
+            border = "rounded";
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder";
+          };
+        };
         experimental = {
           ghost_text = true;
         };
