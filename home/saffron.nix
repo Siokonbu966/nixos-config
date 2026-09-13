@@ -81,6 +81,9 @@
     ./programs/swayr
     ./programs/wofi
     ./programs/alacritty
+
+    # tools
+    ./tools/cursor
   ];
 
   home = rec {
