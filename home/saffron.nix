@@ -38,6 +38,7 @@
     ./programs/dotfiles
     ./programs/default-app
     ./programs/nh
+    ./programs/xsel
     # wm
     ./programs/waybar
     ./programs/swayidle
