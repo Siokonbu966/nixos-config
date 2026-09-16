@@ -78,7 +78,7 @@
     mode = "n";
       key = "<A-k>";
       action = "<cmd>noh<CR>";
-      options = { desc = "disable hilight"; };
+      options = { desc = "disable highlight"; };
     }
   ];
 }
