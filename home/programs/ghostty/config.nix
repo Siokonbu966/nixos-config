@@ -11,6 +11,7 @@ let
   '' else if device == "freesia" then ''
     font-size = 17
     macos-titlebar-style = hidden
+    macos-option-as-alt = true
     # background-image = /Users/crocus/works/Wallpapers/cho-kaguya_concept01c.png
     # background-image-fit = cover
     # background-image-opacity = 0.1

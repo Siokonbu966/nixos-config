@@ -73,6 +73,12 @@
       key = "tc";
       action = "<cmd>bdelete<CR>";
       options = { desc = "close current buffer"; };
+    } 
+    {
+    mode = "n";
+      key = "<A-k>";
+      action = "<cmd>noh<CR>";
+      options = { desc = "disable highlight"; };
     }
   ];
 }
