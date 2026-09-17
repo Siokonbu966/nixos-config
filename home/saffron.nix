@@ -31,6 +31,7 @@
     ./programs/obs
     ./programs/ghostty
     ./programs/noctalia
+    ./programs/ollama
     # utils
     ./programs/gtk
     ./programs/mako
