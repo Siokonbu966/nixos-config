@@ -31,6 +31,20 @@
             };
           };
         };
+        ollama = {
+          name = "ollama(local)";
+          options = {
+            baseURL = "http://localhost:11434/v1";
+          };
+          models = {
+            "google/gemma-4-e2b" = {
+              name = "google-gemma-4-e4b";
+            };
+            "qwen3.5-9b" = {
+              name = "qwen3.5-9b";
+            };
+          };
+        };
       };
     };
   };
