@@ -79,12 +79,12 @@
       only = [
         "Keychron Keychron Receiver Keyboard"
         "Keychron B1 Pro Keyboard"
+        "NuPhy NuPhy Air60 V2 Keyboard"
       ];
     };
     remap = {
       Shift_R = "b";
       Enter = "p";
-      Alt_L = "Enter";
 
       # Layer用
       Space = {
@@ -95,6 +95,11 @@
       Alt_R = {
         held = "ScrollLock";
         alone = "Space";
+        free_hold = true;
+      };
+      Alt_L = {
+        hold = "Alt_L";
+        alone = "Enter";
         free_hold = true;
       };
     };

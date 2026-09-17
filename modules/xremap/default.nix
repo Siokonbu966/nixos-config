@@ -9,7 +9,7 @@ in
   services.xremap = {
     enable = true;
     deviceNames = [
-      "Keychron Keychron Receiver Keyboard" "Keychron Keychron K2" "Keychron B1 Pro Keyboard"
+      "Keychron Keychron Receiver Keyboard" "Keychron Keychron K2" "Keychron B1 Pro Keyboard" "NuPhy NuPhy Air60 V2 Keyboard"
     ];
     config = {
       inherit modmap keymap virtual_modifiers;
