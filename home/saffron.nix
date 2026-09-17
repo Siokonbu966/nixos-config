@@ -26,45 +26,17 @@
     ./programs/emacs
     ./programs/glow
     ./programs/ink
+    ./programs/nb
+
     # gui
     ./programs/fuzzel
     ./programs/obs
     ./programs/ghostty
     ./programs/noctalia
-    ./programs/ollama
-    # utils
-    ./programs/gtk
-    ./programs/mako
-    ./programs/udisk
-    ./programs/dotfiles
-    ./programs/default-app
-    ./programs/nh
-    ./programs/xsel
-    # wm
-    ./programs/waybar
-    ./programs/swayidle
-    ./programs/swaylock
-    ./programs/niri
-    # saffron-specific
     ./programs/kitty
-    ./programs/slurp
-    ./programs/nil
-    ./programs/gnumake
-    ./programs/usbutils
-    ./programs/pipewire
-    ./programs/wireplumber
-    ./programs/grim
-    ./programs/wl-clipboard
-    ./programs/xremap
-    ./programs/brightnessctl
-    ./programs/ddcutil
-    ./programs/obsidian
     ./programs/vesktop
-    ./programs/slack
-    ./programs/pavucontrol
-    ./programs/tigervnc
-    ./programs/falkon
     ./programs/vlc
+    ./programs/tigervnc
     ./programs/anki
     ./programs/google-chrome
     ./programs/zed-editor
@@ -74,18 +46,46 @@
     ./programs/gimp
     ./programs/nautilus
     ./programs/lmstudio
+    ./programs/ollama
     ./programs/signal-desktop
     ./programs/qtractor
     ./programs/lmms
     ./programs/kdenlive
-    ./programs/nb
+    ./programs/copyq
+
+    # utils
+    ./programs/gtk
+    ./programs/mako
+    ./programs/udisk
+    ./programs/dotfiles
+    ./programs/nh
+    ./programs/xsel
+    ./programs/slurp
+    ./programs/nil
+    ./programs/gnumake
+    ./programs/usbutils
+
+    # wm
+    ./programs/waybar
+    ./programs/swayidle
+    ./programs/swaylock
+    ./programs/niri
     ./programs/swaybg
     ./programs/swayr
-    ./programs/wofi
+
+    # saffron-specific
+    ./programs/pipewire
+    ./programs/wireplumber
+    ./programs/grim
+    ./programs/xremap
+    ./programs/brightnessctl
+    ./programs/ddcutil
+    ./programs/pavucontrol
     ./programs/alacritty
 
     # tools
     ./tools/cursor
+    ./tools/default-app
   ];
 
   home = rec {
