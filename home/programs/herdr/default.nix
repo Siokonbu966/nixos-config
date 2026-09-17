@@ -7,7 +7,7 @@
   xdg.configFile."herdr/config.toml".source = (pkgs.formats.toml { }).generate "config.toml" {
     onboarding = false;
     terminal = {
-      default_shell = "nu";
+      default_shell = "zsh";
       new_cwd = "follow";
       shell_mode = "auto";
     };
