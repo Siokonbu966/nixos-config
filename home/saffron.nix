@@ -64,6 +64,7 @@
     ./programs/nil
     ./programs/gnumake
     ./programs/usbutils
+    ./programs/easyeffect
 
     # wm
     ./programs/waybar
