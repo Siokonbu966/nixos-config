@@ -3,7 +3,6 @@
     enable = true;
     casks = [
       "firefox"
-      "obsidian"
       "ghostty"
       "karabiner-elements"
       "discord"

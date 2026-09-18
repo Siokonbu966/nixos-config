@@ -70,6 +70,9 @@
                     :font "BIZ UDGothic"
                     :height 1.0)
 
+;; clipboard integration
+(setq x-select-enable-clipboard t)
+
 ;; (leaf tab-bar-mode
 ;;     :init
 ;;     (define-key global-map (kbd "C-<up>") 'tab-bar-switch-to-prev-tab)
