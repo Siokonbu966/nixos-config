@@ -31,6 +31,7 @@
     ./programs/dotfiles
     # other
     ./programs/omniwm
+    ./programs/R
   ];
 
   programs.omniwm = {
