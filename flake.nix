@@ -53,6 +53,10 @@
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
     opencode.url = "github:anomalyco/opencode/v1.18.31";
+    xwayland-satellite = {
+      url = "github:Supreeeme/xwayland-satellite/v0.8.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {

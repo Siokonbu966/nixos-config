@@ -3,7 +3,7 @@
   ...
 }:
 let
-  inherit (inputs) nixpkgs home-manager nixvim nix-ld xremap-flake noctalia my-dotfiles lanzaboote;
+  inherit (inputs) nixpkgs home-manager nixvim nix-ld xremap-flake noctalia my-dotfiles lanzaboote xwayland-satellite;
 in
 nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
@@ -17,11 +17,13 @@ nixpkgs.lib.nixosSystem {
     xremap-flake.nixosModules.default
     ../../modules/xremap
     ../../modules/wm
+    ../../modules/game
     nix-ld.nixosModules.nix-ld
     { programs.nix-ld.dev.enable = true; }
 
     {
       nixpkgs.overlays = [
+        xwayland-satellite.overlays.default
         (final: prev: {
           buzz-sidecars = final.callPackage ../../pkgs/buzz-sidecars.nix { };
           buzz-desktop = final.callPackage ../../pkgs/buzz-desktop.nix {
