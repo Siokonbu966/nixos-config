@@ -1,6 +1,10 @@
+{ ignore_apps }:
 [
   {
     name = "default";
+    application = {
+      not = ignore_apps;
+    };
     remap = {
       Shift_L = "z";
       a = "e";
@@ -54,6 +58,9 @@
         "Keychron Keychron K2"
       ];
     };
+    application = {
+      not = ignore_apps;
+    };
     remap = {
       RO = "b";
       Backslash = "p";
@@ -81,6 +88,9 @@
         "Keychron B1 Pro Keyboard"
         "NuPhy NuPhy Air60 V2 Keyboard"
       ];
+    };
+    application = {
+      not = ignore_apps;
     };
     remap = {
       Shift_R = "b";

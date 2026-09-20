@@ -1,6 +1,10 @@
+{ ignore_apps }:
 [
   {
     name = "L1";
+    application = {
+      not = ignore_apps;
+    };
     remap = {
       Insert-z = "SHIFT-4";  # $
       Insert-e = "0";
@@ -34,6 +38,9 @@
 
   {
     name = "L2";
+    application = {
+      not = ignore_apps;
+    };
     remap = {
       ScrollLock-z = "BackSlash";  # ¥ \
       ScrollLock-e = "Shift-3";  # #
@@ -66,6 +73,9 @@
 
   {
     name = "other";
+    application = {
+      not = ignore_apps;
+    };
     remap = {
       Kp0 = "Shift-Equal";
       Menu-c = "C-Space";     # IME us
