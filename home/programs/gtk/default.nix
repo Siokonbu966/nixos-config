@@ -13,6 +13,11 @@
     theme = {
       name = "Adwaita-dark";
     };
+    # default font
+    font = {
+      name = "Gen Interface JP";
+      size = 11;
+    };
   };
 
   gtk.gtk4.theme = config.gtk.theme;
