@@ -52,6 +52,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
+    opencode.url = "github:anomalyco/opencode/v1.18.31";
   };
 
   outputs = {

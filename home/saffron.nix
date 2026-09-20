@@ -27,6 +27,7 @@
     ./programs/glow
     ./programs/ink
     ./programs/nb
+    ./programs/wl-clipboard
 
     # gui
     ./programs/fuzzel
