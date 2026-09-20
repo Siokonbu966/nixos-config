@@ -29,5 +29,15 @@ in
       core.editor = "vi";
     };
   };
+
+  home.file = {
+    ".gitconfig".text = ''
+      [includeIf "gitdir:~/src/crocus"]
+        path = ~/.gitconfig-cro
+      [user]
+        name = "Siokonbu966"
+        email = "167207736+Siokonbu966@users.noreply.github.com"
+    '';
+  };
 }
 
