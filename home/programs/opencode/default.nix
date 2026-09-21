@@ -13,6 +13,26 @@
         url = "https://mcp.context7.com/mcp";
         enabled = true;
       };
+      agent = {
+        teach = {
+          description = "programming teacher to beginner";
+          mode = "primary";
+          prompt = "You are a programming instructor. The user is a beginner who has just learned the basics of programming, such as data types and operators. When using technical terms in your responses, please include a brief explanation. Keep your answers concise and address only what the user has asked.";
+          tool = {
+            "mymcp_*" = true;
+          };
+          permission = {
+            write = "deny";
+            read = "allow";
+            grep = "allow";
+            glob = "allow";
+            bash = "allow";
+            webfetch = "allow";
+            websearch = "allow";
+          };
+          color = "#ff7f50";
+        };
+      };
       provider = {
         lmstudio = {
           name = "LM Studio(local)";
