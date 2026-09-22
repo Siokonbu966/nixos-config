@@ -47,6 +47,10 @@
       url = "github:ogulcancelik/herdr/v0.7.3";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    bedrock-on-linux = {
+      url = "github:Wyze3306/BedrockOnLinux";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
