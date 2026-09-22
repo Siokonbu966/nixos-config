@@ -9,32 +9,66 @@
       Shift_L = "z";
       a = "e";
       w = "l";
-      s = "i";
       x = "c";
       e = "u";
-      d = "a";
       c = "v";
       r = "f";
-      f = "o";
       v = "Comma";
       g = "Minus";
-      j = "k";
       m = "g";
       i = "w";
-      k = "t";
       Comma = "d";
       o = "r";
       p = "y";
-      l = "n";
       Semicolon = "s";
       Apostrophe = "h";
       CapsLock = "q";
       Dot = "m";
-     
+
       b = "Alt_R";
       n = "Ctrl_L";
       h = "Shift_L";
       t = "Kp0"; # +
+
+      # left modifier keys
+      f = {
+        held = "Shift_L";
+        alone = "o";
+        hold_threshold_millis = 200;
+        free_hold = true;
+      };
+      d = {
+        held = "Alt_L";
+        alone = "a";
+        hold_threshold_millis = 200;
+        free_hold = true;
+      };
+      s = {
+        held = "Ctrl_L";
+        alone = "i";
+        hold_threshold_millis = 200;
+        free_hold = true;
+      };
+     
+      # right modifier keys
+      l = {
+        held = "Ctrl_L";
+        alone = "n";
+        hold_threshold_millis = 200;
+        free_hold = true;
+      };
+      k = {
+        held = "Alt_L";
+        alone = "t";
+        hold_threshold_millis = 200;
+        free_hold = true;
+      };
+      j = {
+        held = "Shift_L";
+        alone = "k";
+        hold_threshold_millis = 200;
+        free_hold = true;
+      };
 
       # IME切り替え用
       Slash = {
@@ -108,7 +142,7 @@
         free_hold = true;
       };
       Alt_L = {
-        hold = "Alt_L";
+        held = "Alt_L";
         alone = "Enter";
         free_hold = true;
       };
