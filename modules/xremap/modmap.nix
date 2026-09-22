@@ -34,41 +34,38 @@
       f = {
         held = "Shift_L";
         alone = "o";
-        hold_threshold_millis = 200;
-        free_hold = true;
+        hold_threshold_millis = 100;
       };
       d = {
         held = "Alt_L";
         alone = "a";
-        hold_threshold_millis = 200;
-        free_hold = true;
+        hold_threshold_millis = 100;
       };
       s = {
         held = "Ctrl_L";
         alone = "i";
-        hold_threshold_millis = 200;
-        free_hold = true;
+        hold_threshold_millis = 100;
       };
      
       # right modifier keys
-      l = {
-        held = "Ctrl_L";
-        alone = "n";
-        hold_threshold_millis = 200;
-        free_hold = true;
-      };
-      k = {
-        held = "Alt_L";
-        alone = "t";
-        hold_threshold_millis = 200;
-        free_hold = true;
-      };
-      j = {
-        held = "Shift_L";
-        alone = "k";
-        hold_threshold_millis = 200;
-        free_hold = true;
-      };
+      l = "n";
+      k = "t";
+      j = "k";
+      #l = {
+      #  held = "Ctrl_L";
+      #  alone = "n";
+      #  alone_timeout_millis = 100;
+      #};
+      #k = {
+      #  held = "Alt_L";
+      #  alone = "t";
+      #  alone_timeout_millis = 100;
+      #};
+      #j = {
+      #  held = "Shift_L";
+      #  alone = "k";
+      #  alone_timeout_millis = 100;
+      #};
 
       # IME切り替え用
       Slash = {
