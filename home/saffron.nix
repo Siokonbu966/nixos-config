@@ -44,6 +44,7 @@
     ./programs/vscodium
     ./programs/osu-lazer
     ./programs/prismlauncher
+    ./programs/bedrock-on-linux
     ./programs/gimp
     ./programs/nautilus
     ./programs/lmstudio
