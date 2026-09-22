@@ -98,6 +98,7 @@
     remap = {
       Shift_R = "b";
       Enter = "p";
+      Delete = "Print";
 
       # Layer用
       Space = {

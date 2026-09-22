@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  ignore_apps = [ "steam_app_2777057993" ];
+  ignore_apps = [ "steam_app_2777057993" "steam_app_4274141638" ];
   modmap = import ./modmap.nix { inherit ignore_apps; };
   keymap = import ./keymap.nix { inherit ignore_apps; };
   virtual_modifiers = import ./virtual_modifiers.nix;
