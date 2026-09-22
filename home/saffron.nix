@@ -47,7 +47,7 @@
     ./programs/bedrock-on-linux
     ./programs/gimp
     ./programs/nautilus
-    ./programs/lmstudio
+    #./programs/lmstudio
     ./programs/ollama
     ./programs/signal-desktop
     ./programs/qtractor
