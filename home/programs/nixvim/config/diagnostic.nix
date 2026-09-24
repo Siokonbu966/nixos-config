@@ -6,65 +6,59 @@
     float = {
       border = "rounded";
       source = true;
+      wrap = true;
+    };
+    "my/notify" = {
+      log_level.__raw = "vim.log.levels.INFO";
+      severity.__raw = "vim.diagnostic.severity.ERROR";
+      virtual_text = true;
     };
   };
 
-  opts.updatetime = 300;
-  # show diagnostic on hover
-  #
-  #autoCmd = [
-  #  {
-  #    event = [ "CursorHold" ];
-  #    callback.__raw = ''
-  #      function()
-  #        vim.diagnostic.open_float(nil, {
-  #          focusable = false,
-  #          close_events = {
-  #            "BufLeave",
-  #            "CursorMoved",
-  #            "InsertEnter",
-  #            "FocusLost",
-  #          },
-  #          border = "rounded",
-  #          source = "if_many",
-  #          prefix = " ",
-  #          scope = "cursor",
-  #        })
-  #      end
-  #    '';
-  #  }
-  #  {
-  #    event = [ "CursorHold" ];
-  #    callback.__raw = ''
-  #      function()
-  #        vim.lsp.buf.hover({
-  #          border = "rounded",
-  #          focusable = false,
-  #        })
-  #      end
-  #    '';
-  #  }
-  #];
+  opts = {
+    updatetime = 300;
+    winborder = "rounded";
+  };
+
+  highlight.FloatBorder = {
+    fg = "#c0a0e0";
+    bold = true;
+  };
+
+  keymaps = [
+    {
+      mode = "n";
+      key = "gK";
+      action.__raw = ''
+        function()
+          local new_config = not vim.diagnostic.config().virtual_lines
+          vim.diagnostic.config({ virtual_lines = new_config })
+        end
+      '';
+      options = {
+        desc = "Toggle diagnostic virtual_lines";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>e";
+      action.__raw = ''
+        function()
+          -- open_float は常に enter=false で開くため、focus=true だけでは
+          -- カーソルは移動しない。返り値の winnr に明示的に入る必要がある。
+          local _, winnr = vim.diagnostic.open_float({ scope = "cursor" })
+          if winnr then
+            vim.api.nvim_set_current_win(winnr)
+          end
+        end
+      '';
+      options = {
+        desc = "Show diagnostic float";
+      };
+    }
+  ];
+
   extraConfigLua = ''
-    local border = "rounded"
-
-    vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#c0a0e0", bold = true })
-
-    local orig_hover = vim.lsp.buf.hover
-    vim.lsp.buf.hover = function(opts)
-      return orig_hover(vim.tbl_extend("force", opts or {}, { border = border }))
-    end
-
-    local orig_signature = vim.lsp.buf.signature_help
-    vim.lsp.buf.signature_help = function(opts)
-      return orig_signature(vim.tbl_extend("force", opts or {}, { border = border }))
-    end
-
-    local orig_code_action = vim.lsp.buf.code_action
-    vim.lsp.buf.code_action = function(opts)
-      return orig_code_action(vim.tbl_extend("force", opts or {}, { border = border }))
-    end
-
     vim.diagnostic.handlers["my/notify"] = {
       show = function(namespace, bufnr, diagnostics, opts)
         local level = opts["my/notify"].log_level
@@ -73,19 +67,5 @@
         vim.notify(msg, level)
       end,
     }
-
-    vim.diagnostic.config({
-      ["my/notify"] = {
-        log_level = vim.log.levels.INFO,
-        severity = vim.diagnostic.severity.ERROR,
-        virtual_text = true,
-      },
-    })
-
- 
-    vim.keymap.set("n", "gK", function()
-      local new_config = not vim.diagnostic.config().virtual_lines
-      vim.diagnostic.config({ virtual_lines = new_config })
-    end, { desc = "Toggle diagnostic virtual_lines" })
   '';
 }
