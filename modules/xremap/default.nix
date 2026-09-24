@@ -15,7 +15,7 @@ let
   xremap-wrapper = pkgs.writeShellScript "xremap-wrapper" ''
     NIRI_SOCKET=$(ls ${userPath}/niri.wayland-1.*.sock 2>/dev/null | head -1)
     export NIRI_SOCKET
-    exec ${config.services.xremap.package}/bin/xremap ${deviceArgs} ${configFile}
+    exec ${config.services.xremap.package}/bin/xremap --mouse ${deviceArgs} ${configFile}
   '';
 in
 {
@@ -34,6 +34,7 @@ in
   services.xremap = {
     enable = true;
     withNiri = true;
+    mouse = true;
     deviceNames = [
       "Keychron Keychron Receiver Keyboard" "Keychron Keychron K2" "Keychron B1 Pro Keyboard" "NuPhy NuPhy Air60 V2 Keyboard"
     ];

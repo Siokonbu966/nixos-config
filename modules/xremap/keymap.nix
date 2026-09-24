@@ -1,6 +1,20 @@
 { ignore_apps }:
 [
   {
+    name = "steam-mouse";
+    application = {
+      only = [ "steam_app_4274141638" ];
+    };
+    remap = {
+      BTN_SIDE = "l";
+      BTN_EXTRA = "m";
+      # 7ボタンマウス等で BTN_BACK / BTN_FORWARD として認識される場合のフォールバック
+      BTN_BACK = "l";
+      BTN_FORWARD = "m";
+    };
+  }
+
+  {
     name = "L1";
     application = {
       not = ignore_apps;
