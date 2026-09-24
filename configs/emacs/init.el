@@ -70,8 +70,15 @@
                     :font "BIZ UDGothic"
                     :height 1.0)
 
-;; clipboard integration
-(setq x-select-enable-clipboard t)
+;; clipboard integration (X11 / Wayland / macOS / NS)
+;; NOTE: `x-select-enable-clipboard' is obsolete since Emacs 27 (alias of
+;; `select-enable-clipboard'), so set the modern variables here.
+;; Terminal (`emacs -nw') support lives in init/10-clipboard.el.
+(setq select-enable-clipboard t)
+(setq select-enable-primary t)
+(setq save-interprogram-paste-before-kill t)
+(setq select-active-regions t)
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
 ;; (leaf tab-bar-mode
 ;;     :init
