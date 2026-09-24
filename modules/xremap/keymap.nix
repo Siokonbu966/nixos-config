@@ -79,9 +79,9 @@
       ScrollLock-s = "Right";
       ScrollLock-h = "Insert";
       ScrollLock-b = "ScrollLock";
-      ScrollLock-j = "NextSong";
-      ScrollLock-m = "Play";
-      ScrollLock-d = "PreviousSong";
+      ScrollLock-j = "NextSong"; # 先送り (XF86AudioNext → playerctl next)
+      ScrollLock-m = "StopCD"; # 停止 (XF86AudioStop → playerctl stop)
+      ScrollLock-d = "PreviousSong"; # 一曲戻る (XF86AudioPrev → playerctl previous)
     };
   }
 

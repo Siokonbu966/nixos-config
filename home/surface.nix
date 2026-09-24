@@ -47,6 +47,7 @@
     ./programs/usbutils
     ./programs/pipewire
     ./programs/wireplumber
+    ./programs/playerctl
     ./programs/grim
     ./programs/wl-clipboard
     ./programs/xremap

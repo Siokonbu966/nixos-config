@@ -79,6 +79,7 @@
     # saffron-specific
     ./programs/pipewire
     ./programs/wireplumber
+    ./programs/playerctl
     ./programs/grim
     ./programs/xremap
     ./programs/brightnessctl

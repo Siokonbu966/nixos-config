@@ -64,6 +64,7 @@ in
       # Media control
       bindsym XF86AudioPlay exec playerctl play-pause
       bindsym XF86AudioPause exec playerctl pause
+      bindsym XF86AudioStop exec playerctl stop
       bindsym XF86AudioNext exec playerctl next
       bindsym XF86AudioPrev exec playerctl previous
       bindsym Print exec sh -c 'FILE=~/Pictures/screen_shots/$(date +%Y.%m.%d-%H:%M:%S).png; grim -g "$(slurp)" "$FILE" && notify-send "Screen shot saved" "$FILE"'
