@@ -10,6 +10,7 @@
       ./modules
       ./modules/xremap
       ./modules/netrc.nix
+      ./modules/cachix
     ];
 
 
