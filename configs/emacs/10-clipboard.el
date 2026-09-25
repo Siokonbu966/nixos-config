@@ -29,16 +29,21 @@
     (and (numberp status) (zerop status))))
 
 ;; --- Wayland (niri / WSLg) ---
+;; NOTE: `wl-copy --foreground' must NOT be used with synchronous
+;; `call-process-region' (C-k / C-w freeze): --foreground keeps running
+;; instead of forking, so Emacs waits forever. Default fork exits at once.
 (defun my-clipboard-wl-copy (text)
   (when (executable-find "wl-copy")
     (with-temp-buffer
       (insert text)
-      (my-clipboard--call-process-region "wl-copy" "--foreground" "--type" "text/plain"))))
+      (with-timeout (2 nil)
+        (my-clipboard--call-process-region "wl-copy" "--type" "text/plain")))))
 
 (defun my-clipboard-wl-paste ()
   (when (executable-find "wl-paste")
     (let ((coding-system-for-read 'utf-8))
-      (shell-command-to-string "wl-paste --no-newline --type text/plain 2>/dev/null"))))
+      (with-timeout (1 "")
+        (shell-command-to-string "wl-paste --no-newline --type text/plain 2>/dev/null")))))
 
 ;; --- X11 ---
 (defun my-clipboard-xclip-copy (text)
@@ -102,34 +107,40 @@
     t))
 
 (defun my-clipboard-terminal-copy (text)
-  "Copy TEXT to the system clipboard from terminal Emacs."
-  (cond
-   ;; Wayland first: niri / WSLg sessions set WAYLAND_DISPLAY.
-   ((and (or (getenv "WAYLAND_DISPLAY") (getenv "WAYLAND_SOCKET"))
-         (executable-find "wl-copy"))
-    (my-clipboard-wl-copy text))
-   ((executable-find "wl-copy") (my-clipboard-wl-copy text))
-   ((executable-find "xclip") (my-clipboard-xclip-copy text))
-   ((executable-find "xsel") (my-clipboard-xsel-copy text))
-   ((executable-find "pbcopy") (my-clipboard-pbcopy text))
-   ((my-clipboard--wsl-p) (or (my-clipboard-wsl-copy text) (my-clipboard-osc52-copy text)))
-   (t (my-clipboard-osc52-copy text))))
+  "Copy TEXT to the system clipboard from terminal Emacs.
+Never block kill (C-k / C-w): any error or timeout is ignored."
+  (ignore-errors
+    (with-timeout (2 nil)
+      (cond
+       ;; Wayland first: niri / WSLg sessions set WAYLAND_DISPLAY.
+       ((and (or (getenv "WAYLAND_DISPLAY") (getenv "WAYLAND_SOCKET"))
+             (executable-find "wl-copy"))
+        (my-clipboard-wl-copy text))
+       ((executable-find "wl-copy") (my-clipboard-wl-copy text))
+       ((executable-find "xclip") (my-clipboard-xclip-copy text))
+       ((executable-find "xsel") (my-clipboard-xsel-copy text))
+       ((executable-find "pbcopy") (my-clipboard-pbcopy text))
+       ((my-clipboard--wsl-p) (or (my-clipboard-wsl-copy text) (my-clipboard-osc52-copy text)))
+       (t (my-clipboard-osc52-copy text))))))
 
 (defun my-clipboard-terminal-paste ()
-  "Return system clipboard text for terminal Emacs, or nil."
-  (let ((s (cond
-            ((and (or (getenv "WAYLAND_DISPLAY") (getenv "WAYLAND_SOCKET"))
-                  (executable-find "wl-paste"))
-             (my-clipboard-wl-paste))
-            ((executable-find "wl-paste") (my-clipboard-wl-paste))
-            ((executable-find "xclip") (my-clipboard-xclip-paste))
-            ((executable-find "xsel") (my-clipboard-xsel-paste))
-            ((executable-find "pbpaste") (my-clipboard-pbpaste))
-            ((my-clipboard--wsl-p) (my-clipboard-wsl-paste))
-            (t nil))))
-    (when (and s (> (length s) 0))
-      ;; powershell.exe appends CRLF; normalize to LF.
-      (replace-regexp-in-string "\r\n?" "\n" s))))
+  "Return system clipboard text for terminal Emacs, or nil.
+Never block yank (C-y): any error or timeout yields nil."
+  (ignore-errors
+    (with-timeout (2 nil)
+      (let ((s (cond
+                ((and (or (getenv "WAYLAND_DISPLAY") (getenv "WAYLAND_SOCKET"))
+                      (executable-find "wl-paste"))
+                 (my-clipboard-wl-paste))
+                ((executable-find "wl-paste") (my-clipboard-wl-paste))
+                ((executable-find "xclip") (my-clipboard-xclip-paste))
+                ((executable-find "xsel") (my-clipboard-xsel-paste))
+                ((executable-find "pbpaste") (my-clipboard-pbpaste))
+                ((my-clipboard--wsl-p) (my-clipboard-wsl-paste))
+                (t nil))))
+        (when (and s (> (length s) 0))
+          ;; powershell.exe appends CRLF; normalize to LF.
+          (replace-regexp-in-string "\r\n?" "\n" s))))))
 
 ;; Only override interprogram functions on TTY frames. GUI frames keep the
 ;; built-in selection handling (which supports PRIMARY/CLIPBOARD properly).
