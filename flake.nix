@@ -10,10 +10,6 @@
       url = "github:Siokonbu966/dotfiles";
       flake = false;
     };
-    noctalia = {
-      url = "github:noctalia-dev/noctalia/legacy-v4";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixvim = {
       url = "github:nix-community/nixvim/nixos-26.05";
     };
@@ -43,22 +39,27 @@
       url = "github:homebrew/homebrew-bundle";
       flake = false;
     };
-    herdr = {
-      url = "github:ogulcancelik/herdr/v0.7.3";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     bedrock-on-linux = {
       url = "github:Wyze3306/BedrockOnLinux";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia/legacy-v4";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    # check update
+    herdr = {
+      url = "github:herdrdev/herdr/v0.9.1";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    opencode.url = "github:anomalyco/opencode/v1.18.31";
+    opencode.url = "github:anomalyco/opencode/v1.18.32";
     xwayland-satellite = {
-      url = "github:Supreeeme/xwayland-satellite/v0.8.1";
+      url = "github:Supreeeme/xwayland-satellite/v0.8.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
