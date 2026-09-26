@@ -27,7 +27,6 @@ in
 
     working-directory = home
     window-inherit-working-directory = false
-    shell-integration-features = ssh-terminfo,ssh-env
 
     ${deviceConfig}
   '';
