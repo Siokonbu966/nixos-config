@@ -28,6 +28,7 @@ nixpkgs.lib.nixosSystem {
     }
     ../../hosts/wsl
     ../../modules/font.nix
+    ../../modules/fontconfig.nix
     ../../modules/i18n.nix
 
     home-manager.nixosModules.home-manager {

@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./modules
+      ./modules/fontconfig.nix
       ./modules/xremap
       ./modules/netrc.nix
       ./modules/cachix
