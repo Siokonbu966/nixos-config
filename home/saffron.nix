@@ -28,6 +28,7 @@
     ./programs/ink
     ./programs/nb
     ./programs/wl-clipboard
+    ./programs/late-sh
 
     # gui
     ./programs/fuzzel

@@ -26,6 +26,7 @@
     ./programs/emacs
     ./programs/ink
     ./programs/nb
+    ./programs/late-sh
     # utils
     ./programs/nh
     ./programs/dotfiles

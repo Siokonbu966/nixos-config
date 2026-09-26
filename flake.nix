@@ -53,6 +53,7 @@
       url = "github:herdrdev/herdr/v0.9.1";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    late-sh.url = "github:mpiorowski/late-sh";
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
