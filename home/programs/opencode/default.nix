@@ -7,7 +7,9 @@
   xdg.configFile."opencode/opencode.json".source =
     (pkgs.formats.json { }).generate "opencode.json" {
       "$schema" = "https://opencode.ai/config.json";
-      permission.websearch = "allow";
+      permission = {
+        websearch = "allow";
+      };
       mcp.context7 = {
         type = "remote";
         url = "https://mcp.context7.com/mcp";
