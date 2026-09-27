@@ -11,6 +11,7 @@
       ./modules/xremap
       ./modules/netrc.nix
       ./modules/cachix
+      ./modules/container.nix
     ];
 
 
