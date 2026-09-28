@@ -28,4 +28,4 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN || '' }}
           skipPush: ${{ github.event_name == 'pull_request' }}
 
-      - run: nix build --no-link --print-build-logs '.#nixosConfigurations.saffron.config.system.build.toplevel'
+      - run: nix build --no-link --print-build-logs '.#nixosConfigurations.wsl.config.system.build.toplevel'
