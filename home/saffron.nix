@@ -66,6 +66,7 @@
     ./programs/gnumake
     ./programs/usbutils
     ./programs/easyeffect
+    ./programs/pandoc
 
     # wm
     ./programs/waybar
