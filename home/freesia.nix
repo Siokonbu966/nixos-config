@@ -15,7 +15,7 @@
     ./programs/ghostty/config.nix
     # cli
     ./programs/git
-    ./programs/opencode
+    #./programs/opencode
     ./programs/direnv
     ./programs/tmux
     ./programs/zsh
@@ -26,6 +26,7 @@
     ./programs/emacs
     ./programs/ink
     ./programs/nb
+    ./programs/late-sh
     # utils
     ./programs/nh
     ./programs/dotfiles

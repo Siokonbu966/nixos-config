@@ -32,7 +32,6 @@
     ./programs/mako
     ./programs/udisk
     ./programs/dotfiles
-    ./programs/default-app
     ./programs/nh
     # wm
     ./programs/waybar
@@ -58,6 +57,8 @@
     ./programs/nautilus
     ./programs/swaybg
     ./programs/swayr
+    # tools
+    ./tools/default-app
   ];
 
   home = rec {
