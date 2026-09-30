@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
+let
+  isCi = builtins.getEnv "GITHUB_ACTIONS" == "true" || builtins.getEnv "CI" == "true";
+in
 {
   imports = [
     ../../configuration.nix
@@ -18,8 +21,8 @@
   programs.obs-studio.enableVirtualCamera = true;
 
   # vmware
-  virtualisation.vmware.host.enable = true;
-  services.xserver.videoDrivers = [ "vmware" ];
+  virtualisation.vmware.host.enable = !isCi;
+  services.xserver.videoDrivers = lib.optionals (!isCi) [ "vmware" ];
 
   services.tailscale.enable = true;
 
