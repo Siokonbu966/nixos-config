@@ -13,6 +13,7 @@
     ./programs/docker
     ./programs/colima
     ./programs/ghostty/config.nix
+    ./programs/vesktop
     # cli
     ./programs/git
     #./programs/opencode
