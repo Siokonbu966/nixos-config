@@ -58,7 +58,7 @@
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    opencode.url = "github:anomalyco/opencode/v2";
+    opencode.url = "github:anomalyco/opencode/v1.18.34";
     xwayland-satellite = {
       url = "github:Supreeeme/xwayland-satellite/v0.8.3";
       inputs.nixpkgs.follows = "nixpkgs";
