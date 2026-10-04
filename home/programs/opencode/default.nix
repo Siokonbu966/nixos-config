@@ -24,6 +24,7 @@
             "mymcp_*" = true;
           };
           permission = {
+            edit = "deny";
             write = "deny";
             read = "allow";
             grep = "allow";
