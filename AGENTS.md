@@ -6,14 +6,13 @@
 - **Dotfiles & Configs**: Raw non-Nix configuration files belong in `configs/` or are sourced from the external `my-dotfiles` flake input (injected into `extraSpecialArgs` and mapped in `home/programs/utils/dotfiles.nix`).
 
 ## Developer Workflows
-- **NixOS Rebuild**: `nh os switch` (or fallback to `sudo nixos-rebuild switch --flake .#<hostname>`).
-- **macOS Rebuild**: `nh darwin switch` (or fallback to `darwin-rebuild switch --flake .#freesia`).
+- **NixOS Rebuild**: `nh os switch . -H <HostName>` (or fallback to `sudo nixos-rebuild switch --flake .#<HostName>`).
+- **macOS Rebuild**: `nh darwin switch . -H <HostName>` (or fallback to `darwin-rebuild switch --flake .#<HostName>`).
 - **Git Tracking Requirement**: Because this is a Nix Flake, **you must `git add` any newly created files** before attempting to build. The Nix evaluator cannot see untracked files.
-- **Test**: When change nix configuration then Use `nh os switch -n`, `nh darwin switch -n` and test flake files.
+- **Test**: When change nix configuration then Use `nix eval '.#nixosConfigurations.<HostName>.config.system.build.toplevel.drvPath'`, `nix eval '.#darwinConfigurations.<HostName>.config.system.build.toplevel.drvPath'` and test flake files.Please enter the profile of the host to be built for "<HostName>".
 - **Niri**: When change niri configuration then use `niri validate -c configs/niri/config.kdl` and test config file.
 
 ## Notes
-
 - Since Nix Flakes do not recognize untracked files, you must run `git add` after creating new files.
 - After modifying the Niri configuration, validate the syntax using `niri validate -c configs/niri/config.kdl`.
 - Home Manager is integrated as a NixOS/darwin module (the standalone `home-manager switch` command cannot be used).
