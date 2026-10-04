@@ -18,6 +18,7 @@ nixpkgs.lib.nixosSystem {
     ../../modules/xremap
     ../../modules/wm
     ../../modules/game
+    ../../modules/mount
     nix-ld.nixosModules.nix-ld
     { programs.nix-ld.dev.enable = true; }
 
