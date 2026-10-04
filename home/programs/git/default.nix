@@ -1,4 +1,4 @@
-{ device, ...}: 
+{ device, pkgs, ...}: 
 let
   device_config = if device == "zephyr" then {
 
@@ -27,8 +27,13 @@ in
         rebase = "true";
       };
       core.editor = "vi";
+      wt = {
+        basedir = ".git/wt";
+      };
     };
   };
+
+  home.packages = [ pkgs.git-wt ];
 
   home.file = {
     ".gitconfig".text = ''
