@@ -63,6 +63,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     opencode.url = "github:anomalyco/opencode/v1.18.34";
+    i-have-adhd = {
+      url = "github:ayghri/i-have-adhd";
+      flake = false;
+    };
+    yomiyasu = {
+      url = "github:nanaism/yomiyasu";
+      flake = false;
+    };
     xwayland-satellite = {
       url = "github:Supreeeme/xwayland-satellite/v0.8.3";
       inputs.nixpkgs.follows = "nixpkgs";
