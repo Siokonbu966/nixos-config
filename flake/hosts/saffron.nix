@@ -3,7 +3,7 @@
   ...
 }:
 let
-  inherit (inputs) nixpkgs home-manager nixvim nix-ld xremap-flake noctalia my-dotfiles lanzaboote xwayland-satellite;
+  inherit (inputs) nixpkgs home-manager nixvim nix-ld xremap-flake noctalia my-dotfiles lanzaboote xwayland-satellite sops-nix;
 in
 nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
@@ -13,12 +13,14 @@ nixpkgs.lib.nixosSystem {
   modules = [
     ../../hosts/saffron
     ../../nvidia
-    lanzaboote.nixosModules.lanzaboote
-    xremap-flake.nixosModules.default
     ../../modules/xremap
     ../../modules/wm
     ../../modules/game
     ../../modules/mount
+    ../../modules/sops
+    sops-nix.nixosModules.sops
+    lanzaboote.nixosModules.lanzaboote
+    xremap-flake.nixosModules.default
     nix-ld.nixosModules.nix-ld
     { programs.nix-ld.dev.enable = true; }
 

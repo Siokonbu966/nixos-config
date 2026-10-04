@@ -1,0 +1,7 @@
+keys:
+  - &saffron age1xlekdyhyv99tvc3fn3kxajwefdpz0wtwj3jagrz3leg376e5hqqs99z7v3
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini|enc)$  # 暗号化したファイルとして認識するpathの正規表現
+    key_groups:
+    - age:
+      - *saffron

@@ -49,6 +49,10 @@
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
     late-sh.url = "github:mpiorowski/late-sh";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # check update
     herdr = {
       url = "github:herdrdev/herdr/v0.9.1";

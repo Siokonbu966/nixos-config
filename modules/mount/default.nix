@@ -11,7 +11,7 @@
       "x-systemd.mount-timeout=10s"
       "_netdev"
       "nofail"
-      "credentials=/etc/samba/share-credentials"
+      "credentials=/run/secrets/samba_credentials"
       "uid=1000"
       "gid=100"
       "file_mode=0664"
