@@ -287,6 +287,22 @@
         "type": "github"
       }
     },
+    "i-have-adhd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789836285,
+        "narHash": "sha256-UExi0k71MOtLwqVaFRGhgvqq6+jxwbQxZZVZxceHGrw=",
+        "owner": "ayghri",
+        "repo": "i-have-adhd",
+        "rev": "839872f9d1cd634fed642b4589ce7226199cc15f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ayghri",
+        "repo": "i-have-adhd",
+        "type": "github"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -685,6 +701,7 @@
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "i-have-adhd": "i-have-adhd",
         "lanzaboote": "lanzaboote",
         "late-sh": "late-sh",
         "my-dotfiles": "my-dotfiles",
@@ -699,7 +716,8 @@
         "opencode": "opencode",
         "sops-nix": "sops-nix",
         "xremap-flake": "xremap-flake",
-        "xwayland-satellite": "xwayland-satellite"
+        "xwayland-satellite": "xwayland-satellite",
+        "yomiyasu": "yomiyasu"
       }
     },
     "rust-overlay": {
@@ -930,6 +948,22 @@
         "owner": "Supreeeme",
         "ref": "v0.8.3",
         "repo": "xwayland-satellite",
+        "type": "github"
+      }
+    },
+    "yomiyasu": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791094637,
+        "narHash": "sha256-Mr6oU7vRaR4yAyGtC5LVP35Cw0rEQBYk4iRIPX3S9Sc=",
+        "owner": "nanaism",
+        "repo": "yomiyasu",
+        "rev": "86c98ac800aa0f1d95baf9c7c558856aab4efbae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nanaism",
+        "repo": "yomiyasu",
         "type": "github"
       }
     }

@@ -10,6 +10,12 @@
       permission = {
         websearch = "allow";
       };
+      plugin = [
+        "file://${inputs.i-have-adhd}/.opencode/plugins/i-have-adhd.mjs"
+      ];
+      skills.paths = [
+        "${inputs.yomiyasu}/skills"
+      ];
       mcp.context7 = {
         type = "remote";
         url = "https://mcp.context7.com/mcp";
