@@ -6,6 +6,8 @@
   pkg-config,
   alsa-lib,
   wayland,
+  makeWrapper,
+  libxkbcommon,
 }:
 
 rustPlatform.buildRustPackage (finalAttrs: {
@@ -55,11 +57,24 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   doCheck = false;
 
-  nativeBuildInputs = lib.optionals stdenv.isLinux [ pkg-config ];
+  nativeBuildInputs = lib.optionals stdenv.isLinux [ pkg-config makeWrapper ];
   buildInputs = lib.optionals stdenv.isLinux [
     alsa-lib
     wayland
+    libxkbcommon
   ];
+
+  postInstall = lib.optionalString stdenv.isLinux ''
+    for bin in effectcraft effectcraft-cli; do
+      wrapProgram $out/bin/$bin --prefix LD_LIBRARY_PATH : ${
+        lib.makeLibraryPath [
+          alsa-lib
+          wayland
+          libxkbcommon
+        ]
+      }
+    done
+  '';
 
   meta = with lib; {
     description = "Motion graphics and visual effects; an open-source reimplementation of Adobe After Effects";
