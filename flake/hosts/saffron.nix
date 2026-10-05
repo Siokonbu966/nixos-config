@@ -33,6 +33,7 @@ nixpkgs.lib.nixosSystem {
             inherit (final) buzz-sidecars;
           };
           ink = final.callPackage ../../pkgs/ink.nix { };
+          effectcraft = final.callPackage ../../pkgs/effectcraft.nix { };
         })
       ];
     }
