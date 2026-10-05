@@ -8,6 +8,8 @@
   wayland,
   makeWrapper,
   libxkbcommon,
+  vulkan-loader,
+  libglvnd,
 }:
 
 rustPlatform.buildRustPackage (finalAttrs: {
@@ -71,8 +73,10 @@ rustPlatform.buildRustPackage (finalAttrs: {
           alsa-lib
           wayland
           libxkbcommon
+          vulkan-loader
+          libglvnd
         ]
-      }
+      } --set __EGL_VENDOR_LIBRARY_DIRS /run/opengl-driver/share/glvnd/egl_vendor.d
     done
   '';
 
