@@ -25,6 +25,7 @@
     ./programs/emacs
     ./programs/glow
     ./programs/ink
+    ./programs/effectcraft
     ./programs/nb
     ./programs/wl-clipboard
     ./programs/late-sh
