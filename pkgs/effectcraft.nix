@@ -78,6 +78,14 @@ rustPlatform.buildRustPackage (finalAttrs: {
         ]
       } --set __EGL_VENDOR_LIBRARY_DIRS /run/opengl-driver/share/glvnd/egl_vendor.d
     done
+
+    install -Dm644 packaging/linux/ai.storyteller.effectcraft.desktop \
+      $out/share/applications/ai.storyteller.effectcraft.desktop
+
+    for size in 16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512; do
+      install -Dm644 assets/app-icon/hicolor/$size/apps/ai.storyteller.effectcraft.png \
+        $out/share/icons/hicolor/$size/apps/ai.storyteller.effectcraft.png
+    done
   '';
 
   meta = with lib; {
