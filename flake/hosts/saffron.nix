@@ -1,5 +1,6 @@
 {
   inputs,
+  isCI ? false,
   ...
 }:
 let
@@ -9,21 +10,25 @@ nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = {
     device = "saffron";
+    inherit isCI;
   };
   modules = [
     ../../hosts/saffron
-    ../../nvidia
     ../../modules/xremap
     ../../modules/wm
     ../../modules/game
     ../../modules/mount
     ../../modules/sops
     sops-nix.nixosModules.sops
-    lanzaboote.nixosModules.lanzaboote
     xremap-flake.nixosModules.default
     nix-ld.nixosModules.nix-ld
     { programs.nix-ld.dev.enable = true; }
-
+  ]
+  ++ nixpkgs.lib.optionals (!isCI) [
+    ../../nvidia
+    lanzaboote.nixosModules.lanzaboote
+  ]
+  ++ [
     {
       nixpkgs.overlays = [
         xwayland-satellite.overlays.default

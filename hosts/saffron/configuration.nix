@@ -1,8 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, lib, isCI ? false, ... }:
 {
   imports = [
     ../../configuration.nix
     ./hardware-configuration.nix
+  ]
+  ++ lib.optionals (!isCI) [
     ../../modules/secureboot.nix
   ];
 
@@ -18,8 +20,8 @@
   programs.obs-studio.enableVirtualCamera = true;
 
   # vmware
-  virtualisation.vmware.host.enable = true;
-  services.xserver.videoDrivers = [ "vmware" ];
+  virtualisation.vmware.host.enable = !isCI;
+  services.xserver.videoDrivers = lib.mkIf (!isCI) [ "vmware" ];
 
   services.tailscale.enable = true;
 

@@ -107,6 +107,11 @@
         saffron = import ./flake/hosts/saffron.nix {
           inherit inputs;
         };
+
+        saffron-ci = import ./flake/hosts/saffron.nix {
+          inherit inputs;
+          isCI = true;
+        };
       };
     };
   };
