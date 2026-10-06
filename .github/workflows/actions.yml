@@ -24,8 +24,28 @@ jobs:
 
       - uses: cachix/cachix-action@v17
         with:
-          name: ${{ vars.CACHIX_CACHE || 'nixos-config' }}
+          name: ${{ vars.CACHIX_CACHE || 'siokonbu966' }}
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN || '' }}
           skipPush: ${{ github.event_name == 'pull_request' }}
 
       - run: nix build --no-link --print-build-logs '.#nixosConfigurations.saffron.config.system.build.toplevel'
+
+  build-darwin:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - uses: cachix/cachix-action@v17
+        with:
+          name: ${{ vars.CACHIX_CACHE || 'siokonbu966' }}
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN || '' }}
+          skipPush: ${{ github.event_name == 'pull_request' }}
+
+      - run: nix build --no-link --print-build-logs '.#darwinConfigurations.freesia.config.system.build.toplevel'

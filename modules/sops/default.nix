@@ -15,6 +15,11 @@ in
         group = "root";
         mode = "0400";
       };
+      cachix_auth_token = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
   };
   environment.variables = {
