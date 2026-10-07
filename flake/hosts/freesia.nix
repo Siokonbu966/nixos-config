@@ -35,6 +35,7 @@ nix-darwin.lib.darwinSystem {
           omniwm = final.callPackage ../../pkgs/omniwm.nix { };
           ink = final.callPackage ../../pkgs/ink.nix { };
           effectcraft = final.callPackage ../../pkgs/effectcraft.nix { };
+          ghtkn = final.callPackage ../../pkgs/ghtkn.nix { };
         })
       ];
       home-manager = {

@@ -38,6 +38,11 @@ nix-darwin.lib.darwinSystem {
         users.${user_name} = import ../../home/zephyr.nix;
       };
       nixpkgs.config.allowUnfree = true;
+      nixpkgs.overlays = [
+        (final: prev: {
+          ghtkn = final.callPackage ../../pkgs/ghtkn.nix { };
+        })
+      ];
     }
   ];
 }

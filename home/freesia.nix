@@ -27,6 +27,7 @@
     ./programs/emacs
     ./programs/ink
     ./programs/effectcraft
+    ./programs/ghtkn
     ./programs/nb
     ./programs/late-sh
     # utils

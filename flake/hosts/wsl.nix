@@ -23,6 +23,7 @@ nixpkgs.lib.nixosSystem {
       nixpkgs.overlays = [
         (final: prev: {
           ink = final.callPackage ../../pkgs/ink.nix { };
+          ghtkn = final.callPackage ../../pkgs/ghtkn.nix { };
         })
       ];
     }
