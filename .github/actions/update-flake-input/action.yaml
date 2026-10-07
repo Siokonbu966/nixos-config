@@ -76,8 +76,11 @@ runs:
         skip_delay="$SKIP_DELAY"
 
         locked_json() {
-          nix flake metadata --json --no-write-lock-file \
-            | jq -c --arg n "$name" '.locks.nodes[$n].locked // {}'
+          local meta node_key
+          meta=$(nix flake metadata --json --no-write-lock-file)
+          node_key=$(jq -r --arg n "$name" '.locks.nodes.root.inputs[$n] // empty' <<<"$meta")
+          [ -n "$node_key" ] || node_key="$name"
+          jq -c --arg k "$node_key" '.locks.nodes[$k].locked // {}' <<<"$meta"
         }
 
         finish() {

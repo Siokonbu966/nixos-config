@@ -68,13 +68,14 @@ runs:
             echo "  - $name (excluded)"
             continue
           fi
-          if ! jq -e --arg n "$name" '.locks.nodes[$n] != null' <<<"$meta" >/dev/null; then
+          node_key=$(jq -r --arg n "$name" '.locks.nodes.root.inputs[$n] // empty' <<<"$meta")
+          if [ -z "$node_key" ] || ! jq -e --arg k "$node_key" '.locks.nodes[$k] != null' <<<"$meta" >/dev/null; then
             echo "  - $name (not in flake.lock, skipped)"
             continue
           fi
           if in_list "$name" "$SKIP_DELAY_INPUTS"; then skip=true; else skip=false; fi
-          entry=$(jq -c --arg n "$name" --argjson skip "$skip" '
-            .locks.nodes[$n] as $node
+          entry=$(jq -c --arg n "$name" --arg k "$node_key" --argjson skip "$skip" '
+            .locks.nodes[$k] as $node
             | {
                 name: $n,
                 current_version: (($node.locked.rev? // "unknown")[0:8]),
