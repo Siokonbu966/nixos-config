@@ -100,8 +100,8 @@ rustPlatform.buildRustPackage (finalAttrs: {
   pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs) pname version src;
     pnpm = pnpm;
-    fetcherVersion = 3;
-    hash = "sha256-IMcYMt/dyl7lyNS4wNem4dkVV3O6dEr01UrNUIMtpWE=";
+    fetcherVersion = 4;
+    hash = "sha256-2lGY34zfX0I1CXETvZLmJ7lKuIW5PpAWbKzESbH/s7w=";
   };
 
   sherpaOnnxArchive = fetchurl {
