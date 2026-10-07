@@ -1,7 +1,19 @@
 { inputs, pkgs, ... }:
+let
+  opencode =
+    inputs.opencode.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs
+      (old: {
+        nativeBuildInputs =
+          (old.nativeBuildInputs or [])
+          ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
+            pkgs.darwin.sigtool
+            pkgs.darwin.cctools
+          ];
+      });
+in
 {
   home.packages = [
-    inputs.opencode.packages.${pkgs.stdenv.hostPlatform.system}.default
+    opencode
   ];
 
   xdg.configFile."opencode/opencode.json".source =
