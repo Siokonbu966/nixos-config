@@ -21,6 +21,23 @@ in
       "$schema" = "https://opencode.ai/config.json";
       permission = {
         websearch = "allow";
+        external_directory = {
+          "*" = "allow";
+          "/etc/**" = "ask";
+          "/run/**" = "ask";
+        };
+        edit = {
+          "*" = "allow";
+          "/etc/**" = "deny";
+          "/nix/**" = "deny";
+          "/run/**" = "ask";
+        };
+        write = {
+          "*" = "allow";
+          "/etc/**" = "deny";
+          "/nix/**" = "deny";
+          "/run/**" = "deny";
+        };
       };
       plugin = [
         "file://${inputs.i-have-adhd}/.opencode/plugins/i-have-adhd.mjs"
