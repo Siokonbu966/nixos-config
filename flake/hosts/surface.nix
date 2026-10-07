@@ -16,6 +16,13 @@ nixpkgs.lib.nixosSystem {
     ../../modules/xremap
     nix-ld.nixosModules.nix-ld
     { programs.nix-ld.dev.enable = true; }
+    {
+      nixpkgs.overlays = [
+        (final: prev: {
+          ghtkn = final.callPackage ../../pkgs/ghtkn.nix { };
+        })
+      ];
+    }
 
     home-manager.nixosModules.home-manager {
       home-manager = {

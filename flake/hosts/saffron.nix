@@ -39,6 +39,7 @@ nixpkgs.lib.nixosSystem {
           };
           ink = final.callPackage ../../pkgs/ink.nix { };
           effectcraft = final.callPackage ../../pkgs/effectcraft.nix { };
+          ghtkn = final.callPackage ../../pkgs/ghtkn.nix { };
         })
       ];
     }

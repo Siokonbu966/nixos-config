@@ -20,6 +20,11 @@ in
         group = "root";
         mode = "0400";
       };
+      siokon-nix-config-updater-secret = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
   };
   environment.variables = {

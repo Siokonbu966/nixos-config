@@ -26,6 +26,7 @@
     ./programs/glow
     ./programs/ink
     ./programs/effectcraft
+    ./programs/ghtkn
     ./programs/nb
     ./programs/wl-clipboard
     ./programs/late-sh
