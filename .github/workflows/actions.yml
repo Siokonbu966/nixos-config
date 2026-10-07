@@ -48,4 +48,4 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN || '' }}
           skipPush: ${{ github.event_name == 'pull_request' }}
 
-      - run: nix build --no-link --print-build-logs '.#darwinConfigurations.freesia.config.system.build.toplevel'
+      - run: nix build --fallback --no-link --print-build-logs '.#darwinConfigurations.freesia.config.system.build.toplevel'
