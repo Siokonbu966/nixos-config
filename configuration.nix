@@ -60,6 +60,21 @@
         "default.clock.max-quantum" = 2048;
       };
     };
+
+    wireplumber.extraConfig = {
+      "10-ryzen-pro-audio" = {
+        "monitor.alsa.rules" = [
+          {
+            matches = [ { "device.name" = "alsa_card.pci-0000_0c_00.6"; } ];
+            actions = {
+              update-props = {
+                "device.profile" = "pro-audio";
+              };
+            };
+          }
+        ];
+      };
+    };
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 

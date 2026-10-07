@@ -30,4 +30,15 @@
   ];
 
   boot.kernelModules = [ "v4l2loopback" ];
+
+  systemd.services.mic-input-source = {
+    description = "Default mic input source: case front mic";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "sound.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = "${pkgs.alsa-utils}/bin/amixer -c 2 cset numid=20 1";
+  };
 }
