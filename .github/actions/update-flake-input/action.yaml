@@ -204,7 +204,7 @@ runs:
         for p in "${parts[@]}"; do
           p="${p#${p%%[![:space:]]*}}"
           p="${p%${p##*[![:space:]]}}"
-          [ -n "$p" ] && labels+=(--label "$p")
+          [ -n "$p" ] && labels+=("$p")
         done
 
         git add flake.lock
@@ -215,13 +215,21 @@ runs:
         existing=$(gh pr list --head "$branch" --json number --jq '.[0].number // empty')
         if [ -z "$existing" ]; then
           echo "Creating a pull request for $branch"
-          gh pr create --title "$title" --body "$body" --base main --head "$branch" "${labels[@]}"
+          gh pr create --title "$title" --body "$body" --base main --head "$branch"
         else
           echo "Updating existing PR #$existing"
           gh pr edit "$existing" --title "$title" --body "$body"
         fi
 
         number=$(gh pr list --head "$branch" --json number --jq '.[0].number')
+
+        for label in "${labels[@]}"; do
+          gh label create "$label" --force --color ededed >/dev/null 2>&1 || true
+          if ! gh pr edit "$number" --add-label "$label" >/dev/null 2>&1; then
+            echo "::warning::Could not add label '$label'. Create it manually or grant the app Issues: read and write."
+          fi
+        done
+
         url=$(gh pr view "$number" --json url --jq '.url')
 
         if [ "$AUTO_MERGE" = "true" ]; then
