@@ -106,13 +106,24 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p $out/lib/orca/native
     cp -a native/windows-registry $out/lib/orca/native/
 
+    # The app is unpackaged, so @electron-toolkit/utils' `is.dev` is true and
+    # Orca redirects its userData to `orca-dev`. The CLI, however, looks in
+    # `orca` by default, so `orca open` would launch a GUI whose runtime the CLI
+    # never finds and time out. Pin both wrappers to the same production-style
+    # userData path so the CLI and the Electron app share runtime metadata.
     makeWrapper ${electron}/bin/electron $out/bin/orca-ide \
       --chdir "$out/lib/orca" \
       --add-flags "$out/lib/orca" \
-      --set NODE_ENV production
+      --set NODE_ENV production \
+      --run 'export ORCA_DEV_USER_DATA_PATH="''${XDG_CONFIG_HOME:-$HOME/.config}/orca"' \
+      --run 'export ORCA_USER_DATA_PATH="''${XDG_CONFIG_HOME:-$HOME/.config}/orca"'
 
     makeWrapper ${nodejs}/bin/node $out/bin/orca \
-      --add-flags "$out/lib/orca/out/cli/index.js"
+      --add-flags "$out/lib/orca/out/cli/index.js" \
+      --set ORCA_APP_EXECUTABLE ${electron}/bin/electron \
+      --set ORCA_APP_EXECUTABLE_NEEDS_APP_ROOT 1 \
+      --run 'export ORCA_USER_DATA_PATH="''${XDG_CONFIG_HOME:-$HOME/.config}/orca"' \
+      --run 'export ORCA_DEV_USER_DATA_PATH="''${XDG_CONFIG_HOME:-$HOME/.config}/orca"'
 
     install -Dm644 ${desktopItem}/share/applications/orca.desktop \
       $out/share/applications/orca.desktop
