@@ -1,6 +1,8 @@
 {config, lib, pkgs, ...}:
 let
   ageKeyFile = "/var/lib/sops-nix/keys.txt";  # 鍵ファイルの場所(文字列)
+  owner_name = if pkgs.stdenv.isDarwin then "crocus" else "root";
+  group_name = if pkgs.stdenv.isDarwin then "staff" else "root";
 in
 {
   sops = {
@@ -11,13 +13,13 @@ in
 
     secrets = {
       samba_credentials = { 
-        owner = "root";
-        group = "root";
+        owner = owner_name;
+        group = group_name;
         mode = "0400";
       };
       cachix_auth_token = {
-        owner = "root";
-        group = "root";
+        owner = owner_name;
+        group = group_name;
         mode = "0400";
       };
     };
