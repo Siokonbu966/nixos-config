@@ -1,0 +1,245 @@
+name: 'Update flake input'
+description: 'Update a single flake input with a release age check and create a PR'
+
+inputs:
+  input-name:
+    description: 'Flake input name'
+    required: true
+  current-version:
+    description: 'Current revision (short)'
+    required: true
+  owner:
+    description: 'GitHub owner of the input'
+    required: false
+    default: ''
+  repo:
+    description: 'GitHub repository of the input'
+    required: false
+    default: ''
+  ref:
+    description: 'Git ref (branch/tag) of the input'
+    required: false
+    default: ''
+  skip-delay:
+    description: 'Skip the minimum release age check'
+    required: false
+    default: 'false'
+  minimum-release-age-days:
+    description: 'Minimum release age in days'
+    required: false
+    default: '3'
+  auto-merge:
+    description: 'Enable auto-merge for the PR'
+    required: false
+    default: 'true'
+  pr-labels:
+    description: 'Comma-separated labels to add'
+    required: false
+    default: 'dependencies,automated'
+  github-token:
+    description: 'GitHub token for API calls, push, and PR'
+    required: true
+
+outputs:
+  updated:
+    description: 'Whether the input was updated'
+    value: ${{ steps.update.outputs.updated }}
+  new-version:
+    description: 'New revision (short)'
+    value: ${{ steps.update.outputs.new_version }}
+  pr-url:
+    description: 'URL of the created/updated PR'
+    value: ${{ steps.create-pr.outputs.pr_url }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Update flake input
+      id: update
+      shell: bash
+      env:
+        INPUT_NAME: ${{ inputs.input-name }}
+        INPUT_OWNER: ${{ inputs.owner }}
+        INPUT_REPO: ${{ inputs.repo }}
+        INPUT_REF: ${{ inputs.ref }}
+        SKIP_DELAY: ${{ inputs.skip-delay }}
+        MIN_AGE_DAYS: ${{ inputs.minimum-release-age-days }}
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: |
+        set -euo pipefail
+
+        name="$INPUT_NAME"
+        owner="$INPUT_OWNER"
+        repo="$INPUT_REPO"
+        git_ref="$INPUT_REF"
+        min_age_days="$MIN_AGE_DAYS"
+        skip_delay="$SKIP_DELAY"
+
+        locked_json() {
+          local meta node_key
+          meta=$(nix flake metadata --json --no-write-lock-file)
+          node_key=$(jq -r --arg n "$name" '.locks.nodes.root.inputs[$n] // empty' <<<"$meta")
+          [ -n "$node_key" ] || node_key="$name"
+          jq -c --arg k "$node_key" '.locks.nodes[$k].locked // {}' <<<"$meta"
+        }
+
+        finish() {
+          echo "$1"
+          echo "updated=false" >> "$GITHUB_OUTPUT"
+          exit 0
+        }
+
+        before=$(locked_json)
+        before_rev=$(jq -r '.rev // "unknown"' <<<"$before")
+
+        echo "=== Updating input: $name ==="
+        echo "Current revision: $before_rev"
+
+        target_status=skipped
+        target_sha=""
+        if [ "$skip_delay" != "true" ] && [ -n "$owner" ] && [ "$owner" != "unknown" ] \
+           && [ -n "$repo" ] && [ "$repo" != "unknown" ]; then
+          cutoff=$(date -u -d "-${min_age_days} days" +%Y-%m-%dT%H:%M:%SZ)
+          query="until=${cutoff}&per_page=1"
+          [ -n "$git_ref" ] && query="${query}&sha=${git_ref}"
+          echo "Minimum release age: ${min_age_days}d (before ${cutoff})"
+          if commits=$(gh api "repos/${owner}/${repo}/commits?${query}" 2>/dev/null); then
+            if [ "$(jq 'length' <<<"$commits")" -eq 0 ]; then
+              finish "No commit older than ${min_age_days}d found. Skipping update."
+            fi
+            target_status=found
+            target_sha=$(jq -r '.[0].sha' <<<"$commits")
+            target_date=$(jq -r '.[0].commit.committer.date' <<<"$commits")
+            echo "Target revision: ${target_sha:0:8} from $target_date"
+            if [ "${target_sha:0:8}" = "${before_rev:0:8}" ]; then
+              finish "Target revision matches the current one. No update needed."
+            fi
+            before_date=$(gh api "repos/${owner}/${repo}/commits/${before_rev}" \
+              --jq '.commit.committer.date' 2>/dev/null || true)
+            if [ -n "$before_date" ]; then
+              t=$(date -u -d "$target_date" +%s)
+              b=$(date -u -d "$before_date" +%s)
+              if [ "$t" -lt "$b" ]; then
+                finish "Target revision predates the current one. Skipping to avoid a downgrade."
+              fi
+            fi
+          else
+            echo "::warning::Could not query commits; falling back to the latest revision"
+          fi
+        else
+          echo "Release age check: skipped"
+        fi
+
+        if [ "$target_status" = "found" ]; then
+          if ! nix flake update "$name" --override-input "$name" "github:${owner}/${repo}/${target_sha}"; then
+            echo "::error::Failed to update $name"
+            exit 1
+          fi
+        else
+          if ! nix flake update "$name"; then
+            echo "::error::Failed to update $name"
+            exit 1
+          fi
+        fi
+
+        if git diff --quiet -- flake.lock; then
+          finish "No changes detected for $name"
+        fi
+
+        after=$(locked_json)
+        after_rev=$(jq -r '.rev // "unknown"' <<<"$after")
+        echo "New revision: $after_rev"
+
+        if [ "$target_status" != "found" ] && [ "$skip_delay" != "true" ]; then
+          lm=$(jq -r '.lastModified // 0' <<<"$after")
+          if [ "$lm" = "0" ] || [ -z "$lm" ]; then
+            echo "::warning::Could not determine lastModified; keeping the update"
+          elif [ "$lm" -gt "$(( $(date +%s) - min_age_days * 86400 ))" ]; then
+            git checkout -- flake.lock
+            finish "Release is younger than ${min_age_days}d. Skipping update."
+          fi
+        fi
+
+        echo "updated=true" >> "$GITHUB_OUTPUT"
+        echo "new_version=${after_rev:0:8}" >> "$GITHUB_OUTPUT"
+        echo "Update successful!"
+
+    - name: Create pull request
+      id: create-pr
+      if: steps.update.outputs.updated == 'true'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        INPUT_NAME: ${{ inputs.input-name }}
+        CURRENT_VERSION: ${{ inputs.current-version }}
+        NEW_VERSION: ${{ steps.update.outputs.new_version }}
+        SKIP_DELAY: ${{ inputs.skip-delay }}
+        AUTO_MERGE: ${{ inputs.auto-merge }}
+        PR_LABELS: ${{ inputs.pr-labels }}
+        MIN_AGE_DAYS: ${{ inputs.minimum-release-age-days }}
+      run: |
+        set -euo pipefail
+
+        branch="update-flake-${INPUT_NAME}"
+        title="chore(nix): update flake input ${INPUT_NAME} to ${NEW_VERSION}"
+
+        note=":hourglass: This update passed the ${MIN_AGE_DAYS}-day minimum release age check."
+        if [ "$SKIP_DELAY" = "true" ]; then
+          note=":zap: This input skips the release age check."
+        fi
+
+        body=$(cat <<BODY
+        Automated update of flake input \`${INPUT_NAME}\`.
+
+        ## Changes
+        - **${INPUT_NAME}**: \`${CURRENT_VERSION}\` -> \`${NEW_VERSION}\`
+
+        ## Notes
+        ${note}
+
+        ---
+        This PR was automatically created by the flake update workflow.
+        BODY
+        )
+
+        labels=()
+        IFS=',' read -ra parts <<< "$PR_LABELS"
+        for p in "${parts[@]}"; do
+          p="${p#${p%%[![:space:]]*}}"
+          p="${p%${p##*[![:space:]]}}"
+          [ -n "$p" ] && labels+=("$p")
+        done
+
+        git add flake.lock
+        git checkout -b "$branch"
+        git commit -m "$title"
+        git push --force origin "$branch"
+
+        existing=$(gh pr list --head "$branch" --json number --jq '.[0].number // empty')
+        if [ -z "$existing" ]; then
+          echo "Creating a pull request for $branch"
+          gh pr create --title "$title" --body "$body" --base main --head "$branch"
+        else
+          echo "Updating existing PR #$existing"
+          gh pr edit "$existing" --title "$title" --body "$body"
+        fi
+
+        number=$(gh pr list --head "$branch" --json number --jq '.[0].number')
+
+        for label in "${labels[@]}"; do
+          gh label create "$label" --force --color ededed >/dev/null 2>&1 || true
+          if ! gh pr edit "$number" --add-label "$label" >/dev/null 2>&1; then
+            echo "::warning::Could not add label '$label'. Create it manually or grant the app Issues: read and write."
+          fi
+        done
+
+        url=$(gh pr view "$number" --json url --jq '.url')
+
+        if [ "$AUTO_MERGE" = "true" ]; then
+          if ! gh pr merge "$number" --auto --squash; then
+            echo "::warning::Could not enable auto-merge; branch protection rules may be missing"
+          fi
+        fi
+
+        echo "PR URL: $url"
+        echo "pr_url=$url" >> "$GITHUB_OUTPUT"
