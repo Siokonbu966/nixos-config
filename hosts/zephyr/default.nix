@@ -4,6 +4,7 @@
     ./brew.nix
     ../../modules/netrc.nix
     ../../modules/cachix
+    ../../modules/sops
   ];
 
   environment.systemPackages = with pkgs; [

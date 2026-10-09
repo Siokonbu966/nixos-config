@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   imports = [
-    ./programs/nixvim
     # common
     ./programs/fastfetch
     ./programs/tree
@@ -12,8 +11,10 @@
     ./programs/w3m
     ./programs/podman
     ./programs/fontconfig
+
     # cli
     ./programs/git
+    ./programs/nixvim
     ./programs/opencode
     ./programs/direnv
     ./programs/tmux
