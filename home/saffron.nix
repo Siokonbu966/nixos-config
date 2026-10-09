@@ -30,6 +30,7 @@
     ./programs/nb
     ./programs/wl-clipboard
     ./programs/late-sh
+    ./programs/souieba
 
     # gui
     ./programs/fuzzel
