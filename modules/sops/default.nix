@@ -1,7 +1,7 @@
 {config, lib, pkgs, ...}:
 let
   ageKeyFile = "/var/lib/sops-nix/keys.txt";  # 鍵ファイルの場所(文字列)
-  owner_name = if pkgs.stdenv.isDarwin then "crocus" else "root";
+  owner_name = if pkgs.stdenv.isDarwin then config.system.primaryUser else "root";
   group_name = if pkgs.stdenv.isDarwin then "staff" else "root";
 in
 {
@@ -36,7 +36,7 @@ in
         machine api.github.com
         password ${config.sops.placeholder.github_token}
       '';
-      owner = "crocus";
+      owner = owner_name;
       mode = "0400";
     };
   };
