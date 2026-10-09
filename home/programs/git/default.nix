@@ -1,11 +1,4 @@
-{ device, pkgs, ...}: 
-let
-  device_config = if device == "zephyr" then {
-
-  } else {
-    signingkey = "~/.ssh/github.pub";
-  };
-in
+{ device, lib, pkgs, ... }:
 {
   programs.git = {
     enable = true;
@@ -13,36 +6,25 @@ in
       user = {
         name = "Siokonbu966";
         email = "167207736+Siokonbu966@users.noreply.github.com";
-      } // device_config;
-      init = {
-        defaultBranch = "main";
       };
-      ghq = {
-        root = "~/src";
-      };
-      gpg = {
-        format = "ssh";
-      };
-      pull = {
-        rebase = "true";
-      };
+      init.defaultBranch = "main";
+      ghq.root = "~/src";
+      pull.rebase = "true";
       core.editor = "vi";
-      wt = {
-        basedir = ".git/wt";
-      };
+      wt.basedir = ".git/wt";
     };
+    signing = {
+      format = "ssh";
+    } // lib.optionalAttrs (device != "zephyr") {
+      key = "~/.ssh/github.pub";
+    };
+    includes = [
+      {
+        condition = "gitdir:~/src/crocus";
+        path = "~/.gitconfig-cro";
+      }
+    ];
   };
 
   home.packages = [ pkgs.git-wt ];
-
-  home.file = {
-    ".gitconfig".text = ''
-      [includeIf "gitdir:~/src/crocus"]
-        path = ~/.gitconfig-cro
-      [user]
-        name = "Siokonbu966"
-        email = "167207736+Siokonbu966@users.noreply.github.com"
-    '';
-  };
 }
-
