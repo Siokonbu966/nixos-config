@@ -71,6 +71,10 @@
       url = "github:nanaism/yomiyasu";
       flake = false;
     };
+    security-audit = {
+      url = "github:cloudflare/security-audit-skill";
+      flake = false;
+    };
     xwayland-satellite = {
       url = "github:Supreeeme/xwayland-satellite/v0.8.3";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -45,6 +45,7 @@ in
       ];
       skills.paths = [
         "${inputs.yomiyasu}/skills"
+        "${inputs.security-audit}/skills"
       ];
       mcp.context7 = {
         type = "remote";
