@@ -37,6 +37,7 @@ nix-darwin.lib.darwinSystem {
           omniwm = final.callPackage ../../pkgs/omniwm.nix { };
           ink = final.callPackage ../../pkgs/ink.nix { };
           effectcraft = final.callPackage ../../pkgs/effectcraft.nix { };
+          souieba = final.callPackage ../../pkgs/souieba.nix { };
           protobuf = prev.protobuf.overrideAttrs (_: {
             doCheck = false;
           });

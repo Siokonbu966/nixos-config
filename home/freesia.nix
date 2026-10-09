@@ -29,6 +29,7 @@
     ./programs/effectcraft
     ./programs/nb
     ./programs/late-sh
+    ./programs/souieba
     # utils
     ./programs/nh
     ./programs/dotfiles
