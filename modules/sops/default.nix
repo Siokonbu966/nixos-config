@@ -22,8 +22,25 @@ in
         group = group_name;
         mode = "0400";
       };
+      github_token = {
+        owner = owner_name;
+        group = group_name;
+        mode = "0400";
+      };
+    };
+
+    templates."nix-netrc" = {
+      content = ''
+        machine api.github.com
+        password ${config.sops.placeholder.github_token}
+      '';
+      owner = "crocus";
+      mode = "0400";
     };
   };
+
+  nix.settings.netrc-file = config.sops.templates."nix-netrc".path;
+
   environment.variables = {
     SOPS_AGE_KEY_FILE = ageKeyFile;  # 鍵ファイルの場所を環境変数に
   };

@@ -2,7 +2,6 @@
 {
   imports = [
     ./brew.nix
-    ../../modules/netrc.nix
     ../../modules/cachix
   ];
 
