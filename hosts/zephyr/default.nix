@@ -3,6 +3,7 @@
   imports = [
     ./brew.nix
     ../../modules/cachix
+    ../../modules/sops
   ];
 
   environment.systemPackages = with pkgs; [

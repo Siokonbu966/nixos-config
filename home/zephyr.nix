@@ -1,17 +1,18 @@
 { user_name, pkgs, ... }:
 {
   imports = [
-    ./programs/nixvim
     # common
+    ./programs/nixvim
     ./programs/fastfetch
     ./programs/tree
     ./programs/btop
     ./programs/ghq
     ./programs/fzf
     ./programs/ripgrep
-    ./programs/w3m
     ./programs/docker
-    ./programs/colima
+    # ./programs/colima
+    ./programs/podman
+
     # cli
     ./programs/git
     ./programs/opencode
@@ -26,6 +27,7 @@
     # utils
     ./programs/nh
     ./programs/dotfiles
+
     # zephyr-specific
     ./programs/cloudflared
   ];

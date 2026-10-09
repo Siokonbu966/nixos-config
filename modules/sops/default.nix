@@ -5,6 +5,8 @@ let
   group_name = if pkgs.stdenv.isDarwin then "staff" else "root";
 in
 {
+  environment.systemPackages = [ pkgs.sops ];
+
   sops = {
     age.keyFile = ageKeyFile;  # 鍵ファイルの場所を指定
     age.generateKey = true;  # もし鍵ファイルが無ければ自動生成する

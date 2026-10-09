@@ -1,12 +1,13 @@
 { user_name, self, inputs, ... }:
 let
-  inherit (inputs) nix-darwin nix-homebrew homebrew-core homebrew-cask homebrew-bundle home-manager nixvim my-dotfiles;
+  inherit (inputs) nix-darwin nix-homebrew homebrew-core homebrew-cask homebrew-bundle home-manager nixvim my-dotfiles sops-nix;
 in
 nix-darwin.lib.darwinSystem {
   specialArgs = { inherit self inputs user_name; };
   modules = [
     ../../hosts/zephyr
     home-manager.darwinModules.home-manager
+    sops-nix.darwinModules.sops
 
     nix-homebrew.darwinModules.nix-homebrew
     {
