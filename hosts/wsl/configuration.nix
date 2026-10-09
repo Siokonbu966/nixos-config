@@ -3,7 +3,6 @@
 {
 # Define a user account. Don't forget to set a password with 'passwd'.
   imports = [
-    ../../modules/netrc.nix
   ];
 
   users.users.crocus = {
