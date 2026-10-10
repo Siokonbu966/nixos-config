@@ -971,11 +971,11 @@
     "yomiyasu": {
       "flake": false,
       "locked": {
-        "lastModified": 1791190478,
-        "narHash": "sha256-iOp44DZs2K4UBvWGJU3Y/ZVVwr3TMYTGoW2oNM7p4j0=",
+        "lastModified": 1791362592,
+        "narHash": "sha256-lyHlQay4cm6c4/ET4s4cdIjZrbUYchH6hgfamwrPabA=",
         "owner": "nanaism",
         "repo": "yomiyasu",
-        "rev": "986da6ffc89316a90e509d007c1efe1fc59057e6",
+        "rev": "bc55e9210865d53044cc4340fa391530e230cd00",
         "type": "github"
       },
       "original": {
