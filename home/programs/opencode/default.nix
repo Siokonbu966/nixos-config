@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 let
   opencode =
     inputs.opencode.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs
@@ -16,9 +16,15 @@ in
     opencode
   ];
 
+  xdg.configFile."opencode/rules/commit-convention.md".source =
+    ./rules/commit-convention.md;
+
   xdg.configFile."opencode/opencode.json".source =
     (pkgs.formats.json { }).generate "opencode.json" {
       "$schema" = "https://opencode.ai/config.json";
+      instructions = [
+        "${config.xdg.configHome}/opencode/rules/commit-convention.md"
+      ];
       permission = {
         websearch = "allow";
         external_directory = {
