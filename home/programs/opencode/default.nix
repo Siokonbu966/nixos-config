@@ -23,14 +23,11 @@ in
         websearch = "allow";
         external_directory = {
           "*" = "allow";
-          "/etc/**" = "ask";
-          "/run/**" = "ask";
         };
         edit = {
           "*" = "allow";
           "/etc/**" = "deny";
           "/nix/**" = "deny";
-          "/run/**" = "ask";
         };
         write = {
           "*" = "allow";
