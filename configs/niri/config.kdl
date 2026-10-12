@@ -114,7 +114,7 @@ cursor {
 output "DP-3" {
   // main display
   mode "2560x1440@74.971"
-  variable-refresh-rate
+  // variable-refresh-rate  // チカチカ切り分けのため無効化
   focus-at-startup
 
   layout {
