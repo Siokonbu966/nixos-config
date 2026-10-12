@@ -9,7 +9,8 @@
     ./programs/fzf
     ./programs/ripgrep
     ./programs/w3m
-    ./programs/podman
+    ./programs/docker
+    ./programs/colima
     ./programs/fontconfig
 
     # cli

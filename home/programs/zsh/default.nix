@@ -23,7 +23,6 @@
       alias nixc='cd ~/nixos-config/'
       alias initpart='nix flake init -t github:hercules-ci/flake-parts'
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-      export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 
       inknb() {
         if [[ -z "$1" ]]; then

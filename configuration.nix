@@ -11,7 +11,6 @@
       ./modules/fontconfig.nix
       ./modules/xremap
       ./modules/cachix
-      ./modules/container.nix
     ];
 
 
@@ -77,6 +76,7 @@
       "inputs"
       "video"
       "i2c"
+      "kvm"
     ];
     shell = pkgs.zsh;
     packages = with pkgs; [
@@ -93,6 +93,12 @@
   programs.dconf.enable = true;
 
   services.udisks2.enable = true;
+
+  # colima runs a QEMU/KVM VM on Linux; grant the user access to /dev/kvm.
+  users.groups.kvm = { };
+  services.udev.extraRules = ''
+    KERNEL=="kvm", GROUP="kvm", MODE="0660"
+  '';
 
   environment.sessionVariables = with pkgs; {
     GTK_IM_MODULES = "fcitx";
