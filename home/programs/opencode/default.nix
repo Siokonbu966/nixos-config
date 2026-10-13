@@ -19,6 +19,8 @@ in
   xdg.configFile."opencode/rules/commit-convention.md".source =
     ./rules/commit-convention.md;
 
+  xdg.configFile."opencode/command/log.md".source = ./command/log.md;
+
   xdg.configFile."opencode/opencode.json".source =
     (pkgs.formats.json { }).generate "opencode.json" {
       "$schema" = "https://opencode.ai/config.json";
@@ -45,10 +47,12 @@ in
       plugin = [
         "file://${inputs.i-have-adhd}/.opencode/plugins/i-have-adhd.mjs"
         "file://${./worktree-guard.ts}"
+        "file://${./plugins/rag-notes.ts}"
       ];
       skills.paths = [
         "${inputs.yomiyasu}/skills"
         "${inputs.security-audit}/skills"
+        "${./skills}"
       ];
       mcp.context7 = {
         type = "remote";
