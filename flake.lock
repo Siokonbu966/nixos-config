@@ -67,6 +67,38 @@
         "type": "github"
       }
     },
+    "css-animations": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788723762,
+        "narHash": "sha256-vezrY5IsKwFZpXI6UEXzmPVLGfenharFsEqszuXvtao=",
+        "owner": "agents-inc",
+        "repo": "skills",
+        "rev": "3a51ef571e996b18294bf776d53dbdad26de0617",
+        "type": "github"
+      },
+      "original": {
+        "owner": "agents-inc",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
+    "css-best-practices": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781091903,
+        "narHash": "sha256-dC8dT+2AnpOHaqpY8oclJtyNPGohicq8WmvGuvBjZHM=",
+        "owner": "SantosAlarcon",
+        "repo": "css-best-practices",
+        "rev": "8550dd820966aa1a4e058b99f99d30a10b7456b7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SantosAlarcon",
+        "repo": "css-best-practices",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -695,6 +727,8 @@
     "root": {
       "inputs": {
         "bedrock-on-linux": "bedrock-on-linux",
+        "css-animations": "css-animations",
+        "css-best-practices": "css-best-practices",
         "flake-parts": "flake-parts",
         "herdr": "herdr",
         "home-manager": "home-manager",
