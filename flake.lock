@@ -290,11 +290,11 @@
     "i-have-adhd": {
       "flake": false,
       "locked": {
-        "lastModified": 1791329026,
-        "narHash": "sha256-5EYLKtrg0RQN0CHR51Sc2qSkgYklu6lqzuH87Dp3gv4=",
+        "lastModified": 1791387442,
+        "narHash": "sha256-GTqrnZxQvzo/ogAuUrffkOaMK1BYm/4rAZsnfmDt7DU=",
         "owner": "ayghri",
         "repo": "i-have-adhd",
-        "rev": "723af7d9afaf43eb871dbcce6129e2bf80de90d5",
+        "rev": "29139ff31a87ac74c04f4ef9cccdee3234e2512c",
         "type": "github"
       },
       "original": {
