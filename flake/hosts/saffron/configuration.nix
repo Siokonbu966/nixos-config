@@ -8,6 +8,7 @@
     ../../../modules/game
     ../../../modules/mount
     ../../../modules/sops
+    ../../../modules/vr
   ]
   ++ lib.optionals (!isCI) [
     ../../../modules/secureboot.nix
