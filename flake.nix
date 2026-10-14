@@ -79,6 +79,14 @@
       url = "github:cloudflare/security-audit-skill";
       flake = false;
     };
+    css-best-practices = {
+      url = "github:SantosAlarcon/css-best-practices";
+      flake = false;
+    };
+    css-animations = {
+      url = "github:agents-inc/skills";
+      flake = false;
+    };
     xwayland-satellite = {
       url = "github:Supreeeme/xwayland-satellite/v0.8.3";
       inputs.nixpkgs.follows = "nixpkgs";
