@@ -18,6 +18,7 @@
     
     initContent = ''
       source ~/.p10k.zsh
+      source ~/.config/zsh/functions.zsh
       eval "$(git wt --init zsh)"
       alias q='cd "$(ghq root)/$(ghq list | fzf)"'
       alias nixc='cd ~/nixos-config/'
@@ -38,4 +39,8 @@
       }
     '';
   };
+
+  xdg.configFile."zsh/functions.zsh".source = ../../../configs/zsh/functions.zsh;
+
+  home.packages = with pkgs; [ jq eza ];
 }
