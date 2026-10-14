@@ -53,6 +53,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    repro2 = {
+      url = "github:bot-uichan/repro2/feat/tailscale-idp";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     # check update
     herdr = {
       url = "github:herdrdev/herdr/v0.9.1";
