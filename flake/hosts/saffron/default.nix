@@ -10,7 +10,7 @@ nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = {
     device = "saffron";
-    inherit isCI;
+    inherit isCI inputs;
   };
   modules = [
     ./configuration.nix
