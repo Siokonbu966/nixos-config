@@ -72,6 +72,7 @@
     ./programs/usbutils
     ./programs/easyeffect
     ./programs/pandoc
+    ./programs/wayvr
 
     # wm
     ./programs/waybar
