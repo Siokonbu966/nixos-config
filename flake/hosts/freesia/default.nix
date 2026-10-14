@@ -9,9 +9,9 @@ in
 nix-darwin.lib.darwinSystem {
   specialArgs = { inherit self inputs; };
   modules = [
-    ../../hosts/freesia
+    ./configuration.nix
     home-manager.darwinModules.home-manager
-    ../../modules/sops
+    ../../../modules/sops
     sops-nix.darwinModules.sops
 
     nix-homebrew.darwinModules.nix-homebrew
@@ -34,10 +34,10 @@ nix-darwin.lib.darwinSystem {
     {
       nixpkgs.overlays = [
         (final: prev: {
-          omniwm = final.callPackage ../../pkgs/omniwm.nix { };
-          ink = final.callPackage ../../pkgs/ink.nix { };
-          effectcraft = final.callPackage ../../pkgs/effectcraft.nix { };
-          souieba = final.callPackage ../../pkgs/souieba.nix { };
+          omniwm = final.callPackage ../../../pkgs/omniwm.nix { };
+          ink = final.callPackage ../../../pkgs/ink.nix { };
+          effectcraft = final.callPackage ../../../pkgs/effectcraft.nix { };
+          souieba = final.callPackage ../../../pkgs/souieba.nix { };
           protobuf = prev.protobuf.overrideAttrs (_: {
             doCheck = false;
           });
@@ -55,7 +55,7 @@ nix-darwin.lib.darwinSystem {
           nixvim-module = nixvim.homeModules.nixvim;
           device = "freesia";
         };
-        users.crocus = import ../../home/freesia.nix;
+        users.crocus = import ../../../home/freesia.nix;
       };
       nixpkgs.config.allowUnfree = true;
     }

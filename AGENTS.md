@@ -6,17 +6,18 @@ Nix Flake monorepo: NixOS + nix-darwin + Home Manager. No single "source" file �
 
 | Host | OS | Entrypoints |
 |------|----|-------------|
-| `saffron` | NixOS (primary desktop, x86_64) | `flake/hosts/saffron.nix`, `hosts/saffron/`, `home/saffron.nix` |
+| `saffron` | NixOS (primary desktop, x86_64) | `flake/hosts/saffron/`, `home/saffron.nix` |
 | `saffron-ci` | NixOS (CI variant, `isCI = true`) | same as saffron, minus nvidia/secureboot/vmware |
-| `surface` | NixOS (x86_64) | `flake/hosts/surface.nix`, `hosts/surface/`, `home/surface.nix` |
-| `wsl` | NixOS (WSL) | `flake/hosts/wsl.nix`, `hosts/wsl/`, `home/wsl.nix` |
-| `freesia` | nix-darwin (aarch64) | `flake/hosts/freesia.nix`, `hosts/freesia/`, `home/freesia.nix` |
-| `zephyr` | nix-darwin (aarch64) | `flake/hosts/zephyr.nix`, `hosts/zephyr/`, `home/zephyr.nix` |
+| `surface` | NixOS (x86_64) | `flake/hosts/surface/`, `home/surface.nix` |
+| `wsl` | NixOS (WSL) | `flake/hosts/wsl/`, `home/wsl.nix` |
+| `freesia` | nix-darwin (aarch64) | `flake/hosts/freesia/`, `home/freesia.nix` |
+| `zephyr` | nix-darwin (aarch64) | `flake/hosts/zephyr/`, `home/zephyr.nix` |
 
+- Per-host config lives in `flake/hosts/<host>/`: `default.nix` (flake entrypoint: `nixosSystem`/`darwinSystem`, inputs, overlays), `configuration.nix` (host module), plus `hardware-configuration.nix` / `brew.nix` where relevant.
 - `README.md` is out of date: it lists `desktop` and `home/default.nix`, which do not exist. Trust the flake and filesystem.
-- Root `configuration.nix` is the shared NixOS config, imported by `hosts/saffron/configuration.nix` and `hosts/surface/configuration.nix`.
+- Root `configuration.nix` is the shared NixOS config, imported by `flake/hosts/saffron/configuration.nix` and `flake/hosts/surface/configuration.nix`.
 - `modules/` = shared NixOS modules (`sops/`, `wm/` for niri/sway/noctalia, `xremap/`, `network/`, etc.), selectively imported per-entrypoint.
-- `pkgs/` = custom packages, exposed via `nixpkgs.overlays` in each `flake/hosts/*.nix` (overlay set differs per host — e.g. `buzz-*` only on saffron).
+- `pkgs/` = custom packages, exposed via `nixpkgs.overlays` in each `flake/hosts/<host>/default.nix` (overlay set differs per host — e.g. `buzz-*` only on saffron).
 - Nixvim is a flake input evaluated through `nixvim-module = nixvim.homeModules.nixvim` (extraSpecialArgs). It has its own `flake.nix` but is NOT built standalone; edit `home/programs/nixvim/`.
 
 ## Developer Workflows
