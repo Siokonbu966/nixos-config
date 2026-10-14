@@ -53,6 +53,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    repro2 = {
+      url = "github:bot-uichan/repro2/feat/tailscale-idp";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     # check update
     herdr = {
       url = "github:herdrdev/herdr/v0.9.1";
@@ -89,30 +93,30 @@
   flake-parts.lib.mkFlake { inherit inputs; } {
     flake = {
       darwinConfigurations = {
-        "freesia" = import ./flake/hosts/freesia.nix {
+        "freesia" = import ./flake/hosts/freesia {
           inherit self inputs;
         };
 
-        "zephyr" = import ./flake/hosts/zephyr.nix {
+        "zephyr" = import ./flake/hosts/zephyr {
           user_name = "zephyr";
           inherit self inputs;
         };
       };
 
       nixosConfigurations = {
-        wsl = import ./flake/hosts/wsl.nix {
+        wsl = import ./flake/hosts/wsl {
           inherit inputs;
         };
 
-        surface = import ./flake/hosts/surface.nix {
+        surface = import ./flake/hosts/surface {
           inherit inputs;
         };
 
-        saffron = import ./flake/hosts/saffron.nix {
+        saffron = import ./flake/hosts/saffron {
           inherit inputs;
         };
 
-        saffron-ci = import ./flake/hosts/saffron.nix {
+        saffron-ci = import ./flake/hosts/saffron {
           inherit inputs;
           isCI = true;
         };

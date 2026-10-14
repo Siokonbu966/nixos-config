@@ -2,8 +2,8 @@
 {
   imports = [
     ./brew.nix
-    ../../modules/font.nix
-    ../../modules/cachix
+    ../../../modules/font.nix
+    ../../../modules/cachix
   ];
 
   environment.systemPackages = with pkgs; [
