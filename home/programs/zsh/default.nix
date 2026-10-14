@@ -20,7 +20,6 @@
       source ~/.p10k.zsh
       source ~/.config/zsh/functions.zsh
       eval "$(git wt --init zsh)"
-      alias q='cd "$(ghq root)/$(ghq list | fzf)"'
       alias nixc='cd ~/nixos-config/'
       alias initpart='nix flake init -t github:hercules-ci/flake-parts'
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
