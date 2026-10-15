@@ -1,11 +1,17 @@
 { pkgs, lib, isCI ? false, ... }:
 {
   imports = [
-    ../../configuration.nix
+    ../../../configuration.nix
     ./hardware-configuration.nix
+    ../../../modules/xremap
+    ../../../modules/wm
+    ../../../modules/game
+    ../../../modules/mount
+    ../../../modules/sops
+    ../../../modules/vr
   ]
   ++ lib.optionals (!isCI) [
-    ../../modules/secureboot.nix
+    ../../../modules/secureboot.nix
   ];
 
   networking.hostName = "saffron";

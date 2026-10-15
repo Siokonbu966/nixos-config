@@ -5,7 +5,7 @@ in
 nix-darwin.lib.darwinSystem {
   specialArgs = { inherit self inputs user_name; };
   modules = [
-    ../../hosts/zephyr
+    ./configuration.nix
     home-manager.darwinModules.home-manager
     sops-nix.darwinModules.sops
 
@@ -36,7 +36,7 @@ nix-darwin.lib.darwinSystem {
           device = "zephyr";
           nixvim-module = nixvim.homeModules.nixvim;
         };
-        users.${user_name} = import ../../home/zephyr.nix;
+        users.${user_name} = import ../../../home/zephyr.nix;
       };
       nixpkgs.config.allowUnfree = true;
     }

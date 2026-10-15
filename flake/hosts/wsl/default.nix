@@ -22,14 +22,14 @@ nixpkgs.lib.nixosSystem {
     {
       nixpkgs.overlays = [
         (final: prev: {
-          ink = final.callPackage ../../pkgs/ink.nix { };
+          ink = final.callPackage ../../../pkgs/ink.nix { };
         })
       ];
     }
-    ../../hosts/wsl
-    ../../modules/font.nix
-    ../../modules/fontconfig.nix
-    ../../modules/i18n.nix
+    ./configuration.nix
+    ../../../modules/font.nix
+    ../../../modules/fontconfig.nix
+    ../../../modules/i18n.nix
 
     home-manager.nixosModules.home-manager {
       home-manager = {
@@ -45,7 +45,7 @@ nixpkgs.lib.nixosSystem {
         };
         users.crocus = {
           imports = [
-            ../../home/wsl.nix
+            ../../../home/wsl.nix
           ];
         };
       };

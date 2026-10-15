@@ -4,28 +4,31 @@
   ...
 }:
 let
-  inherit (inputs) nixpkgs home-manager nixvim nix-ld xremap-flake noctalia my-dotfiles lanzaboote xwayland-satellite sops-nix;
+  inherit (inputs) nixpkgs home-manager nixvim nix-ld xremap-flake noctalia my-dotfiles lanzaboote xwayland-satellite sops-nix repro2;
 in
 nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = {
     device = "saffron";
-    inherit isCI;
+    inherit isCI inputs;
   };
   modules = [
-    ../../hosts/saffron
-    ../../modules/xremap
-    ../../modules/wm
-    ../../modules/game
-    ../../modules/mount
-    ../../modules/sops
+    ./configuration.nix
     sops-nix.nixosModules.sops
     xremap-flake.nixosModules.default
+    repro2.nixosModules.default
+    {
+      services.repro2-sender = {
+        enable = true;
+        registryUrl = "https://repro2-test-server.tail07452a.ts.net:8443/";
+        blobUrl = "https://repro2-test-server.tail07452a.ts.net:8444/";
+      };
+    }
     nix-ld.nixosModules.nix-ld
     { programs.nix-ld.dev.enable = true; }
   ]
   ++ nixpkgs.lib.optionals (!isCI) [
-    ../../nvidia
+    ../../../nvidia
     lanzaboote.nixosModules.lanzaboote
   ]
   ++ [
@@ -33,13 +36,13 @@ nixpkgs.lib.nixosSystem {
       nixpkgs.overlays = [
         xwayland-satellite.overlays.default
         (final: prev: {
-          buzz-sidecars = final.callPackage ../../pkgs/buzz-sidecars.nix { };
-          buzz-desktop = final.callPackage ../../pkgs/buzz-desktop.nix {
+          buzz-sidecars = final.callPackage ../../../pkgs/buzz-sidecars.nix { };
+          buzz-desktop = final.callPackage ../../../pkgs/buzz-desktop.nix {
             inherit (final) buzz-sidecars;
           };
-          ink = final.callPackage ../../pkgs/ink.nix { };
-          effectcraft = final.callPackage ../../pkgs/effectcraft.nix { };
-          souieba = final.callPackage ../../pkgs/souieba.nix { };
+          ink = final.callPackage ../../../pkgs/ink.nix { };
+          effectcraft = final.callPackage ../../../pkgs/effectcraft.nix { };
+          souieba = final.callPackage ../../../pkgs/souieba.nix { };
         })
       ];
     }
@@ -60,7 +63,7 @@ nixpkgs.lib.nixosSystem {
         users.crocus = {
           imports = [
             noctalia.homeModules.default
-            ../../home/saffron.nix
+            ../../../home/saffron.nix
           ];
         };
       };

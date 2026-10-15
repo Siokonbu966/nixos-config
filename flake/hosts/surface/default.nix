@@ -11,9 +11,9 @@ nixpkgs.lib.nixosSystem {
     device = "surface";
   };
   modules = [
-    ../../hosts/surface
+    ./configuration.nix
     xremap-flake.nixosModules.default
-    ../../modules/xremap
+    ../../../modules/xremap
     nix-ld.nixosModules.nix-ld
     { programs.nix-ld.dev.enable = true; }
 
@@ -31,7 +31,7 @@ nixpkgs.lib.nixosSystem {
         };
         users.crocus = {
           imports = [
-            ../../home/surface.nix
+            ../../../home/surface.nix
           ];
         };
       };

@@ -10,6 +10,16 @@ let
             pkgs.darwin.cctools
           ];
       });
+
+  cssBestPracticesSkill = pkgs.runCommand "css-best-practices-skill" { } ''
+    mkdir -p $out/css-best-practices
+    cp ${inputs.css-best-practices}/skills/SKILL.md $out/css-best-practices/SKILL.md
+  '';
+
+  cssAnimationsSkill = pkgs.runCommand "css-animations-skill" { } ''
+    mkdir -p $out/web-animation-css-animations
+    cp -r ${inputs.css-animations}/dist/plugins/web-animation-css-animations/skills/web-animation-css-animations/. $out/web-animation-css-animations/
+  '';
 in
 {
   home.packages = [
@@ -53,6 +63,8 @@ in
         "${inputs.yomiyasu}/skills"
         "${inputs.security-audit}/skills"
         "${./skills}"
+        "${cssBestPracticesSkill}"
+        "${cssAnimationsSkill}"
       ];
       mcp.context7 = {
         type = "remote";
