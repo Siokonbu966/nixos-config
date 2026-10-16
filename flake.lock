@@ -1096,11 +1096,11 @@
     "yomiyasu": {
       "flake": false,
       "locked": {
-        "lastModified": 1791538927,
-        "narHash": "sha256-UrScbstVNRPTu7mWPvR11xBgmR057PVUYouSyFv3/+k=",
+        "lastModified": 1791863709,
+        "narHash": "sha256-hBM4uV/otDc5YlHGW8GNze9v7EOuj+zbxArxk04MCrQ=",
         "owner": "nanaism",
         "repo": "yomiyasu",
-        "rev": "373356eb874af5184962c88e925ea7eb58450318",
+        "rev": "60bf877acebc86651e0b67d70112a66245f87758",
         "type": "github"
       },
       "original": {
