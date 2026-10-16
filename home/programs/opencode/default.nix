@@ -57,7 +57,6 @@ in
       plugin = [
         "file://${inputs.i-have-adhd}/.opencode/plugins/i-have-adhd.mjs"
         "file://${./worktree-guard.ts}"
-        "file://${./plugins/rag-notes.ts}"
       ];
       skills.paths = [
         "${inputs.yomiyasu}/skills"
