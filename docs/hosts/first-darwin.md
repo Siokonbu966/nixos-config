@@ -8,7 +8,7 @@ registered in `.sops.yaml`.
 
 - **Flake entry**: `flake/hosts/first-darwin/` → `darwinConfigurations.first-darwin`
 - **nix-darwin config**: imports `flake/hosts/freesia/configuration.nix`
-- **Home Manager**: `home/freesia.nix`, user `crocus`
+- **Home Manager**: `home/freesia.nix`, user set by `username` in `flake.nix`
 
 ## What is excluded (vs `freesia`)
 
@@ -18,13 +18,33 @@ registered in `.sops.yaml`.
 Homebrew (`nix-homebrew` + `brew.nix`), the `pkgs/` overlays, and the full `home/freesia.nix`
 are kept.
 
+## Fork this repository
+
+These profiles are personal, so the intended workflow is to **fork the repo** and adapt it to
+your own Mac rather than using it directly:
+
+1. On GitHub, press **Fork** to create `<your-name>/nixos-config`.
+2. Clone your fork into your home:
+   ```bash
+   git clone https://github.com/<your-name>/nixos-config ~/nixos-config
+   cd ~/nixos-config
+   ```
+3. Set your username once in `flake.nix`:
+   ```nix
+   username = "<your-name>";
+   ```
+4. Commit the changes to your fork. Every command below assumes the repo lives at
+   `~/nixos-config`, so they work unchanged.
+
+Keeping your own fork means your secrets (`.sops.yaml`, `secrets/`) and host-specific
+settings stay under your control.
+
 ## Install guide (new to Nix)
 
 `first-darwin` omits sops, so it can be applied on a fresh Mac even without an age key.
 
-> **Two assumptions**
-> 1. This config assumes the username `crocus` (home `/Users/crocus`). The username is defined once as the `username` variable in `flake.nix`; every host (including `first-darwin`) receives it via `specialArgs`, so change it there to use another name.
-> 2. Run as an **admin** user. Installing Homebrew and the apps (Firefox, ghostty, …) needs the admin password and takes tens of minutes.
+> **One assumption**: run as an **admin** user. Installing Homebrew and the apps
+> (Firefox, ghostty, …) needs the admin password and takes tens of minutes.
 
 ### 1. Install Lix (recommended) or Nix
 On macOS we recommend [Lix](https://lix.systems/), a community fork of Nix with faster
@@ -36,9 +56,9 @@ Plain Nix also works if you prefer the [Determinate Systems installer](https://g
 (`curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install`).
 Open a **new terminal** and confirm with `nix --version` (it should report Lix).
 
-### 2. Clone the repo
+### 2. Clone your fork
 ```bash
-git clone https://github.com/Siokonbu966/nixos-config ~/nixos-config
+git clone https://github.com/<your-name>/nixos-config ~/nixos-config
 cd ~/nixos-config
 ```
 If `git` is missing, install it with `xcode-select --install`.
@@ -64,8 +84,17 @@ nh darwin switch -H first-darwin .
 - `brew: command not found`: Homebrew is not on PATH yet; open a new terminal.
 - **Intel Mac**: this config targets `aarch64-darwin` (Apple Silicon). Set `nixpkgs.hostPlatform = "x86_64-darwin"` in `flake/hosts/freesia/configuration.nix`.
 
-### 6. Switch to `freesia` (optional)
-Register the machine's age key in `.sops.yaml`, then switch with `nh darwin switch -H freesia .`. See `modules/sops/default.nix`.
+## Adding back the excluded features
+
+`first-darwin` omits two modules that `freesia` includes. Add them to
+`flake/hosts/first-darwin/default.nix` the same way `flake/hosts/freesia/default.nix` does:
+
+| Feature | How to enable |
+|---------|---------------|
+| sops secrets | Add your Mac's age key to `.sops.yaml`, re-encrypt with `sops updatekeys secrets/example.yaml`, then add `sops-nix.darwinModules.sops` and `../../../modules/sops`. |
+| Cachix cache | Add `../../../modules/cachix`. |
+
+Once both are working, you can switch to `freesia` entirely: `nh darwin switch -H freesia .`
 
 ## Rebuild
 

@@ -10,7 +10,7 @@ then switch to `saffron` once the host's age key is registered in `.sops.yaml`.
 - **Flake entry**: `flake/hosts/first-linux/` → `nixosConfigurations.first-linux`
 - **NixOS config**: `flake/hosts/first-linux/` (`default.nix`, `configuration.nix`, `hardware-configuration.nix`)
 - **Hardware**: ships its own copy of saffron's `hardware-configuration.nix`. Replace it with the output of `nixos-generate-config` on the target machine (see the install guide below).
-- **Home Manager**: `home/saffron.nix`, user `crocus`
+- **Home Manager**: `home/saffron.nix`, user set by `username` in `flake.nix`
 
 ## What is excluded (vs `saffron`)
 
@@ -36,14 +36,33 @@ then switch to `saffron` once the host's age key is registered in `.sops.yaml`.
 `first-linux` simply does not import them. Its `default.nix` also omits the sops, xremap
 flake module, `repro2` sender, and lanzaboote modules that `saffron` adds.
 
+## Fork this repository
+
+These profiles are personal, so the intended workflow is to **fork the repo** and adapt it to
+your own machine rather than using it directly:
+
+1. On GitHub, press **Fork** to create `<your-name>/nixos-config`.
+2. Clone your fork into your home:
+   ```bash
+   git clone https://github.com/<your-name>/nixos-config ~/nixos-config
+   cd ~/nixos-config
+   ```
+3. Set your username once in `flake.nix`:
+   ```nix
+   username = "<your-name>";
+   ```
+4. For `first-linux`, replace `flake/hosts/first-linux/hardware-configuration.nix` with your
+   machine's `nixos-generate-config` output.
+5. Commit the changes to your fork. Every command below assumes the repo lives at
+   `~/nixos-config`, so they work unchanged.
+
+Keeping your own fork means your secrets (`.sops.yaml`, `secrets/`) and host-specific
+settings stay under your control.
+
 ## Install guide (new to Nix)
 
 `first-linux` can be built and booted without any secrets such as sops. This walks through
-"boot from a NixOS USB, then install this repo's config onto the machine".
-
-> **Assumption**: this config assumes the username `crocus`. The username is defined once as
-> the `username` variable in `flake.nix` (every host receives it via `specialArgs`); change
-> it there to use another name.
+"boot from a NixOS USB, then install your fork's config onto the machine".
 
 ### What you need
 - The target PC
@@ -87,10 +106,10 @@ mkdir -p /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 ```
 
-### 4. Install with this repo's config
+### 4. Install with your fork's config
 Still as root:
 ```bash
-git clone https://github.com/Siokonbu966/nixos-config /root/nixos-config
+git clone https://github.com/<your-name>/nixos-config /root/nixos-config
 cd /root/nixos-config
 
 # generate this machine's hardware config and drop it in
@@ -103,7 +122,7 @@ nixos-install --flake .#first-linux --root /mnt
 ```
 Then set a login password:
 ```bash
-nixos-enter --root /mnt -c 'passwd crocus'
+nixos-enter --root /mnt -c 'passwd <your-name>'
 ```
 
 ### 5. Reboot
@@ -115,15 +134,31 @@ Remove the USB and boot from the internal disk. Seeing the niri login greeter me
 ### 6. Day-to-day updates
 Put the repo in your home (`nh` ships with this config):
 ```bash
-git clone https://github.com/Siokonbu966/nixos-config ~/nixos-config
+git clone https://github.com/<your-name>/nixos-config ~/nixos-config
 cd ~/nixos-config
 nh os switch -H first-linux .
 ```
 
-### 7. Switch to `saffron` (optional)
-`first-linux` exists to avoid touching secrets. Register the machine's age key in
-`.sops.yaml`, re-encrypt `secrets/`, then switch with `nh os switch -H saffron .`. See
-`modules/sops/default.nix` and [sops-nix](https://github.com/Mic92/sops-nix).
+## Adding back the excluded features
+
+`first-linux` omits a few modules that `saffron` includes. To use any of them, import the
+module back the same way `saffron` does — into `flake/hosts/first-linux/configuration.nix`
+(root modules) or `flake/hosts/first-linux/default.nix` (flake modules). Diff against
+`flake/hosts/saffron/` for a starting point.
+
+| Feature | How to enable |
+|---------|---------------|
+| sops secrets | Add your machine's age key to `.sops.yaml`, re-encrypt with `sops updatekeys secrets/example.yaml`, then add `sops-nix.nixosModules.sops` and `../../../modules/sops`. |
+| CIFS mount | Add `../../../modules/mount` (needs `samba_credentials` from sops). |
+| Cachix cache | Add `../../../modules/cachix`. |
+| xremap | Add `xremap-flake.nixosModules.default` and `../../../modules/xremap` (only on machines with the matching keyboards). |
+| Secure Boot | Add `lanzaboote.nixosModules.lanzaboote` and `../../../modules/secureboot.nix`; run `sudo sbctl create-keys` once before switching. |
+| repro2 sender | Add `repro2.nixosModules.default` and the `services.repro2-sender` block from `flake/hosts/saffron/default.nix`. |
+| Static IP | Add a `networking.interfaces.<iface>.ipv4.addresses` block in `configuration.nix`. |
+| VMware guest | Add `virtualisation.vmware.host.enable = true;` and `services.xserver.videoDrivers = [ "vmware" ];`. |
+
+Once you have all of them plus sops working, you can switch to `saffron` entirely:
+`nh os switch -H saffron .`
 
 ## Rebuild
 
