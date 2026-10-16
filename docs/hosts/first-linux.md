@@ -41,9 +41,9 @@ flake module, `repro2` sender, and lanzaboote modules that `saffron` adds.
 `first-linux` can be built and booted without any secrets such as sops. This walks through
 "boot from a NixOS USB, then install this repo's config onto the machine".
 
-> **Assumption**: this config assumes the username `crocus`. To use another name, replace
-> `crocus` in `flake/hosts/first-linux/configuration.nix` and `home/saffron.nix` (including
-> `homeDirectory = "/home/<name>"`).
+> **Assumption**: this config assumes the username `crocus`. The username is defined once as
+> the `username` variable in `flake.nix` (every host receives it via `specialArgs`); change
+> it there to use another name.
 
 ### What you need
 - The target PC

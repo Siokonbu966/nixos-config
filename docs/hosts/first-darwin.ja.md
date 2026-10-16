@@ -20,7 +20,7 @@ Homebrew（`nix-homebrew` + `brew.nix`）、`pkgs/` の overlay、`home/freesia.
 `first-darwin` は sops を含まないので、age 鍵が無い新しい Mac でもそのまま適用できます。
 
 > **前提（2 点）**
-> 1. この設定はユーザー名が `crocus`（ホーム `/Users/crocus`）である前提です。別の名前の場合、次の 3 ファイルの `crocus` を自分のユーザー名に置き換えてください: `flake/hosts/freesia/configuration.nix`、`flake/hosts/first-darwin/default.nix`、`home/freesia.nix`（`homeDirectory` も）。
+> 1. この設定はユーザー名が `crocus`（ホーム `/Users/crocus`）である前提です。ユーザー名は `flake.nix` の `username` 変数で一元的に定義され、`first-darwin` を含む各ホストへ `specialArgs` で渡されます。別の名前にする場合はこの 1 箇所を変更してください。
 > 2. **管理者（admin）ユーザー**で実行してください。Homebrew と各種アプリ（Firefox, ghostty など）の導入に、管理者パスワードと数十分かかります。
 
 ### 1. Nix をインストールする

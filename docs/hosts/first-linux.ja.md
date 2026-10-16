@@ -33,7 +33,7 @@ bootstrap 用プロファイル — `x86_64-linux` の NixOS。[`saffron`](./saf
 
 `first-linux` は sops などの秘密鍵が無くてもビルド・起動できる構成です。ここでは「NixOS の USB から起動して、このリポジトリの設定で実機にインストールする」流れを説明します。
 
-> **前提**: この設定はユーザー名が `crocus` であることを前提にしています。別の名前にしたい場合は、`flake/hosts/first-linux/configuration.nix` と `home/saffron.nix` の中の `crocus` を自分のユーザー名に置き換えてください（`home/saffron.nix` の `homeDirectory = "/home/ユーザー名"` もあわせて変更）。
+> **前提**: この設定はユーザー名が `crocus` であることを前提にしています。ユーザー名は `flake.nix` の `username` 変数で一元的に定義され、各ホストへ `specialArgs` で渡されます。別の名前にしたい場合はこの 1 箇所を変更してください。
 
 ### 用意するもの
 - インストール先の PC（実機）

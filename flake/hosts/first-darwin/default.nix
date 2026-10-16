@@ -1,13 +1,14 @@
 {
   self,
   inputs,
+  username,
   ...
 }:
 let
   inherit (inputs) nix-darwin nix-homebrew homebrew-core homebrew-cask homebrew-bundle home-manager nixvim my-dotfiles;
 in
 nix-darwin.lib.darwinSystem {
-  specialArgs = { inherit self inputs; };
+  specialArgs = { inherit self inputs username; };
   modules = [
     ../freesia/configuration.nix
     home-manager.darwinModules.home-manager
@@ -16,7 +17,7 @@ nix-darwin.lib.darwinSystem {
     {
       nix-homebrew = {
         enable = true;
-        user = "crocus";
+        user = username;
         autoMigrate = true;
         taps = {
           "homebrew/homebrew-core" = homebrew-core;
@@ -49,11 +50,12 @@ nix-darwin.lib.darwinSystem {
           inherit
             inputs
             my-dotfiles
+            username
           ;
           nixvim-module = nixvim.homeModules.nixvim;
           device = "freesia";
         };
-        users.crocus = import ../../../home/freesia.nix;
+        users.${username} = import ../../../home/freesia.nix;
       };
       nixpkgs.config.allowUnfree = true;
     }

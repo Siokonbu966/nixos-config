@@ -23,7 +23,7 @@ are kept.
 `first-darwin` omits sops, so it can be applied on a fresh Mac even without an age key.
 
 > **Two assumptions**
-> 1. This config assumes the username `crocus` (home `/Users/crocus`). For another name, replace `crocus` in `flake/hosts/freesia/configuration.nix`, `flake/hosts/first-darwin/default.nix`, and `home/freesia.nix` (including `homeDirectory`).
+> 1. This config assumes the username `crocus` (home `/Users/crocus`). The username is defined once as the `username` variable in `flake.nix`; every host (including `first-darwin`) receives it via `specialArgs`, so change it there to use another name.
 > 2. Run as an **admin** user. Installing Homebrew and the apps (Firefox, ghostty, …) needs the admin password and takes tens of minutes.
 
 ### 1. Install Nix
