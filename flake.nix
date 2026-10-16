@@ -91,6 +91,7 @@
       url = "github:Supreeeme/xwayland-satellite/v0.8.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kopuz.url = "github:Kopuz-org/kopuz";
   };
 
   outputs = {
