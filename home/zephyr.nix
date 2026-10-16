@@ -1,4 +1,4 @@
-{ user_name, pkgs, ... }:
+{ username, pkgs, ... }:
 {
   imports = [
     # common
@@ -31,8 +31,8 @@
     ./programs/cloudflared
   ];
 
-  home = rec {
-    username = "${user_name}";
+  home = {
+    username = username;
     homeDirectory = "/Users/${username}";
     stateVersion = "26.05";
   };

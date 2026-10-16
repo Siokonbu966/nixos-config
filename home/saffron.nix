@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 {
   imports = [
     # common
@@ -98,8 +98,8 @@
     ./tools/default-app
   ];
 
-  home = rec {
-    username = "crocus";
+  home = {
+    username = username;
     homeDirectory = "/home/${username}";
     stateVersion = "25.05";
     packages = [ pkgs.buzz-desktop ];

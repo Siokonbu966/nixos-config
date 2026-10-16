@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 {
   imports = [
     ./programs/nixvim
@@ -47,8 +47,8 @@
     };
   };
 
-  home = rec {
-    username = "crocus";
+  home = {
+    username = username;
     homeDirectory = "/Users/${username}";
     stateVersion = "26.05";
   };

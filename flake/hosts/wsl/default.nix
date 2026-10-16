@@ -1,5 +1,6 @@
 {
   inputs,
+  username,
   ...
 }:
 let
@@ -9,13 +10,14 @@ nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = {
     device = "wsl";
+    inherit username;
   };
   modules = [
     nixos-wsl.nixosModules.default
     {
       system.stateVersion = "26.05";
       wsl.enable = true;
-      wsl.defaultUser = "crocus";
+      wsl.defaultUser = username;
     }
     nix-ld.nixosModules.nix-ld
     { programs.nix-ld.dev.enable = true; }
@@ -39,11 +41,12 @@ nixpkgs.lib.nixosSystem {
           inherit
             inputs
             my-dotfiles
+            username
           ;
           device = "wsl";
           nixvim-module = nixvim.homeModules.nixvim;
         };
-        users.crocus = {
+        users.${username} = {
           imports = [
             ../../../home/wsl.nix
           ];

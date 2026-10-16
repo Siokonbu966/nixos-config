@@ -1,4 +1,4 @@
-{ self, pkgs, inputs, ... }:
+{ self, pkgs, inputs, username, ... }:
 {
   imports = [
     ./brew.nix
@@ -21,7 +21,7 @@
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
-  system.primaryUser = "crocus";
+  system.primaryUser = username;
   nixpkgs.config.allowUnfree = true;
 
   security.pam.services.sudo_local = {
@@ -29,8 +29,8 @@
     reattach = true;
   };
   
-  users.users.crocus = {
-    name = "crocus";
-    home = "/Users/crocus";
+  users.users.${username} = {
+    name = username;
+    home = "/Users/${username}";
   };
 }
