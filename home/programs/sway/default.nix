@@ -1,4 +1,4 @@
-{ lib, ...}:
+{ lib, username, ...}:
 let
   modifier = "mod4";
   menu = "fuzzel";
@@ -74,7 +74,7 @@ in
       exec env RUST_BACKTRACE=1 RUST_LOG=swayr=debug swayrd > /tmp/swayrd.log 2>&1
 
       # bg
-      output "*" background /home/crocus/Pictures/photo/wallpapers/splatoon_10th_02.jpg fill
+      output "*" background /home/${username}/Pictures/photo/wallpapers/splatoon_10th_02.jpg fill
       
       default_border pixel 4
       default_floating_border pixel 4
