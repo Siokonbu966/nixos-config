@@ -4,6 +4,8 @@ Bootstrap profile — nix-darwin on `aarch64-darwin`, based on [`freesia`](./fre
 without sops-nix, so it can be built/activated on a fresh Mac before the host's age key is
 registered in `.sops.yaml`.
 
+[日本語版はこちら (Japanese)](./first-darwin.ja.md)
+
 - **Flake entry**: `flake/hosts/first-darwin/` → `darwinConfigurations.first-darwin`
 - **nix-darwin config**: imports `flake/hosts/freesia/configuration.nix`
 - **Home Manager**: `home/freesia.nix`, user `crocus`
@@ -16,51 +18,51 @@ registered in `.sops.yaml`.
 Homebrew (`nix-homebrew` + `brew.nix`), the `pkgs/` overlays, and the full `home/freesia.nix`
 are kept.
 
-## インストール手順（Nix がはじめての人向け）
+## Install guide (new to Nix)
 
-`first-darwin` は sops を含まないので、age 鍵が無い新しい Mac でもそのまま適用できます。
+`first-darwin` omits sops, so it can be applied on a fresh Mac even without an age key.
 
-> **前提（2 点）**
-> 1. この設定はユーザー名が `crocus`（ホーム `/Users/crocus`）である前提です。別の名前の場合、次の 3 ファイルの `crocus` を自分のユーザー名に置き換えてください: `flake/hosts/freesia/configuration.nix`、`flake/hosts/first-darwin/default.nix`、`home/freesia.nix`（`homeDirectory` も）。
-> 2. **管理者（admin）ユーザー**で実行してください。Homebrew と各種アプリ（Firefox, ghostty など）の導入に、管理者パスワードと数十分かかります。
+> **Two assumptions**
+> 1. This config assumes the username `crocus` (home `/Users/crocus`). For another name, replace `crocus` in `flake/hosts/freesia/configuration.nix`, `flake/hosts/first-darwin/default.nix`, and `home/freesia.nix` (including `homeDirectory`).
+> 2. Run as an **admin** user. Installing Homebrew and the apps (Firefox, ghostty, …) needs the admin password and takes tens of minutes.
 
-### 1. Nix をインストールする
-[Determinate Systems installer](https://github.com/DeterminateSystems/nix-installer) を使うと flakes が最初から有効で簡単です:
+### 1. Install Nix
+The [Determinate Systems installer](https://github.com/DeterminateSystems/nix-installer) enables flakes out of the box:
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
-終わったら**新しいターミナルを開き**、`nix --version` で確認します。
+Open a **new terminal** and confirm with `nix --version`.
 
-### 2. リポジトリを取得する
+### 2. Clone the repo
 ```bash
 git clone https://github.com/Siokonbu966/nixos-config ~/nixos-config
 cd ~/nixos-config
 ```
-`git` が無い場合は `xcode-select --install` で入ります。
+If `git` is missing, install it with `xcode-select --install`.
 
-### 3. 初回適用する
+### 3. First apply
 ```bash
 nix run nix-darwin -- switch --flake ~/nixos-config#first-darwin
 ```
-- 途中で管理者パスワードを聞かれます。
-- Homebrew・アプリの導入が入るため、初回はとても時間がかかります。
-- 完了すると `darwin-rebuild` コマンドが使えるようになります。
+- You will be asked for the admin password.
+- Homebrew and the apps are installed, so the first run is very slow.
+- Afterwards the `darwin-rebuild` command becomes available.
 
-### 4. 2 回目以降の更新
+### 4. Later updates
 ```bash
 cd ~/nixos-config
 darwin-rebuild switch --flake .#first-darwin
-# または、この設定に含まれる nh で
+# or, with nh (included in this config)
 nh darwin switch -H first-darwin .
 ```
 
-### 5. うまくいかないとき
-- `experimental Nix feature 'nix-command' is disabled`: Nix を入れ直すか、`~/.config/nix/nix.conf` に `experimental-features = nix-command flakes` を追加してください。
-- `brew: command not found` など: Homebrew がまだ PATH に入っていないだけです。ターミナルを開き直してください。
-- **Intel Mac** の場合: この設定は `aarch64-darwin`（Apple Silicon）前提です。`flake/hosts/freesia/configuration.nix` の `nixpkgs.hostPlatform` を `x86_64-darwin` に変更してください。
+### 5. Troubleshooting
+- `experimental Nix feature 'nix-command' is disabled`: reinstall Nix, or add `experimental-features = nix-command flakes` to `~/.config/nix/nix.conf`.
+- `brew: command not found`: Homebrew is not on PATH yet; open a new terminal.
+- **Intel Mac**: this config targets `aarch64-darwin` (Apple Silicon). Set `nixpkgs.hostPlatform = "x86_64-darwin"` in `flake/hosts/freesia/configuration.nix`.
 
-### 6. 本番の `freesia` に切り替える（任意）
-実機の age 鍵を `.sops.yaml` に登録したあと、`nh darwin switch -H freesia .` で本来の設定に切り替えられます。鍵の登録方法は `modules/sops/default.nix` を参照してください。
+### 6. Switch to `freesia` (optional)
+Register the machine's age key in `.sops.yaml`, then switch with `nh darwin switch -H freesia .`. See `modules/sops/default.nix`.
 
 ## Rebuild
 

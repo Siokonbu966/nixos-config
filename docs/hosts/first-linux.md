@@ -5,6 +5,8 @@ pieces that cannot be built/activated on a fresh machine removed (sops secrets a
 secret-dependent modules, Secure Boot keys, etc.). Use it to get a first working system,
 then switch to `saffron` once the host's age key is registered in `.sops.yaml`.
 
+[日本語版はこちら (Japanese)](./first-linux.ja.md)
+
 - **Flake entry**: `flake/hosts/first-linux/` → `nixosConfigurations.first-linux`
 - **NixOS config**: `flake/hosts/first-linux/` (`default.nix`, `configuration.nix`, `hardware-configuration.nix`)
 - **Hardware**: ships its own copy of saffron's `hardware-configuration.nix`. Replace it with the output of `nixos-generate-config` on the target machine (see the install guide below).
@@ -34,40 +36,43 @@ then switch to `saffron` once the host's age key is registered in `.sops.yaml`.
 `first-linux` simply does not import them. Its `default.nix` also omits the sops, xremap
 flake module, `repro2` sender, and lanzaboote modules that `saffron` adds.
 
-## インストール手順（Nix がはじめての人向け）
+## Install guide (new to Nix)
 
-`first-linux` は sops などの秘密鍵が無くてもビルド・起動できる構成です。ここでは「NixOS の USB から起動して、このリポジトリの設定で実機にインストールする」流れを説明します。
+`first-linux` can be built and booted without any secrets such as sops. This walks through
+"boot from a NixOS USB, then install this repo's config onto the machine".
 
-> **前提**: この設定はユーザー名が `crocus` であることを前提にしています。別の名前にしたい場合は、`flake/hosts/first-linux/configuration.nix` と `home/saffron.nix` の中の `crocus` を自分のユーザー名に置き換えてください（`home/saffron.nix` の `homeDirectory = "/home/ユーザー名"` もあわせて変更）。
+> **Assumption**: this config assumes the username `crocus`. To use another name, replace
+> `crocus` in `flake/hosts/first-linux/configuration.nix` and `home/saffron.nix` (including
+> `homeDirectory = "/home/<name>"`).
 
-### 用意するもの
-- インストール先の PC（実機）
-- 8 GB 以上の USB メモリ（中身は消えます）
-- ネットにつながる環境（有線がラク）
+### What you need
+- The target PC
+- A USB stick of 8 GB or more (it will be erased)
+- A network connection (wired is easiest)
 
-### 1. NixOS のインストーラ USB を作る
-1. <https://nixos.org/download/> から Graphical ISO（例: `nixos-26.05-x86_64-linux.iso`）をダウンロードします。
-2. USB に書き込みます。
-   - **Windows**: [Rufus](https://rufus.ie/) を起動 →「選択」で ISO を指定 →「開始」。
-   - **macOS / Linux**: ターミナルで。`N` は必ず自分の USB の番号にしてください（**間違えると内蔵ディスクを消します**）。
+### 1. Create a NixOS installer USB
+1. Download a Graphical ISO (e.g. `nixos-26.05-x86_64-linux.iso`) from <https://nixos.org/download/>.
+2. Write it to the USB:
+   - **Windows**: open [Rufus](https://rufus.ie/), pick the ISO, press Start.
+   - **macOS / Linux**: in a terminal. `N` must be your USB device number (**picking the wrong one erases your internal disk**).
      ```bash
-     diskutil list                                  # macOS: /dev/diskN を確認
+     diskutil list                                  # macOS: find /dev/diskN
      sudo dd if=~/Downloads/nixos-26.05-x86_64-linux.iso of=/dev/rdiskN bs=4m
      sync
      ```
 
-### 2. USB から起動する
-1. USB を挿して電源を入れ、すぐに BIOS/UEFI の起動メニュー（F12 / F2 / Esc など）を開き、USB を選びます。
-2. NixOS のメニューが出たら一番上（Graphical ISO）を選びます。
-3. ネットにつなぎます。有線ならそのまま。Wi-Fi なら:
+### 2. Boot from the USB
+1. Insert the USB, power on, and open the boot menu (F12 / F2 / Esc, …) to select the USB.
+2. Choose the top entry (Graphical ISO).
+3. Get online. Wired works out of the box; for Wi-Fi:
    ```bash
    nmcli device wifi list
-   nmcli device wifi connect "SSID" password "パスワード"
-   ip a          # 192.168. など IP が付けば OK
+   nmcli device wifi connect "SSID" password "password"
+   ip a          # an IP such as 192.168.x.x means you are online
    ```
 
-### 3. ディスクを準備する（新規インストール時）
-`lsblk` で実機のディスク名を確認します（以下は `/dev/nvme0n1` の例）。**ディスク名は必ず自分の環境に合わせてください。**
+### 3. Prepare the disks (fresh install)
+Use `lsblk` to find your disk (the example below uses `/dev/nvme0n1`). **Use your real device name.**
 ```bash
 lsblk
 sudo -i
@@ -82,42 +87,43 @@ mkdir -p /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 ```
 
-### 4. このリポジトリの設定でインストール
-root のまま続けます:
+### 4. Install with this repo's config
+Still as root:
 ```bash
 git clone https://github.com/Siokonbu966/nixos-config /root/nixos-config
 cd /root/nixos-config
 
-# 実機のハードウェア情報を生成して、first-linux のものと差し替える
+# generate this machine's hardware config and drop it in
 nixos-generate-config --root /mnt
 cp /mnt/etc/nixos/hardware-configuration.nix flake/hosts/first-linux/hardware-configuration.nix
 git add flake/hosts/first-linux/hardware-configuration.nix
 
-# インストール（root パスワードを聞かれたら設定する）
+# install (set a root password when prompted)
 nixos-install --flake .#first-linux --root /mnt
 ```
-
-インストールが終わったら、ログイン用のパスワードを設定します:
+Then set a login password:
 ```bash
 nixos-enter --root /mnt -c 'passwd crocus'
 ```
 
-### 5. 再起動する
+### 5. Reboot
 ```bash
 reboot
 ```
-USB を抜いて内蔵ディスクから起動します。ログイン画面（niri）が出れば成功です。
+Remove the USB and boot from the internal disk. Seeing the niri login greeter means success.
 
-### 6. 日常の更新
-ホームにリポジトリを置き直します（`nh` はこの設定に含まれています）:
+### 6. Day-to-day updates
+Put the repo in your home (`nh` ships with this config):
 ```bash
 git clone https://github.com/Siokonbu966/nixos-config ~/nixos-config
 cd ~/nixos-config
 nh os switch -H first-linux .
 ```
 
-### 7. 本番の `saffron` に切り替える（任意）
-`first-linux` は秘密情報を扱わないための bootstrap です。実機の age 鍵を `.sops.yaml` に登録し、`secrets/` を再暗号化したあと、`nh os switch -H saffron .` で本来の設定に切り替えられます。鍵の登録方法は `modules/sops/default.nix` と [sops-nix](https://github.com/Mic92/sops-nix) を参照してください。
+### 7. Switch to `saffron` (optional)
+`first-linux` exists to avoid touching secrets. Register the machine's age key in
+`.sops.yaml`, re-encrypt `secrets/`, then switch with `nh os switch -H saffron .`. See
+`modules/sops/default.nix` and [sops-nix](https://github.com/Mic92/sops-nix).
 
 ## Rebuild
 
