@@ -1,3 +1,4 @@
+{ username, ... }:
 {
   programs.swaylock = {
     enable = true;
@@ -9,7 +10,7 @@
 
       color = "1e1e2e";
 
-      image = "/home/crocus/Pictures/Wallpapers/white_raftgirl.jpg";
+      image = "/home/${username}/Pictures/Wallpapers/white_raftgirl.jpg";
       scaling = "fill";
 
       ########################################

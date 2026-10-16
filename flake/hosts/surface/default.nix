@@ -1,5 +1,6 @@
 {
   inputs,
+  username,
   ...
 }:
 let
@@ -9,6 +10,7 @@ nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = {
     device = "surface";
+    inherit username;
   };
   modules = [
     ./configuration.nix
@@ -25,11 +27,12 @@ nixpkgs.lib.nixosSystem {
           inherit
             inputs
             my-dotfiles
+            username
           ;
           device = "surface";
           nixvim-module = nixvim.homeModules.nixvim;
         };
-        users.crocus = {
+        users.${username} = {
           imports = [
             ../../../home/surface.nix
           ];

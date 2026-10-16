@@ -98,15 +98,18 @@
     flake-parts,
     ...
   }@inputs:
+  let
+    username = "crocus";
+  in
   flake-parts.lib.mkFlake { inherit inputs; } {
     flake = {
       darwinConfigurations = {
         "freesia" = import ./flake/hosts/freesia {
-          inherit self inputs;
+          inherit self inputs username;
         };
 
         "zephyr" = import ./flake/hosts/zephyr {
-          user_name = "zephyr";
+          username = "zephyr";
           inherit self inputs;
         };
 
@@ -117,19 +120,19 @@
 
       nixosConfigurations = {
         wsl = import ./flake/hosts/wsl {
-          inherit inputs;
+          inherit inputs username;
         };
 
         surface = import ./flake/hosts/surface {
-          inherit inputs;
+          inherit inputs username;
         };
 
         saffron = import ./flake/hosts/saffron {
-          inherit inputs;
+          inherit inputs username;
         };
 
         saffron-ci = import ./flake/hosts/saffron {
-          inherit inputs;
+          inherit inputs username;
           isCI = true;
         };
 

@@ -1,13 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
 # Define a user account. Don't forget to set a password with 'passwd'.
   imports = [
   ];
 
-  users.users.crocus = {
+  users.users.${username} = {
     isNormalUser = true;
-    description = "crocus";
+    description = username;
     extraGroups = [
       "wheel"
     ];
