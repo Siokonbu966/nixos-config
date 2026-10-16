@@ -109,6 +109,10 @@
           user_name = "zephyr";
           inherit self inputs;
         };
+
+        "first-darwin" = import ./flake/hosts/first-darwin {
+          inherit self inputs;
+        };
       };
 
       nixosConfigurations = {
@@ -127,6 +131,10 @@
         saffron-ci = import ./flake/hosts/saffron {
           inherit inputs;
           isCI = true;
+        };
+
+        "first-linux" = import ./flake/hosts/first-linux {
+          inherit inputs;
         };
       };
     };

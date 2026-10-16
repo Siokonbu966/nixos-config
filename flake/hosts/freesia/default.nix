@@ -11,6 +11,7 @@ nix-darwin.lib.darwinSystem {
   modules = [
     ./configuration.nix
     home-manager.darwinModules.home-manager
+    ../../../modules/cachix
     ../../../modules/sops
     sops-nix.darwinModules.sops
 
