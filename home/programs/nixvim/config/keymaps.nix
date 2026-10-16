@@ -82,6 +82,12 @@
     }
     {
       mode = "n";
+      key = "<leader>gg";
+      action = "<cmd>LazyGit<CR>";
+      options = { desc = "lazygit を開く"; };
+    }
+    {
+      mode = "n";
       key = "tc";
       action = "<cmd>bdelete<CR>";
       options = { desc = "close current buffer"; };
