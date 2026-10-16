@@ -23,12 +23,13 @@ Homebrew（`nix-homebrew` + `brew.nix`）、`pkgs/` の overlay、`home/freesia.
 > 1. この設定はユーザー名が `crocus`（ホーム `/Users/crocus`）である前提です。ユーザー名は `flake.nix` の `username` 変数で一元的に定義され、`first-darwin` を含む各ホストへ `specialArgs` で渡されます。別の名前にする場合はこの 1 箇所を変更してください。
 > 2. **管理者（admin）ユーザー**で実行してください。Homebrew と各種アプリ（Firefox, ghostty など）の導入に、管理者パスワードと数十分かかります。
 
-### 1. Nix をインストールする
-[Determinate Systems installer](https://github.com/DeterminateSystems/nix-installer) を使うと flakes が最初から有効で簡単です:
+### 1. Lix（推奨）または Nix をインストールする
+macOS では Nix のコミュニティ fork である [Lix](https://lix.systems/) を推奨します（評価が速く、エラーも分かりやすい）:
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+curl -sSf -L https://install.lix.systems/lix | sh -s -- install
 ```
-終わったら**新しいターミナルを開き**、`nix --version` で確認します。
+通常の Nix でも動きます。その場合は [Determinate Systems installer](https://github.com/DeterminateSystems/nix-installer) を同じオプションで使ってください（`curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install`）。
+終わったら**新しいターミナルを開き**、`nix --version` で確認します（Lix と表示されます）。
 
 ### 2. リポジトリを取得する
 ```bash
@@ -54,7 +55,7 @@ nh darwin switch -H first-darwin .
 ```
 
 ### 5. うまくいかないとき
-- `experimental Nix feature 'nix-command' is disabled`: Nix を入れ直すか、`~/.config/nix/nix.conf` に `experimental-features = nix-command flakes` を追加してください。
+- `experimental Nix feature 'nix-command' is disabled`: Lix / Nix を入れ直すか、`~/.config/nix/nix.conf` に `experimental-features = nix-command flakes` を追加してください。
 - `brew: command not found` など: Homebrew がまだ PATH に入っていないだけです。ターミナルを開き直してください。
 - **Intel Mac** の場合: この設定は `aarch64-darwin`（Apple Silicon）前提です。`flake/hosts/freesia/configuration.nix` の `nixpkgs.hostPlatform` を `x86_64-darwin` に変更してください。
 

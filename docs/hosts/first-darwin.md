@@ -26,12 +26,15 @@ are kept.
 > 1. This config assumes the username `crocus` (home `/Users/crocus`). The username is defined once as the `username` variable in `flake.nix`; every host (including `first-darwin`) receives it via `specialArgs`, so change it there to use another name.
 > 2. Run as an **admin** user. Installing Homebrew and the apps (Firefox, ghostty, …) needs the admin password and takes tens of minutes.
 
-### 1. Install Nix
-The [Determinate Systems installer](https://github.com/DeterminateSystems/nix-installer) enables flakes out of the box:
+### 1. Install Lix (recommended) or Nix
+On macOS we recommend [Lix](https://lix.systems/), a community fork of Nix with faster
+evaluation and friendlier errors:
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+curl -sSf -L https://install.lix.systems/lix | sh -s -- install
 ```
-Open a **new terminal** and confirm with `nix --version`.
+Plain Nix also works if you prefer the [Determinate Systems installer](https://github.com/DeterminateSystems/nix-installer)
+(`curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install`).
+Open a **new terminal** and confirm with `nix --version` (it should report Lix).
 
 ### 2. Clone the repo
 ```bash
@@ -57,7 +60,7 @@ nh darwin switch -H first-darwin .
 ```
 
 ### 5. Troubleshooting
-- `experimental Nix feature 'nix-command' is disabled`: reinstall Nix, or add `experimental-features = nix-command flakes` to `~/.config/nix/nix.conf`.
+- `experimental Nix feature 'nix-command' is disabled`: reinstall Lix/Nix, or add `experimental-features = nix-command flakes` to `~/.config/nix/nix.conf`.
 - `brew: command not found`: Homebrew is not on PATH yet; open a new terminal.
 - **Intel Mac**: this config targets `aarch64-darwin` (Apple Silicon). Set `nixpkgs.hostPlatform = "x86_64-darwin"` in `flake/hosts/freesia/configuration.nix`.
 
