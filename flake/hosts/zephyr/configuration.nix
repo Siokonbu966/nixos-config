@@ -1,4 +1,4 @@
-{ user_name, self, pkgs, inputs, ... }:
+{ username, self, pkgs, inputs, ... }:
 {
   imports = [
     ./brew.nix
@@ -21,11 +21,11 @@
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
-  system.primaryUser = "zephyr";
+  system.primaryUser = username;
   nixpkgs.config.allowUnfree = true;
 
-  users.users.${user_name} = {
-    name = "${user_name}";
-    home = "/Users/${user_name}";
+  users.users.${username} = {
+    name = "${username}";
+    home = "/Users/${username}";
   };
 }

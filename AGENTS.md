@@ -12,10 +12,13 @@ Nix Flake monorepo: NixOS + nix-darwin + Home Manager. No single "source" file â
 | `wsl` | NixOS (WSL) | `flake/hosts/wsl/`, `home/wsl.nix` |
 | `freesia` | nix-darwin (aarch64) | `flake/hosts/freesia/`, `home/freesia.nix` |
 | `zephyr` | nix-darwin (aarch64) | `flake/hosts/zephyr/`, `home/zephyr.nix` |
+| `first-linux` | NixOS (bootstrap) | `flake/hosts/first-linux/`, `home/saffron.nix` |
+| `first-darwin` | nix-darwin (bootstrap) | `flake/hosts/first-darwin/`, `home/freesia.nix` |
 
 - Per-host config lives in `flake/hosts/<host>/`: `default.nix` (flake entrypoint: `nixosSystem`/`darwinSystem`, inputs, overlays), `configuration.nix` (host module), plus `hardware-configuration.nix` / `brew.nix` where relevant.
 - `README.md` is out of date: it lists `desktop` and `home/default.nix`, which do not exist. Trust the flake and filesystem.
 - Root `configuration.nix` is the shared NixOS config, imported by `flake/hosts/saffron/configuration.nix` and `flake/hosts/surface/configuration.nix`.
+- `first-linux`/`first-darwin` are bootstrap profiles for a fresh machine. Their entrypoints omit sops/mount/secureboot/repro2/cachix and the xremap flake module so the system builds and activates before the host's age key exists. Note `modules/xremap` and `modules/cachix` live in the host entrypoints (`saffron`/`surface`/`freesia`), not the shared root `configuration.nix`.
 - `modules/` = shared NixOS modules (`sops/`, `wm/` for niri/sway/noctalia, `xremap/`, `network/`, etc.), selectively imported per-entrypoint.
 - `pkgs/` = custom packages, exposed via `nixpkgs.overlays` in each `flake/hosts/<host>/default.nix` (overlay set differs per host â€” e.g. `buzz-*` only on saffron).
 - Nixvim is a flake input evaluated through `nixvim-module = nixvim.homeModules.nixvim` (extraSpecialArgs). It has its own `flake.nix` but is NOT built standalone; edit `home/programs/nixvim/`.

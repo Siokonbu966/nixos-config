@@ -4,6 +4,7 @@
     ../../../configuration.nix
     ./hardware-configuration.nix
     ../../../modules/xremap
+    ../../../modules/cachix
     ../../../modules/wm
     ../../../modules/game
     ../../../modules/mount

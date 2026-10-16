@@ -1,5 +1,6 @@
 {
   inputs,
+  username,
   isCI ? false,
   ...
 }:
@@ -10,7 +11,7 @@ nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
   specialArgs = {
     device = "saffron";
-    inherit isCI inputs;
+    inherit isCI inputs username;
   };
   modules = [
     ./configuration.nix
@@ -56,11 +57,12 @@ nixpkgs.lib.nixosSystem {
           inherit
             inputs
             my-dotfiles
+            username
           ;
           device = "saffron";
           nixvim-module = nixvim.homeModules.nixvim;
         };
-        users.crocus = {
+        users.${username} = {
           imports = [
             noctalia.homeModules.default
             ../../../home/saffron.nix

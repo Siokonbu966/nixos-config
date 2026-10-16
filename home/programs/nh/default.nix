@@ -1,12 +1,6 @@
-{ device ? "saffron", ...}:
+{ device ? "saffron", username, pkgs, ...}:
 let
-  device_flake = if device == "freesia" then ''
-    /Users/crocus/nixos-config
-  '' else if device == "zephyr" then ''
-    /Users/zephyr/nixos-config
-  '' else ''
-    /home/crocus/nixos-config
-  '';
+  homeDir = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
 in
 {
   programs.nh = {
@@ -16,6 +10,6 @@ in
       dates = "weekly";
       extraArgs = "--keep-since 4d --keep 3";
     };
-    flake = "${device_flake}";
+    flake = "${homeDir}/nixos-config";
   };
 }

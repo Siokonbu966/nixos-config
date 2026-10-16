@@ -30,6 +30,7 @@ in
     ./rules/commit-convention.md;
 
   xdg.configFile."opencode/command/log.md".source = ./command/log.md;
+  xdg.configFile."opencode/command/pr.md".source = ./command/pr.md;
 
   xdg.configFile."opencode/opencode.json".source =
     (pkgs.formats.json { }).generate "opencode.json" {
@@ -39,6 +40,10 @@ in
       ];
       permission = {
         websearch = "allow";
+        bash = {
+          "git *" = "allow";
+          "gh *" = "allow";
+        };
         external_directory = {
           "*" = "allow";
         };
@@ -57,6 +62,7 @@ in
       plugin = [
         "file://${inputs.i-have-adhd}/.opencode/plugins/i-have-adhd.mjs"
         "file://${./worktree-guard.ts}"
+        "file://${./auto-commit.ts}"
       ];
       skills.paths = [
         "${inputs.yomiyasu}/skills"
