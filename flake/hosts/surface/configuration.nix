@@ -3,6 +3,7 @@
   imports = [
     ../../../configuration.nix
     ./hardware-configuration.nix
+    ../../../modules/cachix
   ];
 
   programs.dconf.enable = true;
