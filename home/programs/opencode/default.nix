@@ -29,6 +29,7 @@ in
   xdg.configFile."opencode/rules/commit-convention.md".source =
     ./rules/commit-convention.md;
 
+  xdg.configFile."opencode/command/log.md".source = ./command/log.md;
   xdg.configFile."opencode/command/pr.md".source = ./command/pr.md;
 
   xdg.configFile."opencode/opencode.json".source =
@@ -66,6 +67,7 @@ in
       skills.paths = [
         "${inputs.yomiyasu}/skills"
         "${inputs.security-audit}/skills"
+        "${./skills}"
         "${cssBestPracticesSkill}"
         "${cssAnimationsSkill}"
       ];
