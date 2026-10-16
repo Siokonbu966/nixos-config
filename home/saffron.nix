@@ -44,6 +44,7 @@
     ./programs/tigervnc
     ./programs/anki
     ./programs/google-chrome
+    ./programs/firefox
     ./programs/zed-editor
     ./programs/vscodium
     ./programs/osu-lazer
