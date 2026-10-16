@@ -30,6 +30,7 @@
     ./programs/nb
     ./programs/late-sh
     ./programs/souieba
+    ./programs/ollama
     # utils
     ./programs/nh
     ./programs/dotfiles
