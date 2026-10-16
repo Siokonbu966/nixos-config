@@ -41,6 +41,7 @@
     ./programs/kitty
     ./programs/vesktop
     ./programs/vlc
+    ./programs/kopuz
     ./programs/tigervnc
     ./programs/anki
     ./programs/google-chrome
