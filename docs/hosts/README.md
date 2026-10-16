@@ -10,8 +10,8 @@ Detailed notes for each machine in this flake. See the root [README](../../READM
 | [`wsl`](./wsl.md) | NixOS (WSL) | x86_64-linux | `flake/hosts/wsl.nix` | `hosts/wsl/` | `home/wsl.nix` |
 | [`freesia`](./freesia.md) | nix-darwin | aarch64-darwin | `flake/hosts/freesia.nix` | `hosts/freesia/` | `home/freesia.nix` |
 | [`zephyr`](./zephyr.md) | nix-darwin | aarch64-darwin | `flake/hosts/zephyr.nix` | `hosts/zephyr/` | `home/zephyr.nix` |
-| [`first-linux`](./first-linux.md) | NixOS (bootstrap) | x86_64-linux | `flake/hosts/first-linux/` | `hosts/first-linux/` | `home/saffron.nix` |
-| [`first-darwin`](./first-darwin.md) | nix-darwin (bootstrap) | aarch64-darwin | `flake/hosts/first-darwin/` | `hosts/first-darwin/` | `home/freesia.nix` |
+| [`first-linux`](./first-linux.md) ([ja](./first-linux.ja.md)) | NixOS (bootstrap) | x86_64-linux | `flake/hosts/first-linux/` | `hosts/first-linux/` | `home/saffron.nix` |
+| [`first-darwin`](./first-darwin.md) ([ja](./first-darwin.ja.md)) | nix-darwin (bootstrap) | aarch64-darwin | `flake/hosts/first-darwin/` | `hosts/first-darwin/` | `home/freesia.nix` |
 
 ## Rebuild
 
