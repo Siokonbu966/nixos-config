@@ -70,6 +70,18 @@
     }
     {
       mode = "n";
+      key = "<leader>hm";
+      action = "<cmd>lua MiniDiff.toggle_overlay()<CR>";
+      options = { desc = "mini.diff オーバーレイ切替"; };
+    }
+    {
+      mode = "n";
+      key = "<leader>hr";
+      action = "<cmd>lua MiniDiff.toggle()<CR>";
+      options = { desc = "mini.diff 差分表示の切替"; };
+    }
+    {
+      mode = "n";
       key = "tc";
       action = "<cmd>bdelete<CR>";
       options = { desc = "close current buffer"; };
