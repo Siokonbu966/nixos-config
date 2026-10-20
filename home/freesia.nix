@@ -37,6 +37,7 @@
     # other
     ./programs/omniwm
     ./programs/R
+    ./programs/kopuz
   ];
 
   programs.omniwm = {
