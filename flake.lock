@@ -419,11 +419,11 @@
         "rust-overlay": "rust-overlay_4"
       },
       "locked": {
-        "lastModified": 1792008922,
-        "narHash": "sha256-B7k98sNvnoL3BxE8sm9oKQJab9j9dAw6ExUL3cceiic=",
+        "lastModified": 1792188186,
+        "narHash": "sha256-hs7xVrvDzFPR7tQp1qSdfKPLwx1JsXOS4wJSdSDOW+Y=",
         "owner": "mpiorowski",
         "repo": "late-sh",
-        "rev": "ac98ee7e31adff7b3d028a07ae1b4e93ed178412",
+        "rev": "be86758ade292bc4baf64bc41368e6ad99734ede",
         "type": "github"
       },
       "original": {
