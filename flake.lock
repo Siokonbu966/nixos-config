@@ -815,11 +815,11 @@
         "rust-overlay": "rust-overlay_5"
       },
       "locked": {
-        "lastModified": 1791631718,
-        "narHash": "sha256-dQLcGyxk/GcnTEoXPNGB6po+cYlVKs9rgtkFfSO3iak=",
+        "lastModified": 1792171967,
+        "narHash": "sha256-uNyYbYJpYjGyjUp0A6bZVuXRTj4ZUhdHeFCw6zDxJsg=",
         "owner": "bot-uichan",
         "repo": "repro2",
-        "rev": "a305f7f79458df951a75db06aea08c8f11b9568b",
+        "rev": "74c4b453886c0fb485e0de9b924aadb97dbc6351",
         "type": "github"
       },
       "original": {
