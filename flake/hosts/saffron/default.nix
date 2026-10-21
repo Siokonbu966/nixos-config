@@ -44,6 +44,7 @@ nixpkgs.lib.nixosSystem {
           ink = final.callPackage ../../../pkgs/ink.nix { };
           effectcraft = final.callPackage ../../../pkgs/effectcraft.nix { };
           souieba = final.callPackage ../../../pkgs/souieba.nix { };
+          rea = final.callPackage ../../../pkgs/rea.nix { };
         })
       ];
     }

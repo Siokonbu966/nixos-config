@@ -11,6 +11,34 @@ let
           ];
       });
 
+  all_deniedPaths = [
+    "~/.ssh/**"
+    "~/.config/gh/**"
+    "~/.config/sops/**"
+    "~/.aws/**"
+    "~/.azure/**"
+    "~/.config/gcloud/**"
+    "~/.config/gh/hosts.yml"
+    "~/.git-credentials"
+    "~/.netrc"
+    ".env"
+    ".env.*"
+    "**/secrets/**"
+    "**/*.pem"
+    "**/*.key"
+    "**/*.p12"
+    "**/*.pfx"
+    "**/credentials*"
+    "**/*secret*"
+    "**/*token*"
+  ];
+
+  deniedPermissions = builtins.listToAttrs (
+    map (path: {
+      name = path;
+      value = "deny";
+    }) all_deniedPaths
+  );
   cssBestPracticesSkill = pkgs.runCommand "css-best-practices-skill" { } ''
     mkdir -p $out/css-best-practices
     cp ${inputs.css-best-practices}/skills/SKILL.md $out/css-best-practices/SKILL.md
@@ -47,16 +75,22 @@ in
         external_directory = {
           "*" = "allow";
         };
-        edit = {
+        edit = deniedPermissions // {
           "*" = "allow";
           "/etc/**" = "deny";
           "/nix/**" = "deny";
+          "/run/**" = "ask";
+          "~/.config/**" = "ask";
         };
-        write = {
+        write = deniedPermissions // {
           "*" = "allow";
           "/etc/**" = "deny";
           "/nix/**" = "deny";
           "/run/**" = "deny";
+          "~/.config/**" = "ask";
+        };
+        read = deniedPermissions // {
+          "~/.config/**" = "ask";
         };
       };
       plugin = [
