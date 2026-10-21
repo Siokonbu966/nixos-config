@@ -70,11 +70,24 @@ in
         "${./skills}"
         "${cssBestPracticesSkill}"
         "${cssAnimationsSkill}"
+      ] ++ pkgs.lib.optionals (pkgs ? rea) [
+        "${pkgs.rea}/skills"
       ];
-      mcp.context7 = {
-        type = "remote";
-        url = "https://mcp.context7.com/mcp";
-        enabled = true;
+      mcp = {
+        context7 = {
+          type = "remote";
+          url = "https://mcp.context7.com/mcp";
+          enabled = true;
+        };
+      } // pkgs.lib.optionalAttrs (pkgs ? rea) {
+        rea = {
+          type = "local";
+          command = [
+            "${pkgs.rea}/lib/node_modules/rea-agents/scripts/rea.mjs"
+            "mcp"
+          ];
+          enabled = true;
+        };
       };
       agent = {
         teach = {
