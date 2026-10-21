@@ -10,6 +10,35 @@ let
             pkgs.darwin.cctools
           ];
       });
+
+  all_deniedPaths = [
+    "~/.ssh/**"
+    "~/.config/gh/**"
+    "~/.config/sops/**"
+    "~/.aws/**"
+    "~/.azure/**"
+    "~/.config/gcloud/**"
+    "~/.config/gh/hosts.yml"
+    "~/.git-credentials"
+    "~/.netrc"
+    ".env"
+    ".env.*"
+    "**/secrets/**"
+    "**/*.pem"
+    "**/*.key"
+    "**/*.p12"
+    "**/*.pfx"
+    "**/credentials*"
+    "**/*secret*"
+    "**/*token*"
+  ];
+
+  deniedPermissions = builtins.listToAttrs (
+    map (path: {
+      name = path;
+      value = "deny";
+    }) all_deniedPaths
+  );
 in
 {
   home.packages = [
@@ -26,17 +55,22 @@ in
           "/etc/**" = "ask";
           "/run/**" = "ask";
         };
-        edit = {
+        edit = deniedPermissions // {
           "*" = "allow";
           "/etc/**" = "deny";
           "/nix/**" = "deny";
           "/run/**" = "ask";
+          "~/.config/**" = "ask";
         };
-        write = {
+        write = deniedPermissions // {
           "*" = "allow";
           "/etc/**" = "deny";
           "/nix/**" = "deny";
           "/run/**" = "deny";
+          "~/.config/**" = "ask";
+        };
+        read = deniedPermissions // {
+          "~/.config/**" = "ask";
         };
       };
       plugin = [
