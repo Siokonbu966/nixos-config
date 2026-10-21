@@ -32,6 +32,7 @@
     ./programs/wl-clipboard
     ./programs/late-sh
     ./programs/souieba
+    ./programs/rea
 
     # gui
     ./programs/fuzzel
