@@ -105,7 +105,7 @@ in
         "${cssBestPracticesSkill}"
         "${cssAnimationsSkill}"
       ] ++ pkgs.lib.optionals (pkgs ? rea) [
-        "${pkgs.rea}/skills"
+        "${pkgs.rea}/lib/node_modules/rea-agents/skills"
       ];
       mcp = {
         context7 = {
