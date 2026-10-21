@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 {
   imports = [
     ./programs/nixvim
@@ -29,12 +29,15 @@
     ./programs/effectcraft
     ./programs/nb
     ./programs/late-sh
+    ./programs/souieba
+    ./programs/ollama
     # utils
     ./programs/nh
     ./programs/dotfiles
     # other
     ./programs/omniwm
     ./programs/R
+    ./programs/kopuz
   ];
 
   programs.omniwm = {
@@ -46,8 +49,8 @@
     };
   };
 
-  home = rec {
-    username = "crocus";
+  home = {
+    username = username;
     homeDirectory = "/Users/${username}";
     stateVersion = "26.05";
   };

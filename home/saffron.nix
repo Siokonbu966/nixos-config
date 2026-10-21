@@ -1,7 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 {
   imports = [
-    ./programs/nixvim
     # common
     ./programs/fastfetch
     ./programs/tree
@@ -10,10 +9,13 @@
     ./programs/fzf
     ./programs/ripgrep
     ./programs/w3m
-    ./programs/podman
+    ./programs/docker
+    ./programs/colima
     ./programs/fontconfig
+
     # cli
     ./programs/git
+    ./programs/nixvim
     ./programs/opencode
     ./programs/direnv
     ./programs/tmux
@@ -29,6 +31,7 @@
     ./programs/nb
     ./programs/wl-clipboard
     ./programs/late-sh
+    ./programs/souieba
 
     # gui
     ./programs/fuzzel
@@ -38,9 +41,11 @@
     ./programs/kitty
     ./programs/vesktop
     ./programs/vlc
+    ./programs/kopuz
     ./programs/tigervnc
     ./programs/anki
     ./programs/google-chrome
+    ./programs/firefox
     ./programs/zed-editor
     ./programs/vscodium
     ./programs/osu-lazer
@@ -69,6 +74,7 @@
     ./programs/usbutils
     ./programs/easyeffect
     ./programs/pandoc
+    ./programs/wayvr
 
     # wm
     ./programs/waybar
@@ -94,8 +100,8 @@
     ./tools/default-app
   ];
 
-  home = rec {
-    username = "crocus";
+  home = {
+    username = username;
     homeDirectory = "/home/${username}";
     stateVersion = "25.05";
     packages = [ pkgs.buzz-desktop ];

@@ -18,12 +18,11 @@
     
     initContent = ''
       source ~/.p10k.zsh
+      source ~/.config/zsh/functions.zsh
       eval "$(git wt --init zsh)"
-      alias q='cd "$(ghq root)/$(ghq list | fzf)"'
       alias nixc='cd ~/nixos-config/'
       alias initpart='nix flake init -t github:hercules-ci/flake-parts'
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-      export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 
       inknb() {
         if [[ -z "$1" ]]; then
@@ -39,4 +38,8 @@
       }
     '';
   };
+
+  xdg.configFile."zsh/functions.zsh".source = ../../../configs/zsh/functions.zsh;
+
+  home.packages = with pkgs; [ jq eza ];
 }

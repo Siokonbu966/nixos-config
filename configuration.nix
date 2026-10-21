@@ -2,17 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, username, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./modules
       ./modules/fontconfig.nix
-      ./modules/xremap
-      ./modules/netrc.nix
-      ./modules/cachix
-      ./modules/container.nix
     ];
 
 
@@ -69,15 +65,16 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.crocus = {
+  users.users.${username} = {
     isNormalUser = true;
-    description = "crocus";
+    description = username;
     extraGroups = [
       "networkmanager"
       "wheel"
       "inputs"
       "video"
       "i2c"
+      "kvm"
     ];
     shell = pkgs.zsh;
     packages = with pkgs; [
@@ -94,6 +91,12 @@
   programs.dconf.enable = true;
 
   services.udisks2.enable = true;
+
+  # colima runs a QEMU/KVM VM on Linux; grant the user access to /dev/kvm.
+  users.groups.kvm = { };
+  services.udev.extraRules = ''
+    KERNEL=="kvm", GROUP="kvm", MODE="0660"
+  '';
 
   environment.sessionVariables = with pkgs; {
     GTK_IM_MODULES = "fcitx";

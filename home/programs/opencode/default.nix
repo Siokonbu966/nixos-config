@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 let
   opencode =
     inputs.opencode.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs
@@ -39,21 +39,41 @@ let
       value = "deny";
     }) all_deniedPaths
   );
+  cssBestPracticesSkill = pkgs.runCommand "css-best-practices-skill" { } ''
+    mkdir -p $out/css-best-practices
+    cp ${inputs.css-best-practices}/skills/SKILL.md $out/css-best-practices/SKILL.md
+  '';
+
+  cssAnimationsSkill = pkgs.runCommand "css-animations-skill" { } ''
+    mkdir -p $out/web-animation-css-animations
+    cp -r ${inputs.css-animations}/dist/plugins/web-animation-css-animations/skills/web-animation-css-animations/. $out/web-animation-css-animations/
+  '';
 in
 {
   home.packages = [
     opencode
   ];
 
+  xdg.configFile."opencode/rules/commit-convention.md".source =
+    ./rules/commit-convention.md;
+
+  xdg.configFile."opencode/command/log.md".source = ./command/log.md;
+  xdg.configFile."opencode/command/pr.md".source = ./command/pr.md;
+
   xdg.configFile."opencode/opencode.json".source =
     (pkgs.formats.json { }).generate "opencode.json" {
       "$schema" = "https://opencode.ai/config.json";
+      instructions = [
+        "${config.xdg.configHome}/opencode/rules/commit-convention.md"
+      ];
       permission = {
         websearch = "allow";
+        bash = {
+          "git *" = "allow";
+          "gh *" = "allow";
+        };
         external_directory = {
           "*" = "allow";
-          "/etc/**" = "ask";
-          "/run/**" = "ask";
         };
         edit = deniedPermissions // {
           "*" = "allow";
@@ -75,9 +95,15 @@ in
       };
       plugin = [
         "file://${inputs.i-have-adhd}/.opencode/plugins/i-have-adhd.mjs"
+        "file://${./worktree-guard.ts}"
+        "file://${./auto-commit.ts}"
       ];
       skills.paths = [
         "${inputs.yomiyasu}/skills"
+        "${inputs.security-audit}/skills"
+        "${./skills}"
+        "${cssBestPracticesSkill}"
+        "${cssAnimationsSkill}"
       ];
       mcp.context7 = {
         type = "remote";

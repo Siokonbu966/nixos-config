@@ -1,17 +1,17 @@
-{ user_name, pkgs, ... }:
+{ username, pkgs, ... }:
 {
   imports = [
-    ./programs/nixvim
     # common
+    ./programs/nixvim
     ./programs/fastfetch
     ./programs/tree
     ./programs/btop
     ./programs/ghq
     ./programs/fzf
     ./programs/ripgrep
-    ./programs/w3m
     ./programs/docker
     ./programs/colima
+
     # cli
     ./programs/git
     ./programs/opencode
@@ -26,12 +26,13 @@
     # utils
     ./programs/nh
     ./programs/dotfiles
+
     # zephyr-specific
     ./programs/cloudflared
   ];
 
-  home = rec {
-    username = "${user_name}";
+  home = {
+    username = username;
     homeDirectory = "/Users/${username}";
     stateVersion = "26.05";
   };

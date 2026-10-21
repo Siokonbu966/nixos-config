@@ -1,9 +1,11 @@
 keys:
   - &saffron age1xlekdyhyv99tvc3fn3kxajwefdpz0wtwj3jagrz3leg376e5hqqs99z7v3
   - &freesia age1q4khmddzf50q0af29prpvv2u0vkcnqsl9drszdssng999w4z4pqsrs3pft
+  - &zephyr age173nt85ljrxr978qk8pw785vvamjgwu4jm6wahcswlqmwg6h7zcys8gh6g3
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini|enc)$  # 暗号化したファイルとして認識するpathの正規表現
     key_groups:
     - age:
       - *saffron
       - *freesia
+      - *zephyr

@@ -1,62 +1,96 @@
 # nixos-config
 
-Nix Flake ベースの NixOS / nix-darwin 設定リポジトリ。
+A Nix Flake monorepo for NixOS, nix-darwin, and Home Manager.
 
-## ホスト構成
+[日本語版はこちら (Japanese)](./docs/README.ja.md)
 
-| ホスト | OS | 用途 |
-|--------|----|------|
-| `desktop` | NixOS | デスクトップ PC |
-| `surface` | NixOS | Surface デバイス |
-| `wsl` | NixOS (WSL) | WSL 環境 |
-| `freesia` | nix-darwin | macOS (aarch64) |
-| `zephyr` | nix-darwin | macOS (aarch64) |
+## Hosts
 
-## ディレクトリ構成
+| Host | OS | Purpose | Entrypoints |
+|------|----|---------|-------------|
+| `saffron` | NixOS (x86_64) | Primary desktop | `flake/hosts/saffron.nix`, `hosts/saffron/`, `home/saffron.nix` |
+| `saffron-ci` | NixOS (x86_64) | CI variant (`isCI = true`); no nvidia/secureboot/vmware | same as saffron |
+| `surface` | NixOS (x86_64) | Surface device | `flake/hosts/surface.nix`, `hosts/surface/`, `home/surface.nix` |
+| `wsl` | NixOS (WSL) | WSL environment | `flake/hosts/wsl.nix`, `hosts/wsl/`, `home/wsl.nix` |
+| `freesia` | nix-darwin (aarch64) | macOS | `flake/hosts/freesia.nix`, `hosts/freesia/`, `home/freesia.nix` |
+| `zephyr` | nix-darwin (aarch64) | macOS | `flake/hosts/zephyr.nix`, `hosts/zephyr/`, `home/zephyr.nix` |
+
+See [`docs/hosts/`](./docs/hosts/README.md) for per-host details.
+
+## Directory structure
 
 ```
 .
-├── flake.nix                  # Flake エントリポイント
-├── configuration.nix          # 共通 NixOS 設定
-├── hosts/                     # ホスト別設定
-│   ├── desktop/
+├── flake.nix               # Flake entrypoint (inputs + outputs)
+├── flake/hosts/            # Per-host flake definitions (saffron, surface, wsl, freesia, zephyr)
+├── configuration.nix       # Shared NixOS config (imported by saffron/surface)
+├── hosts/                  # Per-host configuration
+│   ├── saffron/
 │   ├── surface/
 │   ├── wsl/
 │   ├── freesia/
 │   └── zephyr/
-├── flake/hosts/               # Flake ホスト定義
-├── modules/                   # NixOS モジュール
+├── modules/                # Shared NixOS modules
 │   ├── boot.nix
 │   ├── font.nix
 │   ├── i18n.nix
-│   ├── logitech.nix
-│   ├── network/
+│   ├── network/            # Network / wifi
+│   ├── sops/               # sops-nix secrets
 │   ├── secureboot.nix
-│   ├── wm/                    # ウィンドウマネージャ (niri, noctalia)
+│   ├── wm/                 # Window managers (niri, sway, noctalia)
 │   └── xremap/
-├── home/                      # Home Manager 設定
-│   ├── default.nix            # 共通 HM エントリ (desktop 用)
-│   ├── freesia.nix            # freesia 用 HM
-│   ├── surface.nix            # surface 用 HM
-│   ├── wsl.nix                # wsl 用 HM
-│   └── programs/              # プログラム別 HM モジュール (77 パッケージ)
-├── pkgs/                      # カスタムパッケージ
-├── nvidia/                    # NVIDIA 設定
-└── configs/                   # ドットファイル・raw 設定
+├── home/                   # Home Manager configuration
+│   ├── saffron.nix         # HM entry per host
+│   ├── surface.nix
+│   ├── wsl.nix
+│   ├── freesia.nix
+│   ├── zephyr.nix
+│   ├── programs/           # Per-program HM modules
+│   └── tools/
+├── pkgs/                   # Custom packages (exposed via overlays)
+├── nvidia/                 # NVIDIA configuration
+├── configs/                # Raw dotfiles / configs
+└── secrets/                # sops-encrypted secrets
 ```
 
-## ビルドコマンド
+## Rebuild
 
 ```bash
-# NixOS (desktop/surface/wsl/saffron)
-nh os switch -H <hostname> .         # 推奨
-sudo nixos-rebuild switch --flake .#<hostname>
+# NixOS (saffron / saffron-ci / surface / wsl) — recommended
+nh os switch -H <host> .
 
-# nix-darwin (freesia/zephyr)
-nh darwin switch -H <hostname> .
-darwin-rebuild switch --flake .#<hostname>
+# nix-darwin (freesia / zephyr) — recommended
+nh darwin switch -H <host> .
 
-# Dry run (テスト)
-nh os switch -n
-nh darwin switch -n
+# Fallbacks
+sudo nixos-rebuild switch --flake .#<host>
+darwin-rebuild switch --flake .#<host>
+
+# Dry run (test)
+nh os switch -H <host> . -n
+nh darwin switch -H <host> . -n
 ```
+
+Verify a flake evaluates (run before declaring a Nix change done):
+
+```bash
+nix eval '.#nixosConfigurations.<host>.config.system.build.toplevel.drvPath'
+nix eval '.#darwinConfigurations.<host>.config.system.build.toplevel.drvPath'
+```
+
+CI builds `.#nixosConfigurations.saffron-ci...toplevel` and `.#darwinConfigurations.freesia...toplevel` as the reference targets.
+
+## Documentation
+
+- [Per-host notes](./docs/hosts/README.md)
+- [xremap](docs/xremap.md) — custom keyboard layout and layers
+- [日本語版 README](./docs/README.ja.md)
+
+## Notes
+
+- Home Manager is embedded as a NixOS/darwin module (`useGlobalPkgs = true`). Never run standalone `home-manager switch`.
+- Secrets use sops-nix: per-host age keys in `.sops.yaml`, encrypted files in `secrets/`. No plaintext secrets in the repo.
+- Custom packages in `pkgs/` are exposed via `nixpkgs.overlays` in each `flake/hosts/*.nix` (the overlay set differs per host).
+- Nixvim is evaluated through `nixvim.homeModules.nixvim`; edit `home/programs/nixvim/`.
+- OpenCode config is generated from `home/programs/opencode/default.nix` into `xdg.configFile` — edit the Nix file, not a generated JSON.
+- Flake inputs are updated automatically (`.github/workflows/update-flake.yml`). Don't hand-edit `flake.lock`.

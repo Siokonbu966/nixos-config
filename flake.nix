@@ -53,6 +53,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    repro2 = {
+      url = "github:bot-uichan/repro2/feat/tailscale-idp";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     # check update
     herdr = {
       url = "github:herdrdev/herdr/v0.9.1";
@@ -71,10 +75,23 @@
       url = "github:nanaism/yomiyasu";
       flake = false;
     };
+    security-audit = {
+      url = "github:cloudflare/security-audit-skill";
+      flake = false;
+    };
+    css-best-practices = {
+      url = "github:SantosAlarcon/css-best-practices";
+      flake = false;
+    };
+    css-animations = {
+      url = "github:agents-inc/skills";
+      flake = false;
+    };
     xwayland-satellite = {
       url = "github:Supreeeme/xwayland-satellite/v0.8.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kopuz.url = "github:Kopuz-org/kopuz";
   };
 
   outputs = {
@@ -82,35 +99,46 @@
     flake-parts,
     ...
   }@inputs:
+  let
+    username = "crocus";
+  in
   flake-parts.lib.mkFlake { inherit inputs; } {
     flake = {
       darwinConfigurations = {
-        "freesia" = import ./flake/hosts/freesia.nix {
+        "freesia" = import ./flake/hosts/freesia {
+          inherit self inputs username;
+        };
+
+        "zephyr" = import ./flake/hosts/zephyr {
+          username = "zephyr";
           inherit self inputs;
         };
 
-        "zephyr" = import ./flake/hosts/zephyr.nix {
-          user_name = "zephyr";
+        "first-darwin" = import ./flake/hosts/first-darwin {
           inherit self inputs;
         };
       };
 
       nixosConfigurations = {
-        wsl = import ./flake/hosts/wsl.nix {
-          inherit inputs;
+        wsl = import ./flake/hosts/wsl {
+          inherit inputs username;
         };
 
-        surface = import ./flake/hosts/surface.nix {
-          inherit inputs;
+        surface = import ./flake/hosts/surface {
+          inherit inputs username;
         };
 
-        saffron = import ./flake/hosts/saffron.nix {
-          inherit inputs;
+        saffron = import ./flake/hosts/saffron {
+          inherit inputs username;
         };
 
-        saffron-ci = import ./flake/hosts/saffron.nix {
-          inherit inputs;
+        saffron-ci = import ./flake/hosts/saffron {
+          inherit inputs username;
           isCI = true;
+        };
+
+        "first-linux" = import ./flake/hosts/first-linux {
+          inherit inputs;
         };
       };
     };

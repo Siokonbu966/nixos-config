@@ -1,8 +1,27 @@
-{ ... }:
+{ pkgs, inputs, ... }:
+let
+  noctaliaPkg = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+in
 {
   programs.noctalia-shell = {
     enable = true;
     systemd.enable = true;
+    # Disable Noctalia's automatic microphone volume control:
+    # - the input clamp that forces the source back to maxVolume
+    # - the 100ms write-back timers, limited to active slider interaction
+    package = noctaliaPkg.overrideAttrs (old: {
+      postPatch = (old.postPatch or "") + ''
+        substituteInPlace Services/Media/AudioService.qml \
+          --replace-fail 'root.source.audio.volume = root.maxVolume;' \
+          '/* noctalia mic auto-clamp disabled */'
+        substituteInPlace Modules/Cards/AudioCard.qml \
+          --replace-fail 'if (AudioService.source && AudioService.source.id === lastSourceId) {' \
+          'if (inputVolumeGuard && AudioService.source && AudioService.source.id === lastSourceId) {'
+        substituteInPlace Modules/Panels/Audio/AudioPanel.qml \
+          --replace-fail 'if (AudioService.source && AudioService.source.id === panelContent.lastSourceId) {' \
+          'if (panelContent.inputVolumeGuard && AudioService.source && AudioService.source.id === panelContent.lastSourceId) {'
+      '';
+    });
     settings = {
         settingsVersion = 0;
         bar = {
