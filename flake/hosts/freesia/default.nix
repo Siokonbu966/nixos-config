@@ -40,6 +40,7 @@ nix-darwin.lib.darwinSystem {
           ink = final.callPackage ../../../pkgs/ink.nix { };
           effectcraft = final.callPackage ../../../pkgs/effectcraft.nix { };
           souieba = final.callPackage ../../../pkgs/souieba.nix { };
+          rea = final.callPackage ../../../pkgs/rea.nix { };
           protobuf = prev.protobuf.overrideAttrs (_: {
             doCheck = false;
           });
