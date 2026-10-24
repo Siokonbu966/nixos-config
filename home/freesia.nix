@@ -1,12 +1,6 @@
 { pkgs, username, ... }:
 {
   imports = [
-    # gui
-    ./programs/ghostty/config.nix
-    ./programs/vesktop
-    ./programs/effectcraft
-    ./programs/kopuz
-
     # cli
     ./programs/git
     ./programs/nixvim
@@ -26,25 +20,31 @@
     ./programs/emacs
     ./programs/ink
     ./programs/nb
+    ./programs/direnv
     ./programs/late-sh
     ./programs/rea
     ./programs/ollama
     ./programs/glow
     ./programs/R
+    ./programs/w3m
+
+    # gui
+    ./programs/ghostty/config.nix
+    ./programs/vesktop
+    ./programs/effectcraft
+    ./programs/kopuz
 
     # utils
     ./programs/nh
-    ./programs/direnv
-    ./programs/w3m
     ./programs/dotfiles
     ./programs/souieba
+
+    # wm
+    ./programs/omniwm
 
     # vm
     ./programs/docker
     ./programs/colima
-    
-    # wm
-    ./programs/omniwm
   ];
 
   programs.omniwm = {

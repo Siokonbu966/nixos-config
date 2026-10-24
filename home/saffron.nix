@@ -25,6 +25,7 @@
     ./programs/wl-clipboard
     ./programs/late-sh
     ./programs/rea
+    ./programs/ollama
 
     # gui
     ./programs/fuzzel
@@ -48,7 +49,6 @@
     ./programs/gimp
     ./programs/nautilus # GNOME file manager
     #./programs/lmstudio
-    ./programs/ollama
     ./programs/signal-desktop
     ./programs/qtractor
     ./programs/lmms
