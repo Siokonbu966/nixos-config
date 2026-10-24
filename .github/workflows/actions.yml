@@ -9,12 +9,25 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: nix-build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 180
 
     steps:
       - uses: actions/checkout@v5
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc \
+            /usr/local/.ghcup /opt/hostedtoolcache/CodeQL /usr/local/share/boost \
+            /usr/lib/jvm /usr/local/share/chromium
+          sudo docker image prune --all --force || true
+          df -h /
 
       - uses: cachix/install-nix-action@v31
         with:
@@ -32,9 +45,17 @@ jobs:
 
   build-darwin:
     runs-on: macos-latest
+    timeout-minutes: 180
 
     steps:
       - uses: actions/checkout@v5
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet \
+            /usr/local/.ghcup /opt/hostedtoolcache/CodeQL /usr/local/share/boost \
+            /usr/local/share/chromium
+          df -h /
 
       - uses: cachix/install-nix-action@v31
         with:
