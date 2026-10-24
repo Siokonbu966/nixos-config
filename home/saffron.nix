@@ -1,21 +1,15 @@
 { pkgs, username, ... }:
 {
   imports = [
-    # common
+    # cli
+    ./programs/git
     ./programs/fastfetch
+    ./programs/nixvim
     ./programs/tree
     ./programs/btop
     ./programs/ghq
     ./programs/fzf
     ./programs/ripgrep
-    ./programs/w3m
-    ./programs/docker
-    ./programs/colima
-    ./programs/fontconfig
-
-    # cli
-    ./programs/git
-    ./programs/nixvim
     ./programs/opencode
     ./programs/direnv
     ./programs/tmux
@@ -33,6 +27,7 @@
     ./programs/late-sh
     ./programs/souieba
     ./programs/rea
+    ./programs/colima
 
     # gui
     ./programs/fuzzel
@@ -63,11 +58,11 @@
     ./programs/copyq
 
     # utils
+    ./programs/fontconfig
     ./programs/gtk
     ./programs/mako
     ./programs/udisk
     ./programs/dotfiles
-    ./programs/nh
     ./programs/xsel
     ./programs/slurp
     ./programs/nil
@@ -76,8 +71,10 @@
     ./programs/easyeffect
     ./programs/pandoc
     ./programs/wayvr
+    ./programs/w3m
 
     # wm
+    ./programs/docker
     ./programs/waybar
     ./programs/swayidle
     ./programs/swaylock

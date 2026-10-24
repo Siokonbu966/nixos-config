@@ -14,6 +14,7 @@
     ./programs/colima
     ./programs/ghostty/config.nix
     ./programs/vesktop
+
     # cli
     ./programs/git
     ./programs/opencode
@@ -32,9 +33,12 @@
     ./programs/souieba
     ./programs/rea
     ./programs/ollama
+    ./programs/glow
+
     # utils
     ./programs/nh
     ./programs/dotfiles
+    
     # other
     ./programs/omniwm
     ./programs/R
