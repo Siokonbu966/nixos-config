@@ -28,6 +28,12 @@
     }
     {
       mode = "n";
+      key = "<leader>fn";
+      action = "<cmd>e noname.txt<CR>";
+      options = { desc = "new file"; };
+    }
+    {
+      mode = "n";
       key = "<C-k>";
       action = "<cmd>bprev<CR>";
       options = { desc = "move previous tab"; };
