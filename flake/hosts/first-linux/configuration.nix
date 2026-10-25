@@ -2,7 +2,7 @@
 {
   imports = [
     ../../../configuration.nix
-    ../saffron/hardware-configuration.nix
+    ./hardware-configuration.nix
     ../../../modules/wm
     ../../../modules/game
     ../../../modules/vr

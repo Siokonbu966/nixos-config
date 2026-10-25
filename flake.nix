@@ -115,7 +115,7 @@
         };
 
         "first-darwin" = import ./flake/hosts/first-darwin {
-          inherit self inputs;
+          inherit self inputs username;
         };
       };
 
@@ -138,7 +138,7 @@
         };
 
         "first-linux" = import ./flake/hosts/first-linux {
-          inherit inputs;
+          inherit inputs username;
         };
       };
     };
