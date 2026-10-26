@@ -1,44 +1,50 @@
 { pkgs, username, ... }:
 {
   imports = [
-    ./programs/nixvim
-    # common
-    ./programs/fastfetch
-    ./programs/tree
-    ./programs/btop
-    ./programs/ghq
-    ./programs/fzf
-    ./programs/ripgrep
-    ./programs/w3m
-    ./programs/docker
-    ./programs/colima
-    ./programs/ghostty/config.nix
-    ./programs/vesktop
     # cli
     ./programs/git
+    ./programs/nixvim
     ./programs/opencode
-    ./programs/direnv
     ./programs/tmux
     ./programs/zsh
     ./programs/nushell
     ./programs/herdr
     ./programs/yazi
     ./programs/gh
+    ./programs/fastfetch
+    ./programs/tree
+    ./programs/btop
+    ./programs/ghq
+    ./programs/fzf
+    ./programs/ripgrep
     ./programs/emacs
     ./programs/ink
-    ./programs/effectcraft
     ./programs/nb
+    ./programs/direnv
     ./programs/late-sh
-    ./programs/souieba
     ./programs/rea
     ./programs/ollama
+    ./programs/glow
+    ./programs/R
+    ./programs/w3m
+
+    # gui
+    ./programs/ghostty/config.nix
+    ./programs/vesktop
+    ./programs/effectcraft
+    ./programs/kopuz
+
     # utils
     ./programs/nh
     ./programs/dotfiles
-    # other
+    ./programs/souieba
+
+    # wm
     ./programs/omniwm
-    ./programs/R
-    ./programs/kopuz
+
+    # vm
+    ./programs/docker
+    ./programs/colima
   ];
 
   programs.omniwm = {

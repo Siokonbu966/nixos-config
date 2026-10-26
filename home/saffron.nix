@@ -1,21 +1,15 @@
 { pkgs, username, ... }:
 {
   imports = [
-    # common
+    # cli
+    ./programs/git
     ./programs/fastfetch
+    ./programs/nixvim
     ./programs/tree
     ./programs/btop
     ./programs/ghq
     ./programs/fzf
     ./programs/ripgrep
-    ./programs/w3m
-    ./programs/docker
-    ./programs/colima
-    ./programs/fontconfig
-
-    # cli
-    ./programs/git
-    ./programs/nixvim
     ./programs/opencode
     ./programs/direnv
     ./programs/tmux
@@ -27,17 +21,17 @@
     ./programs/emacs
     ./programs/glow
     ./programs/ink
-    ./programs/effectcraft
     ./programs/nb
     ./programs/wl-clipboard
     ./programs/late-sh
-    ./programs/souieba
     ./programs/rea
+    ./programs/ollama
 
     # gui
     ./programs/fuzzel
     ./programs/obs
     ./programs/ghostty
+    ./programs/alacritty
     ./programs/noctalia
     ./programs/kitty
     ./programs/vesktop
@@ -53,29 +47,30 @@
     ./programs/prismlauncher
     ./programs/bedrock-on-linux
     ./programs/gimp
-    ./programs/nautilus
+    ./programs/nautilus # GNOME file manager
     #./programs/lmstudio
-    ./programs/ollama
     ./programs/signal-desktop
     ./programs/qtractor
     ./programs/lmms
     ./programs/kdenlive
     ./programs/copyq
+    ./programs/effectcraft
 
     # utils
+    ./programs/fontconfig
     ./programs/gtk
     ./programs/mako
     ./programs/udisk
     ./programs/dotfiles
-    ./programs/nh
-    ./programs/xsel
     ./programs/slurp
-    ./programs/nil
+    ./programs/nil # nix language server
     ./programs/gnumake
     ./programs/usbutils
     ./programs/easyeffect
     ./programs/pandoc
     ./programs/wayvr
+    ./programs/w3m
+    ./programs/souieba
 
     # wm
     ./programs/waybar
@@ -84,6 +79,10 @@
     ./programs/niri
     ./programs/swaybg
     ./programs/swayr
+
+    # vm
+    ./programs/docker
+    ./programs/colima
 
     # saffron-specific
     ./programs/pipewire
@@ -94,7 +93,6 @@
     ./programs/brightnessctl
     ./programs/ddcutil
     ./programs/pavucontrol
-    ./programs/alacritty
 
     # tools
     ./tools/cursor
