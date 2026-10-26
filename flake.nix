@@ -66,7 +66,7 @@
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    opencode.url = "github:anomalyco/opencode/v1.18.34";
+    opencode.url = "github:anomalyco/opencode/v2.1.4";
     i-have-adhd = {
       url = "github:ayghri/i-have-adhd";
       flake = false;
