@@ -49,11 +49,6 @@
 
   programs.omniwm = {
     enable = true;
-    settings = {
-      general = {
-        updateChecksEnabled = false;
-      };
-    };
   };
 
   home = {

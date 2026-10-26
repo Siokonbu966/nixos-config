@@ -66,12 +66,12 @@ in
       };
     };
 
-    xdg.configFile."omniwm/settings.toml" = lib.mkIf (cfg.settings != { }) {
-      source =
-        if lib.hm.strings.isPathLike cfg.settings then
-          cfg.settings
-        else
-          tomlFormat.generate "omniwm-settings.toml" cfg.settings;
-    };
+    #xdg.configFile."omniwm/settings.toml" = lib.mkIf (cfg.settings != { }) {
+    #  source =
+    #    if lib.hm.strings.isPathLike cfg.settings then
+    #      cfg.settings
+    #    else
+    #      tomlFormat.generate "omniwm-settings.toml" cfg.settings;
+    #};
   };
 }

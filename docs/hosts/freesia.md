@@ -18,7 +18,7 @@ macOS laptop — nix-darwin on `aarch64-darwin`. Full-featured, includes Homebre
 
 ## Overlays / custom packages
 
-- Custom packages from `pkgs/`: `omniwm`, `ink`, `effectcraft`, `souieba`
+- Custom packages from `pkgs/`: `ink`, `effectcraft`, `souieba`
 - `protobuf` is overridden with `doCheck = false`
 
 ## Host-specific settings (`hosts/freesia/default.nix`)
@@ -39,7 +39,7 @@ Age key for this host is registered in `.sops.yaml`. `modules/sops` manages `sam
 
 ## Home Manager
 
-`home/freesia.nix` imports CLI tools (`nixvim`, `opencode`, `emacs`, `nushell`, `yazi`, `gh`, `git`, `direnv`, `tmux`, `zsh`), containers (`docker`, `colima`), GUI (`ghostty`, `vesktop`), apps (`ink`, `effectcraft`, `nb`, `late-sh`, `souieba`, `R`), and the window manager `omniwm` (with `updateChecksEnabled = false`).
+`home/freesia.nix` imports CLI tools (`nixvim`, `opencode`, `emacs`, `nushell`, `yazi`, `gh`, `git`, `direnv`, `tmux`, `zsh`), containers (`docker`, `colima`), GUI (`ghostty`, `vesktop`), and apps (`ink`, `effectcraft`, `nb`, `late-sh`, `souieba`, `R`).
 
 ## Rebuild
 
