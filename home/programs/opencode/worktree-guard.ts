@@ -1,11 +1,25 @@
 import type { Plugin } from "@opencode-ai/plugin"
 
 const PROTECTED = ["main", "master"]
+const FILE_EDIT_TOOLS = new Set(["edit", "write", "apply_patch"])
+const MUTATING_BASH = [
+  /\bgit(?:\s+-C\s+\S+)?\s+(?:apply|am|cherry-pick|commit|merge|rebase|reset|restore|revert|checkout|stash)\b/,
+  /(?:^|[;&|]\s*)(?:cp|dd|install|ln|mkdir|mv|rm|rmdir|tee|touch|truncate)\b/,
+  /\b(?:perl|sed)\b[^;&|]*\s-i(?:\s|$)/,
+  /(?:^|[;&|]\s*)[^;&|]*\s>>?\s*\S+/,
+]
+
+const isMutatingBash = (command: string) =>
+  MUTATING_BASH.some((pattern) => pattern.test(command))
 
 export const WorktreeGuard: Plugin = async ({ directory, $ }) => {
   return {
-    "tool.execute.before": async (input) => {
-      if (input.tool !== "edit" && input.tool !== "write") return
+    "tool.execute.before": async (input, output) => {
+      const mutatesFiles =
+        FILE_EDIT_TOOLS.has(input.tool) ||
+        (input.tool === "bash" && isMutatingBash(output.args.command))
+
+      if (!mutatesFiles) return
 
       const branch = (
         await $`git rev-parse --abbrev-ref HEAD`
