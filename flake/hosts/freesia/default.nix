@@ -36,6 +36,7 @@ nix-darwin.lib.darwinSystem {
     {
       nixpkgs.overlays = [
         (final: prev: {
+          omniwm = final.callPackage ../../../pkgs/omniwm.nix { };
           ink = final.callPackage ../../../pkgs/ink.nix { };
           effectcraft = final.callPackage ../../../pkgs/effectcraft.nix { };
           souieba = final.callPackage ../../../pkgs/souieba.nix { };
