@@ -7,11 +7,11 @@
 
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "omniwm";
-  version = "0.6.1";
+  version = "0.7.6";
 
   src = fetchurl {
-    url = "https://github.com/BarutSRB/OmniWM/releases/download/v${finalAttrs.version}/OmniWM-v${finalAttrs.version}.zip";
-    hash = "sha256-vJlHMODd3bJaXH2Xtxi8BvH6xyMOiaJlzjb/SjXICQQ=";
+    url = "https://github.com/OmniNull/OmniWM/releases/download/v${finalAttrs.version}/OmniWM-v${finalAttrs.version}.zip";
+    hash = "sha256-7IxhRqbyGnnhxArHDWESF2K5PPU80wjmPrROis4g/Nw=";
   };
 
   dontUnpack = true;
@@ -35,7 +35,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   meta = {
     description = "macOS tiling window manager inspired by Niri and Hyprland";
-    homepage = "https://github.com/BarutSRB/OmniWM";
+    homepage = "https://github.com/OmniNull/OmniWM";
     license = lib.licenses.gpl2Only;
     mainProgram = "OmniWM";
     platforms = lib.platforms.darwin;
