@@ -39,22 +39,10 @@
     ./programs/dotfiles
     ./programs/souieba
 
-    # wm
-    ./programs/omniwm
-
     # vm
     ./programs/docker
     ./programs/colima
   ];
-
-  programs.omniwm = {
-    enable = true;
-    settings = {
-      general = {
-        updateChecksEnabled = false;
-      };
-    };
-  };
 
   home = {
     username = username;
