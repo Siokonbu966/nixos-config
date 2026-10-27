@@ -5,6 +5,7 @@
     ./programs/git
     ./programs/fastfetch
     ./programs/nixvim
+    ./programs/nh
     ./programs/tree
     ./programs/btop
     ./programs/ghq
