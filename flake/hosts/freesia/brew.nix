@@ -2,7 +2,6 @@
   homebrew = {
     enable = true;
     casks = [
-      "firefox"
       "ghostty"
       "karabiner-elements"
       "discord"

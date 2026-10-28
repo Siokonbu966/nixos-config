@@ -33,6 +33,7 @@
     ./programs/vesktop
     ./programs/effectcraft
     ./programs/kopuz
+    ./programs/firefox
 
     # utils
     ./programs/nh
