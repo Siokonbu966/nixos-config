@@ -1,14 +1,6 @@
 { lib }:
 let
-  workContainerId = 1;
-  schoolContainerId = 2;
-
-  work = host: {
-    inherit host;
-    cookieStoreId = "firefox-container-${toString workContainerId}";
-    containerName = "work";
-    enabled = true;
-  };
+  schoolContainerId = 1;
 
   school = host: {
     inherit host;
@@ -19,11 +11,6 @@ let
 in
 {
   containers = {
-    work = {
-      id = workContainerId;
-      color = "red";
-      icon = "briefcase";
-    };
     school = {
       id = schoolContainerId;
       color = "orange";
@@ -34,11 +21,7 @@ in
 
   extensionSettings."containerise@kinte.sh" = {
     force = true;
-    settings = {
-      "map=github.com/orgs/Litela-HQ" = work "github.com/orgs/Litela-HQ";
-      "map=github.com/Litela-HQ" = work "github.com/Litela-HQ";
-    }
-    // lib.listToAttrs (
+    settings = lib.listToAttrs (
       map (host: lib.nameValuePair "map=${host}" (school host)) [
         "nlobby.nnn.ed.jp"
         "www.nnn.ed.nico"
