@@ -56,6 +56,7 @@
     ./programs/kdenlive
     ./programs/copyq
     ./programs/effectcraft
+    ./programs/zotero
 
     # utils
     ./programs/fontconfig
