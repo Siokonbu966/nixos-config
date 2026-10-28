@@ -104,7 +104,7 @@
     username = username;
     homeDirectory = "/home/${username}";
     stateVersion = "25.05";
-    packages = [ pkgs.buzz-desktop ];
+    #packages = [ pkgs.buzz-desktop ];
   };
   programs.home-manager.enable = true;
 }
