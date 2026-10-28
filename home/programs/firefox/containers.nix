@@ -26,8 +26,8 @@ in
     };
     school = {
       id = schoolContainerId;
-      color = "blue";
-      icon = "fruit";
+      color = "orange";
+      icon = "briefcase";
     };
   };
   containersForce = true;
