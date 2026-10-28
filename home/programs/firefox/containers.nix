@@ -42,6 +42,7 @@ in
       map (host: lib.nameValuePair "map=${host}" (school host)) [
         "nlobby.nnn.ed.jp"
         "www.nnn.ed.nico"
+        "app.slack.com"
       ]
     );
   };
