@@ -120,7 +120,7 @@ in
         // parfait.settings;
         inherit (parfait) userChrome userContent;
       };
-      h = {
+      sub = {
         id = 1;
         path = "qdkmkbh0.h";
       };
