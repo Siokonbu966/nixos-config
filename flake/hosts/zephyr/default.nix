@@ -11,6 +11,14 @@ nix-darwin.lib.darwinSystem {
 
     nix-homebrew.darwinModules.nix-homebrew
     {
+      nixpkgs.overlays = [
+        (final: prev: {
+          # Self-built, pinned ahead of nixpkgs (nixpkgs' cloudflared lags releases).
+          cloudflared = final.callPackage ../../../pkgs/cloudflared.nix { };
+        })
+      ];
+    }
+    {
       nix-homebrew = {
         enable = true;
         user = "${username}";
