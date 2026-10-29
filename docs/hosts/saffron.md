@@ -50,7 +50,7 @@ Age key for this host is registered in `.sops.yaml`. `modules/sops` manages `sam
 
 ## Home Manager
 
-`home/saffron.nix` enables the noctalia HM module and imports ~80 program modules: CLI (`nixvim`, `opencode`, `emacs`, `nushell`, `yazi`, `gh`, …), GUI (`noctalia`, `obs`, `ghostty`, `gimp`, `ollama`, `signal-desktop`, music/video tools), WM (`niri`, `waybar`, `swayidle`/`swaylock`), and desktop-specific utilities (`pipewire`/`wireplumber`, `brightnessctl`, `ddcutil`, `grim`, `xremap`, `playerctl`, …). It also installs `pkgs.buzz-desktop`.
+`home/saffron.nix` enables the noctalia HM module and imports ~80 program modules: CLI (`nixvim`, `opencode`, `emacs`, `nushell`, `yazi`, `gh`, …), GUI (`noctalia`, `obs`, `ghostty`, `gimp`, `signal-desktop`, music/video tools), WM (`niri`, `waybar`, `swayidle`/`swaylock`), and desktop-specific utilities (`pipewire`/`wireplumber`, `brightnessctl`, `ddcutil`, `grim`, `xremap`, `playerctl`, …). It also installs `pkgs.buzz-desktop`.
 
 ## Rebuild
 

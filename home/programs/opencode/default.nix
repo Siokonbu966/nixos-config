@@ -163,14 +163,6 @@ in
               "qwen3.5-9b-uncensored";
           };
         };
-        ollama = {
-          name = "ollama(local)";
-          options.baseURL = "http://localhost:11434/v1";
-          models = {
-            "gemma4:e2b".name = "gemma-4-e4b";
-            "qwen3.5:9b".name = "qwen3.5-9b";
-          };
-        };
       };
     };
 }
