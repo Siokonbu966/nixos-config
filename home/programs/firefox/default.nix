@@ -124,7 +124,7 @@ in
       };
       sub = {
         id = 1;
-        path = "qdkmkbh0.h";
+        path = "qdkmkbh0.sub";
       };
     };
   };
