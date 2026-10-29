@@ -23,7 +23,6 @@
     ./programs/direnv
     ./programs/late-sh
     ./programs/rea
-    ./programs/ollama
     ./programs/glow
     ./programs/R
     ./programs/w3m

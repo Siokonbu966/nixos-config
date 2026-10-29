@@ -26,7 +26,6 @@
     ./programs/wl-clipboard
     ./programs/late-sh
     ./programs/rea
-    ./programs/ollama
 
     # gui
     ./programs/fuzzel
