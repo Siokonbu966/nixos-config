@@ -12,11 +12,11 @@
     ./programs/fzf
     ./programs/ripgrep
     ./programs/opencode
-    ./programs/hermes-agent
+    #./programs/hermes-agent
     ./programs/direnv
     ./programs/tmux
     ./programs/zsh
-    ./programs/nushell
+    #./programs/nushell
     ./programs/herdr
     ./programs/yazi
     ./programs/gh
@@ -34,7 +34,7 @@
     ./programs/ghostty
     ./programs/alacritty
     ./programs/noctalia
-    ./programs/kitty
+    #./programs/kitty
     ./programs/vesktop
     ./programs/vlc
     ./programs/kopuz
@@ -46,16 +46,10 @@
     ./programs/vscodium
     ./programs/osu-lazer
     ./programs/prismlauncher
-    ./programs/bedrock-on-linux
     ./programs/gimp
     ./programs/nautilus # GNOME file manager
     #./programs/lmstudio
     ./programs/signal-desktop
-    ./programs/qtractor
-    ./programs/lmms
-    ./programs/kdenlive
-    ./programs/copyq
-    ./programs/effectcraft
     ./programs/zotero
 
     # utils

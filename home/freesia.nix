@@ -30,8 +30,6 @@
 
     # gui
     ./programs/ghostty/config.nix
-    ./programs/vesktop
-    ./programs/effectcraft
     ./programs/kopuz
     ./programs/firefox
 
