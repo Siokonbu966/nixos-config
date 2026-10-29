@@ -96,6 +96,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     kopuz.url = "github:Kopuz-org/kopuz";
+    hermes-agent = {
+      url = "github:NousResearch/hermes-agent";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = {

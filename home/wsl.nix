@@ -13,6 +13,7 @@
     # cli
     ./programs/git
     ./programs/opencode
+    ./programs/hermes-agent
     ./programs/direnv
     ./programs/tmux
     ./programs/zsh

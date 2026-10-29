@@ -5,6 +5,7 @@
     ./programs/git
     ./programs/nixvim
     ./programs/opencode
+    ./programs/hermes-agent
     ./programs/tmux
     ./programs/zsh
     ./programs/nushell
