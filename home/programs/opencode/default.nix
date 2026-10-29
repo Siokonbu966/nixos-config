@@ -48,6 +48,11 @@ let
     mkdir -p $out/web-animation-css-animations
     cp -r ${inputs.css-animations}/dist/plugins/web-animation-css-animations/skills/web-animation-css-animations/. $out/web-animation-css-animations/
   '';
+  worktreeGuardPlugin = pkgs.runCommand "opencode-worktree-guard-plugin" { } ''
+    mkdir -p $out
+    cp ${./worktree-guard-plugin.ts} $out/index.ts
+    cp ${./worktree-guard.ts} $out/worktree-guard.ts
+  '';
 in
 {
   home.packages = [
@@ -65,6 +70,7 @@ in
       "$schema" = "https://opencode.ai/config.json";
       instructions = [
         "${config.xdg.configHome}/opencode/rules/commit-convention.md"
+        "${config.xdg.configHome}/opencode/rules/worktree-policy.md"
       ];
       permission = {
         websearch = "allow";
@@ -95,8 +101,10 @@ in
       };
       plugin = [
         "file://${inputs.i-have-adhd}/.opencode/plugins/i-have-adhd.mjs"
-        "file://${./worktree-guard.ts}"
         "file://${./auto-commit.ts}"
+      ];
+      plugins = [
+        "file://${worktreeGuardPlugin}"
       ];
       skills.paths = [
         "${inputs.yomiyasu}/skills"
