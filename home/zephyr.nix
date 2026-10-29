@@ -15,7 +15,7 @@
     # cli
     ./programs/git
     ./programs/opencode
-    ./programs/hermes-agent
+    #./programs/hermes-agent
     ./programs/direnv
     ./programs/tmux
     ./programs/zsh
@@ -24,7 +24,6 @@
     ./programs/yazi
     ./programs/gh
     ./programs/emacs
-    ./programs/firefox
     # utils
     ./programs/nh
     ./programs/dotfiles
