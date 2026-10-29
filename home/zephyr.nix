@@ -24,6 +24,7 @@
     ./programs/yazi
     ./programs/gh
     ./programs/emacs
+    ./programs/firefox
     # utils
     ./programs/nh
     ./programs/dotfiles

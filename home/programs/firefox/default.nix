@@ -14,6 +14,8 @@ in
 {
   programs.firefox = {
     enable = true;
+    package = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.firefox;
+    configPath = ".mozilla/firefox";
     profiles = {
       default = {
         id = 0;
