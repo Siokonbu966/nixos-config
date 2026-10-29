@@ -36,6 +36,9 @@ nix-darwin.lib.darwinSystem {
           ink = final.callPackage ../../../pkgs/ink.nix { };
           effectcraft = final.callPackage ../../../pkgs/effectcraft.nix { };
           souieba = final.callPackage ../../../pkgs/souieba.nix { };
+          ollama = final.callPackage ../../../pkgs/ollama.nix {
+            ollama = inputs.nixpkgs-unstable.legacyPackages.${final.stdenv.hostPlatform.system}.ollama;
+          };
           protobuf = prev.protobuf.overrideAttrs (_: {
             doCheck = false;
           });

@@ -1,14 +1,15 @@
 import type { Plugin } from "@opencode-ai/plugin"
+import { validateCommitMessage } from "./commit-message"
 
 const PROTECTED = new Set(["main", "master", "HEAD"])
 
 const CONVENTION = [
   "You write git commit messages.",
   "Return EXACTLY one line. No quotes, no markdown, no code fences, no explanation.",
-  "Format: <type>(<scope>): <description>",
+  "Format: <type>[optional scope]: <description>",
   "type is one of: feat, fix, docs, build, chore, ci, refactor, test, perf, style, revert.",
   "Use the imperative mood in English, lowercase first letter, no trailing period.",
-  "Pick a scope from the changed paths (e.g. opencode, nix, home, modules, pkgs, configs, or a host name).",
+  "When useful, pick a scope from the changed paths (e.g. opencode, nix, home, modules, pkgs, configs, or a host name).",
   "Do not use any tools. Only use the diff provided below.",
 ].join("\n")
 
@@ -65,13 +66,13 @@ export const AutoCommit: Plugin = async ({ directory, worktree, client, $ }) => 
         .join("\n")
         .trim()
       client.session.delete({ path: { id } }).catch(() => {})
-      const first = out
-        .split("\n")
-        .map((l) => l.trim())
-        .find((l) => l.length > 0)
-      if (!first) return null
-      const cleaned = first.replace(/^["'`]+|["'`]+$/g, "").trim()
-      return /^[a-z]+(\([^)]+\))?: .+/.test(cleaned) ? cleaned : null
+      const cleaned = out.replace(/^["'`]+|["'`]+$/g, "").trim()
+      const validationError = validateCommitMessage(cleaned)
+      if (validationError) {
+        await log("warn", "generated commit message rejected: " + validationError)
+        return null
+      }
+      return cleaned
     } catch (err) {
       await log("warn", "message generation failed: " + String(err))
       return null
@@ -96,18 +97,46 @@ export const AutoCommit: Plugin = async ({ directory, worktree, client, $ }) => 
     ).trim()
     if (!branch || PROTECTED.has(branch)) return
 
-    const status = (await $`git status --porcelain`.cwd(cwd).quiet().nothrow().text()).trim()
+    const statusResult = await $`git status --porcelain`.cwd(cwd).quiet().nothrow()
+    if (statusResult.exitCode !== 0) {
+      await log("warn", "could not inspect worktree status")
+      return
+    }
+    const status = statusResult.text().trim()
     if (!status) return
 
-    await $`git add -A`.cwd(cwd).quiet().nothrow()
+    const addResult = await $`git add -A`.cwd(cwd).quiet().nothrow()
+    if (addResult.exitCode !== 0) {
+      await log("error", "git add failed: " + addResult.stderr.toString())
+      await toast("auto-commit: git add failed", "error")
+      return
+    }
 
-    const diff = await $`git diff --cached`.cwd(cwd).quiet().nothrow().text()
+    const diffResult = await $`git diff --cached`.cwd(cwd).quiet().nothrow()
+    if (diffResult.exitCode !== 0) {
+      await log("error", "could not inspect staged diff: " + diffResult.stderr.toString())
+      return
+    }
+    const diff = diffResult.text()
     if (!diff.trim()) return
 
-    const message = (await generateMessage(diff)) ?? fallbackMessage(status)
+    const generatedMessage = await generateMessage(diff)
+    const message = generatedMessage ?? fallbackMessage(status)
+    const validationError = validateCommitMessage(message)
+    if (validationError) {
+      await log("error", "commit message rejected: " + validationError)
+      await toast("auto-commit skipped: invalid commit message", "warning")
+      return
+    }
 
-    const result = await $`git commit -m ${message}`.cwd(cwd).quiet().nothrow().text()
-    if (result.includes("nothing to commit")) return
+    const commitResult = await $`git commit -m ${message}`.cwd(cwd).quiet().nothrow()
+    if (commitResult.exitCode !== 0) {
+      const output = commitResult.stderr.toString() || commitResult.text()
+      if (output.includes("nothing to commit")) return
+      await log("error", "git commit failed: " + output.trim())
+      await toast("auto-commit failed", "error")
+      return
+    }
 
     await log("info", "auto-committed on " + branch + ": " + message)
     await toast("auto-commit: " + message, "success")

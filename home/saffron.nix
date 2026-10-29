@@ -12,6 +12,7 @@
     ./programs/fzf
     ./programs/ripgrep
     ./programs/opencode
+    ./programs/hermes-agent
     ./programs/direnv
     ./programs/tmux
     ./programs/zsh
@@ -56,6 +57,7 @@
     ./programs/kdenlive
     ./programs/copyq
     ./programs/effectcraft
+    ./programs/zotero
 
     # utils
     ./programs/fontconfig
@@ -104,7 +106,7 @@
     username = username;
     homeDirectory = "/home/${username}";
     stateVersion = "25.05";
-    packages = [ pkgs.buzz-desktop ];
+    #packages = [ pkgs.buzz-desktop ];
   };
   programs.home-manager.enable = true;
 }
