@@ -142,12 +142,23 @@ export const AutoCommit: Plugin = async ({ directory, worktree, client, $ }) => 
     await toast("auto-commit: " + message, "success")
   }
 
+  const isTeachSession = async (sessionID: string): Promise<boolean> => {
+    try {
+      const res: any = await client.session.get({ path: { id: sessionID } })
+      const session: any = res?.data ?? res
+      return session?.agent === "teach"
+    } catch {
+      return false
+    }
+  }
+
   return {
     event: async ({ event }) => {
       if (!event || event.type !== "session.idle") return
       const props: any = (event as any).properties ?? {}
       const sid: string | undefined = props.sessionID ?? props.session?.id ?? props.info?.id
       if (sid && spawned.has(sid)) return
+      if (sid && (await isTeachSession(sid))) return
       if (running) return
       running = true
       try {
