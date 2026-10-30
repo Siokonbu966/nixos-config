@@ -44,6 +44,7 @@ nix eval '.#darwinConfigurations.<host>.config.system.build.toplevel.drvPath'
 
 - **`main`/`master` are protected.** The plugin `home/programs/opencode/worktree-guard.ts` throws on `edit`/`write` there. Work only inside a worktree:
   `git worktree add .git/wt/<type>/<name> -b <type>/<name>` (this worktree: `.git/wt/feat/opencode_config`).
+- **Always create a branch before making changes.** If the current branch is `main` or `master`, stop and create a dedicated worktree and branch before editing, staging, committing, or pushing anything. Never commit or push directly to a protected branch.
 - Commit messages: **English only** (enforced by `home/programs/opencode/AGENTS.md`). Use Conventional Commits as in history: `feat(opencode): ...`, `fix(sops): ...`, `chore(nix): ...`, `refactor(git): ...`.
 - **`git add` every new file before building/evaluating.** Flakes ignore untracked files, so the evaluator won't see them.
 - Flake input updates are automated daily (`.github/workflows/update-flake.yml`, min release age 3 days, auto-merge). Don't hand-edit `flake.lock`.
