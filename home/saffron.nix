@@ -11,6 +11,7 @@
     ./programs/ghq
     ./programs/fzf
     ./programs/ripgrep
+    ./programs/ollama
     ./programs/opencode
     #./programs/hermes-agent
     ./programs/direnv
