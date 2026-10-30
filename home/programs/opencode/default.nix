@@ -105,6 +105,7 @@ in
       ];
       plugins = [
         "file://${worktreeGuardPlugin}"
+        "@prevalentware/opencode-goal-plugin@0.1.84"
       ];
       skills.paths = [
         "${inputs.yomiyasu}/skills"
