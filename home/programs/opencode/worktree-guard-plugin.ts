@@ -4,7 +4,10 @@ import { promisify } from "node:util"
 import { claimWorktree, isMutatingBash } from "./worktree-guard"
 
 const execFileAsync = promisify(execFile)
-const FILE_EDIT_TOOLS = new Set(["edit", "write", "apply_patch"])
+// OpenCode v2 calls the command tool `shell` and the multi-file edit tool
+// `patch`. Keep the legacy names as well so this plugin remains compatible
+// with older clients.
+const FILE_EDIT_TOOLS = new Set(["edit", "write", "patch", "apply_patch"])
 
 async function gitOutput(directory: string, argument: string) {
   try {
@@ -39,7 +42,7 @@ export default Plugin.define({
       const input = event.input as { command?: unknown } | undefined
       const mutatesFiles =
         FILE_EDIT_TOOLS.has(event.tool) ||
-        (event.tool === "bash" &&
+        ((event.tool === "shell" || event.tool === "bash") &&
           typeof input?.command === "string" &&
           isMutatingBash(input.command))
 
@@ -105,9 +108,9 @@ export default Plugin.define({
       if (branch === "main" || branch === "master") {
         throw new Error(
           `[worktree-guard] ${branch} 上での編集はブロックされました。` +
-            `専用worktreeを作成してから作業してください:\n` +
-            `  git worktree add "$(git rev-parse --path-format=absolute --git-common-dir)/wt/<type>/<name>" -b <type>/<name> <default-branch>\n` +
-            `(例: git worktree add "$(git rev-parse --path-format=absolute --git-common-dir)/wt/feat/foo" -b feat/foo main)`,
+            `専用worktreeを作成し、セッションを移動してから作業してください。\n` +
+            `  worktree_create({ name: "<type>/<name>" })\n` +
+            `  session_move({ directory: "<作成されたworktreeのパス>" })`,
         )
       }
 
