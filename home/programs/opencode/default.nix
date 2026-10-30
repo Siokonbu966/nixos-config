@@ -145,7 +145,8 @@ in
             read = "allow";
             grep = "allow";
             glob = "allow";
-            bash = "allow";
+            # Prevent bypassing the edit/write restrictions through shell commands.
+            bash = "deny";
             webfetch = "allow";
             websearch = "allow";
           };
