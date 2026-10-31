@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, lib, username, isCI ? false, ... }:
 {
   imports = [
     # cli
@@ -40,7 +40,6 @@
     ./programs/vlc
     ./programs/kopuz
     ./programs/tigervnc
-    ./programs/anki
     ./programs/google-chrome
     ./programs/firefox
     ./programs/zed-editor
@@ -94,6 +93,10 @@
     # tools
     ./tools/cursor
     ./tools/default-app
+  ]
+  ++ lib.optionals (!isCI) [
+    # Anki builds are flaky in CI; keep it enabled on user hosts.
+    ./programs/anki
   ];
 
   home = {

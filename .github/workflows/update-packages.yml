@@ -1,0 +1,85 @@
+name: Update custom packages
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-custom-packages
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up git bot identity
+        id: bot
+        uses: ./.github/actions/setup-git-bot
+        with:
+          app-id: ${{ secrets.NIX_UPDATER_APP_ID }}
+          private-key: ${{ secrets.NIX_UPDATER_APP_PRIVATE_KEY }}
+
+      - name: Checkout repository with bot token
+        uses: actions/checkout@v5
+        with:
+          token: ${{ steps.bot.outputs.token }}
+
+      - uses: ./.github/actions/setup-nix
+
+      - name: Update pinned package versions and hashes
+        env:
+          GH_TOKEN: ${{ steps.bot.outputs.token }}
+        run: |
+          nix shell 'nixpkgs#nix-update' 'nixpkgs#python3' 'nixpkgs#jq' --command bash -euo pipefail -c '
+            .github/scripts/update-rea.sh
+            nix-update --file pkgs/update-targets.nix --override-filename pkgs/rea.nix --no-src --version skip rea
+
+            .github/scripts/update-buzz.sh
+            nix-update --file pkgs/update-targets.nix --override-filename pkgs/cloudflared.nix cloudflared
+            nix-update --file pkgs/update-targets.nix --override-filename pkgs/effectcraft.nix effectcraft
+            nix-update --file pkgs/update-targets.nix --override-filename pkgs/ink.nix ink
+            nix-update --file pkgs/update-targets.nix --override-filename pkgs/ollama.nix ollama
+            .github/scripts/update-omniwm.sh
+            nix-update --file pkgs/update-targets.nix --override-filename pkgs/souieba.nix souieba
+          '
+
+      - name: Create or update pull request
+        env:
+          GH_TOKEN: ${{ steps.bot.outputs.token }}
+        run: |
+          set -euo pipefail
+          git add pkgs
+          if git diff --cached --quiet -- pkgs; then
+            echo "No custom package updates found"
+            exit 0
+          fi
+
+          branch=update-custom-packages
+          title="chore(pkgs): update custom package versions"
+          body=$(cat <<'BODY'
+          Automated update of pinned versions and source/dependency hashes under `pkgs/`.
+
+          Updates are generated with `nix-update`; the `rea` npm tarball and upstream lockfile pins are refreshed separately.
+
+          BODY
+          )
+
+          git checkout -b "$branch"
+          git commit -m "$title"
+          git push --force origin "$branch"
+
+          existing=$(gh pr list --head "$branch" --json number --jq '.[0].number // empty')
+          if [ -z "$existing" ]; then
+            gh pr create --title "$title" --body "$body" --base main --head "$branch"
+          else
+            gh pr edit "$existing" --title "$title" --body "$body"
+          fi
