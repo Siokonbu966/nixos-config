@@ -60,6 +60,7 @@ nixpkgs.lib.nixosSystem {
         extraSpecialArgs = {
           inherit
             inputs
+            isCI
             my-dotfiles
             username
           ;
