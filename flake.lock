@@ -85,11 +85,11 @@
     "css-animations": {
       "flake": false,
       "locked": {
-        "lastModified": 1792686517,
-        "narHash": "sha256-Cz6/UyNX6606bW0P2YPLHWwxidaQfbNwMXtmJ3B7x7o=",
+        "lastModified": 1793059246,
+        "narHash": "sha256-B4Ap2cxLSko0PLUrERJh2sszYDqE1bTt0+yfrUud+04=",
         "owner": "agents-inc",
         "repo": "skills",
-        "rev": "707467a78f96fb7d684e55e1f6281e541a736fd6",
+        "rev": "845a1f2833eedc494bb82e3172710c06cab547a1",
         "type": "github"
       },
       "original": {
